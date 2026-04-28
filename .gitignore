@@ -1,0 +1,69 @@
+# ===== FRONTEND (Vue + Vite) =====
+node_modules/
+dist/
+dist-ssr/
+build/
+coverage/
+*.local
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Editor
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# npm
+.npm
+
+# ===== BACKEND (FastAPI / Python) =====
+# Virtual environments
+.venv/
+venv/
+env/
+.env/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+
+# uv
+.uv/
+uv.lock
+
+# Byte-compiled / dist
+*.egg-info/
+*.egg
+dist/
+build/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# Mypy / Ruff / type checkers
+.mypy_cache/
+.ruff_cache/
+
+# ===== SHARED =====
+.env
+.env.*
+!.env.example
