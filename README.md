@@ -35,9 +35,11 @@ LinguaSphere/
 ### Prerequisites
 
 - Python 3.10+
-- Node.js 18+
+- Node.js 18+ (or Bun)
 - PostgreSQL (or use Docker)
 - Git
+- [uv](https://github.com/astral-sh/uv) (fast Python package installer)
+- [Bun](https://bun.sh/) (optional, fast JavaScript runtime)
 
 ### Backend Setup (server/)
 
@@ -54,7 +56,7 @@ LinguaSphere/
 
 3. **Install dependencies**:
    ```bash
-   pip install -r requirements.txt
+   uv pip install -r requirements.txt
    ```
 
 4. **Set up environment variables**:
@@ -72,7 +74,7 @@ LinguaSphere/
 
 6. **Start the server**:
    ```bash
-   uvicorn app.main:app --reload
+   uv uvicorn server.app.main:app --reload (or "make dev" if using Makefile)
    ```
    API will be available at `http://localhost:8000`
 
@@ -85,7 +87,7 @@ LinguaSphere/
 
 2. **Install dependencies**:
    ```bash
-   npm install
+   bun install
    ```
 
 3. **Set up environment variables**:
@@ -96,7 +98,7 @@ LinguaSphere/
 
 4. **Start development server**:
    ```bash
-   npm run dev
+   bun run dev
    ```
    Frontend will be available at `http://localhost:5173`
 
