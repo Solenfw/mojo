@@ -12,7 +12,7 @@ interface Node {
 }
 
 defineProps<{
-  nodes: Node[]
+  nodes: Readonly<Node[]>
 }>()
 </script>
 

@@ -71,7 +71,7 @@ const quitSession = () => {
 </script>
 
 <template>
-  <div class="fixed inset-0 bg-white z-[60] flex flex-col pt-8">
+  <div class="fixed inset-0 bg-white z-60 flex flex-col pt-8">
     <!-- Header -->
     <div class="max-w-4xl w-full mx-auto px-6 flex items-center gap-6">
       <button @click="quitSession" class="text-outline hover:text-primary transition-colors">

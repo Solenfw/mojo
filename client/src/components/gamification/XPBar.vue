@@ -20,7 +20,7 @@ const progressToNext = (store.xp % 1000) / 10
     
     <div class="h-3 w-full bg-surface-container rounded-full overflow-hidden neo-shadow-hover ring-4 ring-white">
       <div 
-        class="h-full bg-gradient-to-r from-primary to-primary-container transition-all duration-1000 ease-out relative"
+        class="h-full bg-linear-to-r from-primary to-primary-container transition-all duration-1000 ease-out relative"
         :style="{ width: `${progressToNext}%` }"
       >
         <div class="absolute inset-0 bg-white/20 animate-pulse"></div>

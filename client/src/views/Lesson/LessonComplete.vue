@@ -14,7 +14,7 @@ const router = useRouter()
 </script>
 
 <template>
-  <div class="fixed inset-0 bg-white z-[70] flex flex-col items-center justify-center p-6 bg-gradient-to-b from-white to-surface-container">
+  <div class="fixed inset-0 bg-white z-70 flex flex-col items-center justify-center p-6 bg-linear-to-b from-white to-surface-container">
     <div class="max-w-md w-full space-y-12 text-center animate-in fade-in zoom-in duration-500">
       <header class="space-y-4">
         <div class="relative inline-block">

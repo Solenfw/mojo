@@ -16,7 +16,7 @@ const stats = [
 <template>
   <div class="max-w-4xl mx-auto space-y-8">
     <!-- Profile Header -->
-    <div class="relative h-48 bg-gradient-to-r from-primary to-primary-container rounded-t-3xl overflow-hidden">
+    <div class="relative h-48 bg-linear-to-r from-primary to-primary-container rounded-t-3xl overflow-hidden">
       <div class="absolute inset-0 opacity-10 font-japanese text-[120px] flex items-center justify-center pointer-events-none">
         日本語
       </div>
