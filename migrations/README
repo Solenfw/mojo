@@ -1,1 +1,149 @@
-Generic single-database configuration.
+# Alembic Migrations Guide
+
+This guide explains the essential Alembic commands for managing database migrations in the LinguaSphere project. Alembic is a database migration tool for SQLAlchemy.
+
+## Setup
+
+Before running any Alembic commands, ensure you are in the project root directory and have activated the virtual environment:
+
+```bash
+cd /home/solenfw/projects/LinguaSphere
+source server/.venv/bin/activate
+```
+
+The Alembic configuration is in `alembic.ini`, and migration scripts are stored in the `migrations/` directory.
+
+## Common Commands
+
+### 1. Initialize Migrations (if not already done)
+
+If migrations haven't been set up yet, initialize them:
+
+```bash
+alembic init migrations
+```
+
+This creates the `migrations/` directory with the necessary files.
+
+### 2. Create a New Migration Revision
+
+To create a new migration based on changes in your SQLAlchemy models:
+
+```bash
+alembic revision --autogenerate -m "Add new table for user sessions"
+```
+
+- `--autogenerate`: Automatically generates the migration script based on model changes.
+- `-m`: Message describing the migration.
+
+Example output: Creates a new file in `migrations/versions/` like `abcd1234_add_new_table.py`.
+
+### 3. Apply Migrations (Upgrade)
+
+To apply all pending migrations to the database:
+
+```bash
+alembic upgrade head
+```
+
+- `head`: Applies migrations up to the latest revision.
+
+To apply a specific number of revisions:
+
+```bash
+alembic upgrade +2  # Apply next 2 revisions
+```
+
+### 4. Rollback Migrations (Downgrade)
+
+To rollback the last migration:
+
+```bash
+alembic downgrade -1
+```
+
+To downgrade to a specific revision:
+
+```bash
+alembic downgrade abcd1234  # Replace with actual revision ID
+```
+
+To downgrade to the base (no migrations applied):
+
+```bash
+alembic downgrade base
+```
+
+### 5. Check Current Revision
+
+To see the current migration revision applied to the database:
+
+```bash
+alembic current
+```
+
+### 6. View Migration History
+
+To list all migration revisions:
+
+```bash
+alembic history
+```
+
+To show details of a specific revision:
+
+```bash
+alembic show abcd1234  # Replace with actual revision ID
+```
+
+### 7. Stamp the Database
+
+To mark the database as being at a specific revision without running the migrations:
+
+```bash
+alembic stamp head
+```
+
+This is useful when you've manually updated the database schema.
+
+### 8. Check Migration Status
+
+To see which migrations are applied and which are pending:
+
+```bash
+alembic current
+alembic history --verbose
+```
+
+### 9. Edit a Migration Script
+
+If you need to manually edit a migration script after generating it:
+
+1. Open the generated file in `migrations/versions/`
+2. Modify the `upgrade()` and `downgrade()` functions as needed
+3. Then apply the migration
+
+### 10. Branching Migrations
+
+For more complex scenarios, you can create branches:
+
+```bash
+alembic revision -m "Branch for feature X" --branch-label feature_x
+```
+
+But for most cases, linear migrations are sufficient.
+
+## Best Practices
+
+- Always review auto-generated migration scripts before applying them.
+- Test migrations on a copy of your database first.
+- Use descriptive messages for migration revisions.
+- Commit migration files to version control along with your model changes.
+
+## Troubleshooting
+
+- If you get "Target database is not up to date" errors, check `alembic current` and `alembic history`.
+- For merge conflicts in migration files, manually resolve them and ensure the resulting script is correct.
+- If models and database are out of sync, consider using `--autogenerate` carefully or writing manual migrations.
+
+For more information, refer to the [Alembic documentation](https://alembic.sqlalchemy.org/en/latest/).
