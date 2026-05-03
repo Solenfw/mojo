@@ -2,7 +2,8 @@ from fastapi import APIRouter, Depends
 from sqlalchemy import desc, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.api.deps import get_current_user, get_db
+from app.api.deps import get_db
+from app.api.v1.users import get_current_user
 from app.db import models
 
 router = APIRouter()
@@ -27,7 +28,7 @@ async def leaderboard(
         {
             "id": user.id,
             "email": user.email,
-            "full_name": user.full_name,
+            "username": user.username,
             "xp": user.xp,
             "streak": getattr(user, "streak", 0),
         }

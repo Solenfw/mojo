@@ -3,14 +3,13 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.security import get_password_hash
-from app.db import models
 from app.db.schemas import UserCreate, UserRead
+from app.db import models
 from app.api.deps import get_db, get_current_user
 
 router = APIRouter()
 
-
-@router.post("/users", response_model=UserRead, status_code=status.HTTP_201_CREATED)
+@router.post("/user", response_model=UserRead, status_code=status.HTTP_201_CREATED)
 async def create_user(user_in: UserCreate, db: AsyncSession = Depends(get_db)):
     result = await db.execute(select(models.User).where(models.User.email == user_in.email))
     existing_user = result.scalars().first()
@@ -20,10 +19,11 @@ async def create_user(user_in: UserCreate, db: AsyncSession = Depends(get_db)):
             detail="A user with this email already exists.",
         )
 
+    username = user_in.username or user_in.email.split("@")[0]
     new_user = models.User(
         email=user_in.email,
         hashed_password=get_password_hash(user_in.password),
-        full_name=user_in.full_name,
+        username=username,
     )
     db.add(new_user)
     await db.commit()
