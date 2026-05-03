@@ -4,7 +4,6 @@ import bcrypt
 from fastapi import HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
-import os
 
 from app.core.config import settings
 
