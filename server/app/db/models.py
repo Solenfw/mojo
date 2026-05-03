@@ -3,11 +3,8 @@ import datetime
 import decimal
 
 from sqlalchemy import Boolean, Column, Date, DateTime, ForeignKeyConstraint, Identity, Index, Integer, Numeric, PrimaryKeyConstraint, String, Table, Text, UniqueConstraint, text
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
-
-class Base(DeclarativeBase):
-    pass
-
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+from .database import Base
 
 class BusinessOrgs(Base):
     __tablename__ = 'business_orgs'
@@ -103,7 +100,7 @@ class Users(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     username: Mapped[str] = mapped_column(String(50), nullable=False)
     email: Mapped[str] = mapped_column(String(120), nullable=False)
-    password_hash: Mapped[str] = mapped_column(String(128), nullable=False)
+    hashed_password: Mapped[str] = mapped_column(String(128), nullable=False)
     created_at: Mapped[datetime.datetime] = mapped_column(DateTime, nullable=False, server_default=text('now()'))
     updated_at: Mapped[datetime.datetime] = mapped_column(DateTime, nullable=False, server_default=text('now()'))
 
@@ -127,6 +124,9 @@ class Users(Base):
     user_weaknesses: Mapped[list['UserWeaknesses']] = relationship('UserWeaknesses', back_populates='user')
     exercise_attempts: Mapped[list['ExerciseAttempts']] = relationship('ExerciseAttempts', back_populates='user')
 
+
+# Alias generated model class for backward compatibility with auth code.
+User = Users
 
 class AdminActions(Base):
     __tablename__ = 'admin_actions'

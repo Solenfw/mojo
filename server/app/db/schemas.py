@@ -1,20 +1,26 @@
-from pydantic import BaseModel, ConfigDict
+from datetime import datetime
+from pydantic import BaseModel, ConfigDict, EmailStr
 
 
 class UserCreate(BaseModel):
-    email: str
+    email: EmailStr
     password: str
-    full_name: str | None = None
+    username: str | None = None
 
 
 class UserRead(BaseModel):
     id: int
-    email: str
-    full_name: str | None = None
-    is_active: bool = True
+    email: EmailStr
+    username: str | None = None
+    created_at: datetime | None = None
+    updated_at: datetime | None = None
 
     model_config = ConfigDict(from_attributes=True)
 
+
+class LoginRequest(BaseModel):
+    email: EmailStr
+    password: str
 
 class Token(BaseModel):
     access_token: str
