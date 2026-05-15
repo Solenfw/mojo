@@ -1,7 +1,7 @@
-# ===== FRONTEND (Vue + Vite) =====
+# ===== FRONTEND (Next.js) =====
 node_modules/
-dist/
-dist-ssr/
+.next/
+out/
 build/
 coverage/
 *.local
@@ -26,8 +26,20 @@ lerna-debug.log*
 *.sln
 *.sw?
 
-# npm
+# npm / package managers
 .npm
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*
+
+# Vercel
+.vercel
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
 
 # ===== BACKEND (FastAPI / Python) =====
 # Virtual environments
