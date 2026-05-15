@@ -1,143 +1,152 @@
-# Linguasphere
+# LinguaSphere
 
-**Advanced Japanese Learning Platform** - Think Duolingo for serious learners with deep Gamification, SRS (Spaced Repetition System), and NLP capabilities.
+AI-assisted Japanese learning platform with a FastAPI backend and a Next.js frontend.
 
-> **⚠️ Development Stage**: This project is still very much in development. Features are incomplete, and the codebase is evolving rapidly. Use at your own risk!
+> Development status: this project is still evolving. Some routes and features are prototype-level and may change quickly.
 
-## Overview
+## Stack
 
-Linguasphere is a modern web application for learning Japanese, featuring:
+- Frontend: Next.js 16, React 19, TypeScript, Tailwind CSS
+- Frontend package manager/runtime: Bun
+- Backend: FastAPI, SQLAlchemy, Alembic, PostgreSQL
+- Backend package manager/runtime: uv
+- AI: Google Gemini integration in the client
 
-- **Gamification**: XP, streaks, hearts, leagues, daily quests
-- **SRS**: SuperMemo-2 algorithm for vocabulary retention
-- **NLP**: MeCab tokenization and OpenAI-powered grammar explanations
-- **Social**: Leaderboards and community features
-- **Admin**: B2B dashboard for user management
+## Repository Layout
 
-Built with:
-- **Backend**: FastAPI (Python), SQLAlchemy 2.0 (async), PostgreSQL
-- **Frontend**: Vue 3, Pinia, Vite
-- **Deployment**: Docker, Alembic migrations
-
-## Project Structure
-
-```
+```text
 LinguaSphere/
-├── client/          # Vue 3 frontend
-├── server/          # FastAPI backend
-├── migrations/      # Alembic database migrations
-├── docker-compose.yml
+├── client/              # Next.js frontend
+├── server/              # FastAPI backend project managed by uv
+├── migrations/          # Alembic migrations
+├── tests/               # Backend tests
+├── docker-compose.yml   # Local PostgreSQL service
+├── alembic.ini          # Alembic config
+├── Makefile             # Backend dev/test shortcuts
 └── README.md
 ```
 
-## Setup Instructions
+## Prerequisites
 
-### Prerequisites
+- Bun
+- uv
+- Python 3.12+
+- PostgreSQL, or Docker for the included PostgreSQL service
 
-- Python 3.10+
-- Node.js 18+ (or Bun)
-- PostgreSQL (or use Docker)
-- Git
-- [uv](https://github.com/astral-sh/uv) (fast Python package installer)
-- [Bun](https://bun.sh/) (optional, fast JavaScript runtime)
+## Environment
 
-### Backend Setup (server/)
+Create the root environment file:
 
-1. **Navigate to server directory**:
-   ```bash
-   cd server
-   ```
+```bash
+cp .env.example .env
+```
 
-2. **Create virtual environment**:
-   ```bash
-   python -m venv .venv
-   source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-   ```
+The root `.env` is used by Docker Compose, Alembic, and backend commands run from the repository root.
 
-3. **Install dependencies**:
-   ```bash
-   uv pip install -r requirements.txt
-   ```
+Required backend values:
 
-4. **Set up environment variables**:
-   Create `.env` file in `server/`:
-   ```env
-   DATABASE_URL=postgresql://user:password@localhost/linguasphere
-   SECRET_KEY=your-secret-key-here
-   OPENAI_API_KEY=your-openai-key
-   ```
+```env
+POSTGRES_USER=your_username
+POSTGRES_PASSWORD=your_password
+POSTGRES_DB=your_db
+DATABASE_URL=postgresql://your_username:your_password@localhost:5432/your_db
+SECRET_KEY=your-secret-key
+```
 
-5. **Run database migrations**:
-   ```bash
-   alembic upgrade head
-   ```
+Create the frontend environment file:
 
-6. **Start the server**:
-   ```bash
-   uv uvicorn server.app.main:app --reload (or "make dev" if using Makefile)
-   ```
-   API will be available at `http://localhost:8000`
+```bash
+cp client/.env.example client/.env.local
+```
 
-### Frontend Setup (client/)
+Set `GEMINI_API_KEY` in `client/.env.local` if you are using Gemini-backed conversation or feedback features.
 
-1. **Navigate to client directory**:
-   ```bash
-   cd client
-   ```
+## Backend Setup
 
-2. **Install dependencies**:
-   ```bash
-   bun install
-   ```
+Install backend dependencies with uv:
 
-3. **Set up environment variables**:
-   Create `.env` file in `client/`:
-   ```env
-   VITE_API_BASE_URL=http://localhost:8000/api/v1
-   ```
+```bash
+uv sync --project server
+```
 
-4. **Start development server**:
-   ```bash
-   bun run dev
-   ```
-   Frontend will be available at `http://localhost:5173`
+Start PostgreSQL:
 
-### Docker Setup (Alternative)
+```bash
+docker compose up -d db
+```
 
-1. **Build and run with Docker Compose**:
-   ```bash
-   docker-compose up --build
-   ```
+Run migrations from the repository root:
 
-## API Documentation
+```bash
+PYTHONPATH=server uv run --project server alembic upgrade head
+```
 
-Once the server is running, visit `http://localhost:8000/docs` for interactive API docs (Swagger UI).
+Start the API:
 
-## Development Notes
+```bash
+PYTHONPATH=server uv run --project server uvicorn app.main:app --reload
+```
 
-- **Database**: Uses async SQLAlchemy with PostgreSQL. Models are in `server/app/db/models.py`.
-- **Auth**: JWT-based authentication with OAuth2.
-- **Testing**: No tests implemented yet.
-- **Deployment**: Not configured yet.
+The API runs at `http://localhost:8000`.
 
-## Contributing
+Useful backend endpoints:
 
-This is a solo project for now. Feel free to open issues or PRs!
+- Swagger UI: `http://localhost:8000/docs`
+- Health check: `http://localhost:8000/healthz`
+
+## Frontend Setup
+
+Install frontend dependencies with Bun:
+
+```bash
+cd client
+bun install
+```
+
+Start the frontend:
+
+```bash
+bun run dev
+```
+
+The Next.js dev server runs at `http://localhost:3000` by default.
+
+## Common Commands
+
+From the repository root:
+
+```bash
+# Backend
+uv sync --project server
+PYTHONPATH=server uv run --project server uvicorn app.main:app --reload
+PYTHONPATH=server uv run --project server pytest -q tests
+PYTHONPATH=server uv run --project server alembic upgrade head
+
+# Database
+docker compose up -d db
+docker compose down
+
+# Frontend
+cd client
+bun install
+bun run dev
+bun run type-check
+bun run build
+```
+
+The `Makefile` also provides backend shortcuts that use the uv-created virtual environment:
+
+```bash
+make dev
+make test
+```
+
+## Notes
+
+- The backend package is in `server/`, but commands that need `alembic.ini`, `migrations/`, or the root `.env` should be run from the repository root.
+- The frontend is a Next.js App Router app under `client/src/app`.
+- Docker Compose currently provisions PostgreSQL only; the frontend and backend are run locally with Bun and uv.
 
 ## License
 
-MIT License
-
-## Demonstration
-<img width="1492" height="959" alt="image" src="https://github.com/user-attachments/assets/b2b13986-26f4-4ee4-aad4-c7a08e780da4" />
-<br>
-<img width="1245" height="961" alt="image" src="https://github.com/user-attachments/assets/dee313ce-a3ba-4524-b509-e6d60d1d5df2" />
-<br>
-<img width="1333" height="727" alt="image" src="https://github.com/user-attachments/assets/221c21d4-4931-4492-b2e2-9768320b05ce" />
-<br>
-<img width="1417" height="958" alt="image" src="https://github.com/user-attachments/assets/e3a2e2d4-e9e9-44c0-b2a0-11501391a29a" />
-<br>
-<img width="1243" height="931" alt="image" src="https://github.com/user-attachments/assets/becf5a99-ac00-442a-bca1-567932fe75ee" />
-
-
-
+MIT. See [LICENSE](LICENSE) if present in your checkout.
