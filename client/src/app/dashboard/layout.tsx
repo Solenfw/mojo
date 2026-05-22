@@ -149,6 +149,30 @@ const Header = ({ user }: { user: typeof MOCK_USER }) => {
   );
 };
 
+const Mask = () => {
+  const [visible, setVisible] = React.useState(true);
+
+  if (!visible) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+      <div className="bg-white rounded-xl shadow-xl max-w-sm w-full mx-4 p-6 flex flex-col gap-4">
+        <div className="flex items-center gap-2">
+          <span className="text-lg">⚠️</span>
+          <h2 className="font-bold text-sm text-primary">Work in Progress : This is just a prototype.</h2>
+        </div>
+        <p className="text-xs text-muted-foreground leading-relaxed">
+          Everything in the current project is a work in progress and subject to change.
+          The final product may differ significantly from what is currently shown.
+        </p>
+        <Button className="w-full h-8 text-xs" onClick={() => setVisible(false)}>
+          Got it
+        </Button>
+      </div>
+    </div>
+  );
+};
+
 export default function DashboardLayout({
   children,
 }: {
@@ -163,6 +187,7 @@ export default function DashboardLayout({
 
   return (
     <div className="flex min-h-screen bg-background font-sans">
+      <Mask />
       <Sidebar onSignOut={handleSignOut} />
       <main className="flex-1 flex flex-col">
         <Header user={MOCK_USER} />
