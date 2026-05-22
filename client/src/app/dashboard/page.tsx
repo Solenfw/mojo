@@ -111,8 +111,8 @@ const DashboardContent = () => {
               Activity Week
             </CardTitle>
           </CardHeader>
-          <CardContent className="h-62.5">
-            <ResponsiveContainer width="100%" height="100%">
+          <CardContent className="w-full">
+            <ResponsiveContainer width="100%" height={300}>
               <AreaChart data={ACTIVITY_DATA}>
                 <defs>
                   <linearGradient id="colorXp" x1="0" y1="0" x2="0" y2="1">

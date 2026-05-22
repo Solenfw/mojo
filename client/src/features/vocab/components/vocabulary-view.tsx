@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion } from 'motion/react';
 import {
   ArrowLeft,
-  Layers,
   Volume2,
-  ChevronRight,
   Check,
   X,
   RotateCw,

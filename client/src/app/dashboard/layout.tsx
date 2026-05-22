@@ -44,6 +44,7 @@ const Sidebar = ({ onSignOut }: { onSignOut: () => void }) => {
   const pathname = usePathname();
   const menuItems = [
     { href: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
+    { href: '/dashboard/profile', icon: User, label: 'Profile' },
     { href: '/dashboard/curriculum', icon: BookOpen, label: 'Curriculum' },
     { href: '/dashboard/vocabulary', icon: Library, label: 'Vocabulary' },
     { href: '/dashboard/practice', icon: Mic, label: 'Kaiwa Partner' },
@@ -137,10 +138,12 @@ const Header = ({ user }: { user: typeof MOCK_USER }) => {
           <Bell className="w-5 h-5" />
           <span className="absolute top-2 right-2 w-2 h-2 bg-accent rounded-full border-2 border-white"></span>
         </Button>
-        <Avatar className="w-8 h-8 cursor-pointer ring-2 ring-transparent hover:ring-primary transition-all">
-          <AvatarImage src={user.avatarUrl} />
-          <AvatarFallback>{user.name[0]}</AvatarFallback>
-        </Avatar>
+        <Link href="/dashboard/profile" aria-label="Open profile">
+          <Avatar className="w-8 h-8 cursor-pointer ring-2 ring-transparent hover:ring-primary transition-all">
+            <AvatarImage src={user.avatarUrl} />
+            <AvatarFallback>{user.name[0]}</AvatarFallback>
+          </Avatar>
+        </Link>
       </div>
     </header>
   );

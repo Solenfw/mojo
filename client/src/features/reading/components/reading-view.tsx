@@ -1,15 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import {
-  ArrowLeft,
-  Search,
-  Bell,
-  UserCircle,
-  BookOpen,
   ChevronRight,
   Book,
-  PenLine,
-  Settings,
   Star as StarIcon
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -25,50 +18,7 @@ export const Reading = ({ onBack }: { onBack: () => void }) => {
 
   return (
     <div className="flex h-screen bg-[#f7f9fb] font-sans selection:bg-primary/10">
-      {/* Sidebar - Reusing existing look or keeping it minimal */}
-      <aside className="hidden lg:flex flex-col w-64 bg-white border-r border-gray-100 p-6 gap-8">
-        <div>
-          <h1 className="text-xl font-black text-primary tracking-tighter">LinguaSphere</h1>
-          <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mt-1">日本語</p>
-        </div>
-
-        <nav className="flex-1 space-y-1">
-          {['Dashboard', 'Vocabulary', 'Kaiwa Partner', 'Reading', 'Writing'].map((item) => (
-             <button
-              key={item}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all ${
-                item === 'Reading' ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'text-muted-foreground hover:bg-gray-50'
-              }`}
-             >
-               <span className="w-1.5 h-1.5 rounded-full bg-current opacity-30" />
-               {item}
-             </button>
-          ))}
-        </nav>
-      </aside>
-
       <div className="flex-1 flex flex-col h-full overflow-hidden">
-        {/* Top Header */}
-        <header className="h-16 bg-white border-b border-gray-100 flex items-center justify-between px-8 shrink-0">
-          <div className="flex items-center gap-4 lg:hidden">
-             <button onClick={onBack} className="p-2 hover:bg-gray-50 rounded-full"><ArrowLeft className="w-5 h-5" /></button>
-          </div>
-          <div className="flex-1 md:max-w-md mx-8">
-             <div className="relative group">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 group-focus-within:text-primary transition-colors" />
-                <input
-                  type="text"
-                  placeholder="Search articles..."
-                  className="w-full h-10 pl-10 pr-4 bg-gray-50 border-none rounded-2xl text-sm focus:ring-2 focus:ring-primary/10 transition-all font-medium"
-                />
-             </div>
-          </div>
-          <div className="flex items-center gap-4">
-             <Button variant="ghost" size="icon" className="text-gray-400 hover:text-primary"><Bell className="w-5 h-5" /></Button>
-             <div className="w-8 h-8 bg-gray-100 rounded-full border border-gray-200" />
-          </div>
-        </header>
-
         {/* Content */}
         <main className="flex-1 overflow-y-auto p-8 lg:p-12 no-scrollbar">
           <div className="max-w-5xl mx-auto flex flex-col lg:flex-row gap-12 items-start">
