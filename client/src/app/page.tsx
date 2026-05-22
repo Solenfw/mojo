@@ -7,7 +7,6 @@ import {
   ChevronRight, 
   Globe, 
   Zap, 
-  CheckCircle, 
   MessageSquare, 
   PenTool, 
   BookOpen,

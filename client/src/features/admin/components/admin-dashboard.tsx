@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { motion } from 'motion/react';
 import { 
   Users, 
@@ -15,7 +15,6 @@ import {
   CheckCircle2,
   DollarSign,
   Download,
-  FileText,
   Filter
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';

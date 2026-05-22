@@ -6,24 +6,18 @@ import { usePathname, useRouter } from 'next/navigation';
 import { 
   BookOpen, 
   LayoutDashboard, 
-  MessageSquare, 
   PenTool, 
   User, 
   Settings, 
-  ChevronRight, 
-  TrendingUp, 
   Zap, 
-  Globe,
   LogOut,
   Bell,
   Search,
-  BookMarked,
   Award,
   Library,
   Video,
   Book,
   Mic,
-  Plus
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';

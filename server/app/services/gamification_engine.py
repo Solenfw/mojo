@@ -1,5 +1,4 @@
 from datetime import datetime, timedelta
-from sqlalchemy import select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.db import models

@@ -1,13 +1,12 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends
 from pydantic import BaseModel
-from sqlalchemy import select, update
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.api.deps import get_db
 from app.api.v1.users import get_current_user
 from app.db import models
 from app.services.gamification_engine import GamificationEngine
-from app.services.lesson_generator import LessonGenerator
 
 router = APIRouter()
 

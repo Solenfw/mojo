@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import { useRouter } from 'next/navigation';
 import { Onboarding } from '@/features/auth/components/onboarding';
 

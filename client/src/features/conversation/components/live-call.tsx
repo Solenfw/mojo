@@ -1,7 +1,5 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { useState } from 'react';
 import {
-  X,
   Mic,
   MicOff,
   Video,
@@ -10,11 +8,8 @@ import {
   MessageSquare,
   Timer,
   Signal,
-  MoreVertical,
-  Send,
   Construction
 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 
 export const LiveCall = ({ onBack }: { onBack: () => void }) => {
   const [micOn, setMicOn] = useState(true);

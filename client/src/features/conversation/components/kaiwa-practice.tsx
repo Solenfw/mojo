@@ -1,22 +1,18 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   Mic,
   Volume2,
-  ChevronLeft,
   Bot,
   User,
   Settings,
   X,
   Play,
   RotateCcw,
-  Lightbulb,
-  Info,
-  ChevronDown
+  Lightbulb
 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { GoogleGenAI } from "@google/genai";
 
 // Ensure the API key is handled correctly

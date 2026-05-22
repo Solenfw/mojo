@@ -4,26 +4,13 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { useRouter } from 'next/navigation';
 import { 
-  BookOpen, 
-  LayoutDashboard, 
   MessageSquare, 
-  PenTool, 
-  User, 
-  Settings, 
   ChevronRight, 
   TrendingUp, 
-  Zap, 
-  Globe,
-  LogOut,
-  Bell,
-  Search,
   BookMarked,
-  Award,
   Library,
   Video,
-  Book,
-  Mic,
-  Plus
+  Book
 } from 'lucide-react';
 import { 
   AreaChart,
@@ -39,7 +26,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
-import { N5_VOCABULARY, N5_LESSONS } from '@/utils/constants';
+import { N5_LESSONS } from '@/utils/constants';
 import { User as UserType, Lesson } from '@/types';
 
 const MOCK_USER: UserType = {

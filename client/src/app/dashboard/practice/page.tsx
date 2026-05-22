@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import { useRouter } from 'next/navigation';
 import { KaiwaPractice } from '@/features/conversation/components/kaiwa-practice';
 
