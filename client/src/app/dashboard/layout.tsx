@@ -23,6 +23,8 @@ import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
+import { AuthGuard } from '@/features/auth/components/auth-guard';
+import { clearToken } from '@/lib/auth';
 
 const MOCK_USER = {
   id: 'u1',
@@ -175,22 +177,24 @@ export default function DashboardLayout({
   const router = useRouter();
 
   const handleSignOut = () => {
-    // Handle sign out
-    router.push('/');
+    clearToken();
+    router.push('/login');
   };
 
   return (
-    <div className="flex min-h-screen bg-background font-sans">
-      <Mask />
-      <Sidebar onSignOut={handleSignOut} />
-      <main className="flex-1 flex flex-col">
-        <Header user={MOCK_USER} />
-        <div className="flex-1 p-8 overflow-y-auto">
-          <div className="max-w-6xl mx-auto">
-            {children}
+    <AuthGuard>
+      <div className="flex min-h-screen bg-background font-sans">
+        <Mask />
+        <Sidebar onSignOut={handleSignOut} />
+        <main className="flex-1 flex flex-col">
+          <Header user={MOCK_USER} />
+          <div className="flex-1 p-8 overflow-y-auto">
+            <div className="max-w-6xl mx-auto">
+              {children}
+            </div>
           </div>
-        </div>
-      </main>
-    </div>
+        </main>
+      </div>
+    </AuthGuard>
   );
 }

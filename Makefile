@@ -3,3 +3,5 @@ dev:
 
 test:
 	PYTHONPATH=server server/.venv/bin/python -m pytest -q tests
+migrate:
+	server/.venv/bin/python -m alembic upgrade head

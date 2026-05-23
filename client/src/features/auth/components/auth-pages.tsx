@@ -63,11 +63,15 @@ export const AuthLayout = ({ children, title, subtitle, onBack, isLoading }: Aut
 export const LoginForm = ({ 
   onSubmit, 
   onSignUp, 
-  onForgotPassword 
+  onForgotPassword,
+  error,
+  isLoading = false
 }: { 
   onSubmit: (e: React.FormEvent) => void, 
   onSignUp: () => void,
-  onForgotPassword: () => void
+  onForgotPassword: () => void,
+  error?: string | null,
+  isLoading?: boolean
 }) => {
   const [showPassword, setShowPassword] = React.useState(false);
 
@@ -82,6 +86,12 @@ export const LoginForm = ({
           <span className="text-[10px] uppercase font-bold text-muted-foreground tracking-widest">or email</span>
           <div className="h-px flex-1 bg-muted"></div>
         </div>
+        {error && (
+          <div className="flex items-center gap-3 p-4 bg-destructive/10 text-destructive rounded-2xl">
+            <AlertCircle className="w-5 h-5 shrink-0" />
+            <p className="text-xs font-medium">{error}</p>
+          </div>
+        )}
         <form onSubmit={onSubmit} className="space-y-4">
           <div className="space-y-2">
              <label className="text-xs font-bold uppercase tracking-widest text-primary/60 ml-1">Email Address</label>
@@ -119,8 +129,8 @@ export const LoginForm = ({
                 </button>
              </div>
           </div>
-          <Button type="submit" className="w-full h-14 bg-primary hover:bg-primary/90 text-lg font-bold rounded-2xl shadow-xl shadow-primary/20 transition-all">
-            Sign In
+          <Button type="submit" disabled={isLoading} className="w-full h-14 bg-primary hover:bg-primary/90 text-lg font-bold rounded-2xl shadow-xl shadow-primary/20 transition-all">
+            {isLoading ? 'Signing In...' : 'Sign In'}
           </Button>
         </form>
       </div>
@@ -136,10 +146,14 @@ export const LoginForm = ({
 
 export const SignUpForm = ({ 
   onSubmit, 
-  onLogin 
+  onLogin,
+  error,
+  isLoading = false
 }: { 
   onSubmit: (e: React.SubmitEvent<HTMLFormElement>) => void, 
-  onLogin: () => void 
+  onLogin: () => void,
+  error?: string | null,
+  isLoading?: boolean
 }) => {
   return (
     <div className="bg-white p-8 rounded-4xl border border-primary/5 shadow-2xl shadow-primary/5 space-y-6">
@@ -179,8 +193,14 @@ export const SignUpForm = ({
               </Badge>
            </div>
         </div>
-        <Button type="submit" className="w-full h-14 bg-primary hover:bg-primary/90 text-lg font-bold rounded-2xl shadow-xl shadow-primary/20 transition-all">
-          Create Account
+        {error && (
+          <div className="flex items-center gap-3 p-4 bg-destructive/10 text-destructive rounded-2xl">
+            <AlertCircle className="w-5 h-5 shrink-0" />
+            <p className="text-xs font-medium">{error}</p>
+          </div>
+        )}
+        <Button type="submit" disabled={isLoading} className="w-full h-14 bg-primary hover:bg-primary/90 text-lg font-bold rounded-2xl shadow-xl shadow-primary/20 transition-all">
+          {isLoading ? 'Creating Account...' : 'Create Account'}
         </Button>
       </form>
       <div className="text-center pt-4">

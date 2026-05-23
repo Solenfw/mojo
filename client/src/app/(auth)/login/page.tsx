@@ -3,20 +3,30 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import { AuthLayout, LoginForm } from '@/features/auth/components/auth-pages';
+import { login, saveToken } from '@/lib/auth';
 
 export default function LoginPage() {
   const router = useRouter();
+  const [error, setError] = React.useState<string | null>(null);
+  const [isLoading, setIsLoading] = React.useState(false);
 
-  const handleAuthSubmit = (e: React.FormEvent) => {
+  const handleAuthSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null);
+    setIsLoading(true);
+
     const formData = new FormData(e.target as HTMLFormElement);
     const email = formData.get('email') as string;
     const password = formData.get('password') as string;
 
-    if (email === 'admin' && password === 'admin123') {
-      router.push('/admin');
-    } else {
+    try {
+      const token = await login(email, password);
+      saveToken(token.access_token);
       router.push('/onboarding');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Unable to sign in');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -25,7 +35,9 @@ export default function LoginPage() {
       <LoginForm 
         onSubmit={handleAuthSubmit} 
         onSignUp={() => router.push('/signup')} 
-        onForgotPassword={() => router.push('/forgot-password')} 
+        onForgotPassword={() => router.push('/forgot-password')}
+        error={error}
+        isLoading={isLoading}
       />
     </AuthLayout>
   );
