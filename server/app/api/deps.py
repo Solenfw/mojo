@@ -5,7 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.db.database import SessionLocal
 from app.db import models
-from app.core.security import oauth2_scheme, verify_password, verify_password
+from app.core.security import oauth2_scheme, verify_password
 from app.core.config import settings
 
 SECRET_KEY = settings.secret_key
