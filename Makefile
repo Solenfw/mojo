@@ -1,5 +1,5 @@
 dev:
-	docker compose -f docker-compose.dev.yml up -d --no-recreate
+	docker compose up -d --no-recreate
 	PYTHONPATH=server server/.venv/bin/python -m uvicorn app.main:app --reload
 
 test:

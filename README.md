@@ -1,152 +1,148 @@
 # LinguaSphere
 
-AI-assisted Japanese learning platform with a FastAPI backend and a Next.js frontend.
+LinguaSphere is an AI-assisted Japanese language learning platform designed for professionals looking to build JLPT N5 proficiency. It features a FastAPI backend and a Next.js frontend, integrating Google Gemini for real-time conversation (Kaiwa) and writing feedback.
 
-> Development status: this project is still evolving. Some routes and features are prototype-level and may change quickly.
+## Architecture & Layout
 
-## Stack
-
-- Frontend: Next.js 16, React 19, TypeScript, Tailwind CSS
-- Frontend package manager/runtime: Bun
-- Backend: FastAPI, SQLAlchemy, Alembic, PostgreSQL
-- Backend package manager/runtime: uv
-- AI: Google Gemini integration in the client
-
-## Repository Layout
+The project is structured as a monorepo, keeping the backend and frontend code bases isolated while sharing a unified migration and deployment workflow:
 
 ```text
 LinguaSphere/
-├── client/              # Next.js frontend
-├── server/              # FastAPI backend project managed by uv
-├── migrations/          # Alembic migrations
+├── client/              # Next.js frontend (React 19, Tailwind CSS v4, npm)
+├── server/              # FastAPI backend (Python 3.12, managed by uv)
+│   └── app/
+│       ├── api/         # v1 router endpoints (auth, srs, gamification, etc.)
+│       ├── core/        # Configurations and security
+│       ├── db/          # Database connection, schemas, and SQLAlchemy models
+│       └── services/    # Engines (SRS, gamification, AI services)
+├── migrations/          # Alembic schema migrations
 ├── tests/               # Backend tests
 ├── docker-compose.yml   # Local PostgreSQL service
-├── alembic.ini          # Alembic config
+├── alembic.ini          # Alembic database configuration
 ├── Makefile             # Backend dev/test shortcuts
 └── README.md
 ```
 
 ## Prerequisites
 
-- Bun
-- uv
-- Python 3.12+
-- PostgreSQL, or Docker for the included PostgreSQL service
+Ensure you have the following installed locally:
+*   [Node.js](https://nodejs.org/) (LTS recommended) and **npm**
+*   [uv](https://github.com/astral-sh/uv) (Backend Python package manager & workflow tool)
+*   [Docker Desktop](https://www.docker.com/) / Docker Engine (for PostgreSQL)
 
-## Environment
+---
 
-Create the root environment file:
+## Getting Started
 
+### 1. Environment Configuration
+
+Clone the configuration files and update them with your local credentials.
+
+**Backend (.env at project root):**
 ```bash
 cp .env.example .env
 ```
-
-The root `.env` is used by Docker Compose, Alembic, and backend commands run from the repository root.
-
-Required backend values:
-
+Ensure your database connection details and secret key are set:
 ```env
-POSTGRES_USER=your_username
-POSTGRES_PASSWORD=your_password
-POSTGRES_DB=your_db
-DATABASE_URL=postgresql://your_username:your_password@localhost:5432/your_db
-SECRET_KEY=your-secret-key
+POSTGRES_USER=your_postgres_user
+POSTGRES_PASSWORD=your_postgres_password
+POSTGRES_DB=lingua_sphere_db
+DATABASE_URL=postgresql://your_postgres_user:your_postgres_password@localhost:5432/lingua_sphere_db
+SECRET_KEY=your_development_secret_key
 ```
 
-Create the frontend environment file:
-
+**Frontend (client/.env.local):**
 ```bash
 cp client/.env.example client/.env.local
 ```
-
-Set `GEMINI_API_KEY` in `client/.env.local` if you are using Gemini-backed conversation or feedback features.
-
-## Backend Setup
-
-Install backend dependencies with uv:
-
-```bash
-uv sync --project server
+Update your `client/.env.local` file with your Gemini API Key to enable AI feedback features:
+```env
+GEMINI_API_KEY="YOUR_ACTUAL_GEMINI_API_KEY"
+NEXT_PUBLIC_API_URL="http://localhost:8000"
 ```
 
-Start PostgreSQL:
+### 2. Backend & Database Setup
 
-```bash
-docker compose up -d db
-```
+1.  **Sync Python dependencies:**
+    Use `uv` to install the environment and packages defined in `server/pyproject.toml`:
+    ```bash
+    uv sync --project server
+    ```
 
-Run migrations from the repository root:
+2.  **Start the Database:**
+    Run the PostgreSQL container in the background:
+    ```bash
+    docker compose up -d 
+    ```
 
-```bash
-PYTHONPATH=server uv run --project server alembic upgrade head
-```
+3.  **Run Migrations:**
+    Because this database uses a code-first approach managed by Alembic, apply the initial schema migration to create the tables:
+    ```bash
+    alembic upgrade head
+    ```
 
-Start the API:
+### 3. Frontend Setup
 
-```bash
-PYTHONPATH=server uv run --project server uvicorn app.main:app --reload
-```
+1.  **Install dependencies:**
+    Navigate to the `client` directory and install the Node modules:
+    ```bash
+    cd client
+    npm install
+    cd ..
+    ```
 
-The API runs at `http://localhost:8000`.
+2.  **Start the Next.js development server:**
+    ```bash
+    cd client
+    npm run dev
+    ```
+    The web interface will be available at `http://localhost:3000`.
 
-Useful backend endpoints:
+---
 
-- Swagger UI: `http://localhost:8000/docs`
-- Health check: `http://localhost:8000/healthz`
+## Development & Operations
 
-## Frontend Setup
+### Running the API Server
 
-Install frontend dependencies with Bun:
-
-```bash
-cd client
-bun install
-```
-
-Start the frontend:
-
-```bash
-bun run dev
-```
-
-The Next.js dev server runs at `http://localhost:3000` by default.
-
-## Common Commands
-
-From the repository root:
-
-```bash
-# Backend
-uv sync --project server
-PYTHONPATH=server uv run --project server uvicorn app.main:app --reload
-PYTHONPATH=server uv run --project server pytest -q tests
-PYTHONPATH=server uv run --project server alembic upgrade head
-
-# Database
-docker compose up -d db
-docker compose down
-
-# Frontend
-cd client
-bun install
-bun run dev
-bun run type-check
-bun run build
-```
-
-The `Makefile` also provides backend shortcuts that use the uv-created virtual environment:
-
+Start the FastAPI application with live-reloading enabled:
 ```bash
 make dev
+```
+
+*   **API Base URL:** `http://localhost:8000`
+*   **Interactive Documentation (Swagger):** `http://localhost:8000/docs`
+*   **Health Status Endpoint:** `http://localhost:8000/healthz`
+
+### Working with Database Migrations (Alembic)
+
+The database schema is defined in `server/app/db/models.py`. When you modify models, always use Alembic to generate and apply migrations.
+
+1.  **Generate a new migration script:**
+    ```bash
+    alembic revision --autogenerate -m "your description"
+    ```
+2.  **Verify the generated script:**
+    Check the new Python file inside `migrations/versions/` to verify it correctly maps your changes before applying them.
+3.  **Apply migrations:**
+    ```bash
+    alembic upgrade head
+    ```
+
+### Running Tests
+
+Run the test suite to verify backend status, authentication logic, and model definitions:
+```bash
 make test
 ```
 
-## Notes
+---
 
-- The backend package is in `server/`, but commands that need `alembic.ini`, `migrations/`, or the root `.env` should be run from the repository root.
-- The frontend is a Next.js App Router app under `client/src/app`.
-- Docker Compose currently provisions PostgreSQL only; the frontend and backend are run locally with Bun and uv.
+## Automation Shortcuts (Makefile)
 
-## License
+A `Makefile` is provided for standard operations:
 
-MIT. See [LICENSE](LICENSE) if present in your checkout.
+| Command | Action |
+| :--- | :--- |
+| `make dev` | Starts the PostgreSQL container and runs the FastAPI application. |
+| `make test` | Runs the backend test suite via pytest. |
+| `make migrate` | Applies any outstanding Alembic migrations to the database. |
