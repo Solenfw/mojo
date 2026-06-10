@@ -260,8 +260,6 @@ class LearnerProfiles(Users):
     study_goal: Mapped[Optional[str]] = mapped_column(Text)
     study_mode: Mapped[Optional[str]] = mapped_column(String(50))
     commitment_hours_per_week: Mapped[Optional[int]] = mapped_column(Integer)
-    created_at: Mapped[Optional[datetime.datetime]] = mapped_column(DateTime(True), server_default=text('CURRENT_TIMESTAMP'))
-    updated_at: Mapped[Optional[datetime.datetime]] = mapped_column(DateTime(True), server_default=text('CURRENT_TIMESTAMP'))
 
 
 class LearningPlans(Base):
