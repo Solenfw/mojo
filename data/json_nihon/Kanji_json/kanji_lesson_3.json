@@ -1,0 +1,813 @@
+{
+  "lesson": "Chữ Hán Tiếng Nhật - Lesson 3",
+  "grammar_points": [
+    {
+      "id": 1,
+      "structure": "Nhóm Kanji chỉ vị trí",
+      "meaning": "Các chữ Hán dùng để chỉ vị trí như trong/ngoài/trên/dưới/trái/phải.",
+      "explanations": [
+        "Nhóm chữ này thường xuất hiện trong câu miêu tả vị trí đồ vật, địa điểm hoặc người.",
+        "Khi dùng trong câu, các Kanji này có thể đi cùng trợ từ の hoặc に để chỉ vị trí.",
+        "Ví dụ: 机の上 nghĩa là trên bàn; 教室の中 nghĩa là trong lớp học."
+      ],
+      "examples": [
+        {
+          "kanji": "中",
+          "reading": "なか",
+          "vietnamese": "trong, giữa"
+        },
+        {
+          "kanji": "外",
+          "reading": "そと",
+          "vietnamese": "ngoài"
+        },
+        {
+          "kanji": "上",
+          "reading": "うえ",
+          "vietnamese": "trên"
+        },
+        {
+          "kanji": "下",
+          "reading": "した",
+          "vietnamese": "dưới"
+        },
+        {
+          "kanji": "左",
+          "reading": "ひだり",
+          "vietnamese": "bên trái"
+        },
+        {
+          "kanji": "右",
+          "reading": "みぎ",
+          "vietnamese": "bên phải"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "structure": "Nhóm Kanji chỉ quốc gia, học tập và nghi vấn",
+      "meaning": "Các chữ Hán thường gặp trong từ vựng về quốc gia, trường học, giáo viên và câu hỏi.",
+      "explanations": [
+        "国 dùng trong các từ liên quan đến nước, quốc gia hoặc quốc tịch.",
+        "学 dùng trong các từ liên quan đến việc học, trường học và học sinh.",
+        "先 thường gặp trong 先生, 先月, 先週; 何 dùng để hỏi 'cái gì', 'mấy', 'bao nhiêu' tùy ngữ cảnh."
+      ],
+      "examples": [
+        {
+          "kanji": "国",
+          "reading": "くに / コク",
+          "vietnamese": "nước, quốc gia"
+        },
+        {
+          "kanji": "学",
+          "reading": "ガク / まな・ぶ",
+          "vietnamese": "học"
+        },
+        {
+          "kanji": "先",
+          "reading": "セン / さき",
+          "vietnamese": "trước"
+        },
+        {
+          "kanji": "何",
+          "reading": "なに・なん / カ",
+          "vietnamese": "cái gì"
+        }
+      ]
+    }
+  ],
+  "kanji_vocabulary": [
+    {
+      "id": 1,
+      "kanji": "中",
+      "meaning": "Trong, giữa",
+      "onyomi": "チュウ (CHUU)",
+      "kunyomi": "なか (naka)",
+      "vocabulary": [
+        {
+          "word": "田中",
+          "reading_meaning": "Tanaka - Họ phổ biến"
+        },
+        {
+          "word": "中国",
+          "reading_meaning": "Chuugoku - Trung Quốc"
+        },
+        {
+          "word": "一日中",
+          "reading_meaning": "Ichinichijuu - Suốt cả ngày"
+        }
+      ],
+      "examples": [
+        {
+          "japanese": "教室の中に 先生が います",
+          "vietnamese": "Trong phòng học có giáo viên"
+        }
+      ],
+      "stroke_order": [
+        {
+          "order": 1,
+          "stroke": "丨",
+          "name": "Sổ",
+          "note": "Nét giữa/khung viết theo cấu tạo chữ."
+        },
+        {
+          "order": 2,
+          "stroke": "𠃍",
+          "name": "Gập",
+          "note": "Tạo phần khung ngoài."
+        },
+        {
+          "order": 3,
+          "stroke": "一",
+          "name": "Ngang",
+          "note": "Đóng phần khung."
+        },
+        {
+          "order": 4,
+          "stroke": "丨",
+          "name": "Sổ",
+          "note": "Nét dọc xuyên giữa."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "kanji": "外",
+      "meaning": "Ngoài",
+      "onyomi": "ガイ (GAI)",
+      "kunyomi": "そと (soto)",
+      "vocabulary": [
+        {
+          "word": "外国",
+          "reading_meaning": "Gaikoku - Nước ngoài"
+        },
+        {
+          "word": "外出",
+          "reading_meaning": "Gaishutsu - Đi ra ngoài"
+        },
+        {
+          "word": "意外",
+          "reading_meaning": "Igai - Ngoài dự tính"
+        }
+      ],
+      "examples": [
+        {
+          "japanese": "外は 暑いですね",
+          "vietnamese": "Bên ngoài trời nóng nhỉ"
+        }
+      ],
+      "stroke_order": [
+        {
+          "order": 1,
+          "stroke": "丿",
+          "name": "Phẩy",
+          "note": "Bộ phận bên trái viết trước."
+        },
+        {
+          "order": 2,
+          "stroke": "㇇",
+          "name": "Gập/Móc",
+          "note": "Hoàn thành phần trái."
+        },
+        {
+          "order": 3,
+          "stroke": "丶",
+          "name": "Chấm",
+          "note": "Chấm trong phần trái."
+        },
+        {
+          "order": 4,
+          "stroke": "丨",
+          "name": "Sổ",
+          "note": "Phần bên phải."
+        },
+        {
+          "order": 5,
+          "stroke": "丶",
+          "name": "Chấm",
+          "note": "Chấm cuối bên phải."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "kanji": "上",
+      "meaning": "Trên",
+      "onyomi": "ジョウ (JOU)",
+      "kunyomi": "うえ (ue)",
+      "vocabulary": [
+        {
+          "word": "上手",
+          "reading_meaning": "Jouzu - Giỏi"
+        },
+        {
+          "word": "屋上",
+          "reading_meaning": "Okujou - Sân thượng"
+        },
+        {
+          "word": "値上げ",
+          "reading_meaning": "Neage - Tăng giá"
+        }
+      ],
+      "examples": [
+        {
+          "japanese": "本は 机の上に あります",
+          "vietnamese": "Sách ở trên bàn"
+        }
+      ],
+      "stroke_order": [
+        {
+          "order": 1,
+          "stroke": "丨",
+          "name": "Sổ",
+          "note": "Nét dọc ngắn."
+        },
+        {
+          "order": 2,
+          "stroke": "一",
+          "name": "Ngang",
+          "note": "Nét ngang ngắn phía trên."
+        },
+        {
+          "order": 3,
+          "stroke": "一",
+          "name": "Ngang",
+          "note": "Nét ngang dài phía dưới."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "kanji": "下",
+      "meaning": "Dưới",
+      "onyomi": "カ (KA) / ゲ (GE)",
+      "kunyomi": "した (shita)",
+      "vocabulary": [
+        {
+          "word": "地下鉄",
+          "reading_meaning": "Chikatetsu - Tàu điện ngầm"
+        },
+        {
+          "word": "下手",
+          "reading_meaning": "Heta - Kém"
+        },
+        {
+          "word": "値下げ",
+          "reading_meaning": "Nesage - Giảm giá"
+        }
+      ],
+      "examples": [
+        {
+          "japanese": "いすの下に 猫が います",
+          "vietnamese": "Dưới ghế có con mèo"
+        }
+      ],
+      "stroke_order": [
+        {
+          "order": 1,
+          "stroke": "一",
+          "name": "Ngang",
+          "note": "Nét ngang trên cùng."
+        },
+        {
+          "order": 2,
+          "stroke": "丨",
+          "name": "Sổ",
+          "note": "Nét dọc đi xuống."
+        },
+        {
+          "order": 3,
+          "stroke": "丶",
+          "name": "Chấm",
+          "note": "Chấm bên phải."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "kanji": "左",
+      "meaning": "Bên trái",
+      "onyomi": "サ (SA)",
+      "kunyomi": "ひだり (hidari)",
+      "vocabulary": [
+        {
+          "word": "左手",
+          "reading_meaning": "Hidarite - Tay trái"
+        },
+        {
+          "word": "左側",
+          "reading_meaning": "Hidarigawa - Phía bên trái"
+        },
+        {
+          "word": "左利き",
+          "reading_meaning": "Hidarikiki - Thuận tay trái"
+        }
+      ],
+      "examples": [
+        {
+          "japanese": "銀行は 左に あります",
+          "vietnamese": "Ngân hàng nằm ở bên trái"
+        }
+      ],
+      "stroke_order": [
+        {
+          "order": 1,
+          "stroke": "一",
+          "name": "Ngang",
+          "note": "Nét ngang trên."
+        },
+        {
+          "order": 2,
+          "stroke": "丿",
+          "name": "Phẩy",
+          "note": "Nét phẩy xuống trái."
+        },
+        {
+          "order": 3,
+          "stroke": "一",
+          "name": "Ngang",
+          "note": "Bắt đầu bộ 工."
+        },
+        {
+          "order": 4,
+          "stroke": "丨",
+          "name": "Sổ",
+          "note": "Nét dọc bộ 工."
+        },
+        {
+          "order": 5,
+          "stroke": "一",
+          "name": "Ngang",
+          "note": "Nét ngang dưới."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "kanji": "右",
+      "meaning": "Bên phải",
+      "onyomi": "ウ (U) / ユウ (YUU)",
+      "kunyomi": "みぎ (migi)",
+      "vocabulary": [
+        {
+          "word": "右手",
+          "reading_meaning": "Migite - Tay phải"
+        },
+        {
+          "word": "右側",
+          "reading_meaning": "Migigawa - Phía bên phải"
+        },
+        {
+          "word": "左右",
+          "reading_meaning": "Sayuu - Trái phải"
+        }
+      ],
+      "examples": [
+        {
+          "japanese": "郵便局は 右に あります",
+          "vietnamese": "Bưu điện nằm ở bên phải"
+        }
+      ],
+      "stroke_order": [
+        {
+          "order": 1,
+          "stroke": "一",
+          "name": "Ngang",
+          "note": "Nét ngang trên."
+        },
+        {
+          "order": 2,
+          "stroke": "丿",
+          "name": "Phẩy",
+          "note": "Nét phẩy xuống trái."
+        },
+        {
+          "order": 3,
+          "stroke": "丨",
+          "name": "Sổ",
+          "note": "Bắt đầu phần 口."
+        },
+        {
+          "order": 4,
+          "stroke": "𠃍",
+          "name": "Gập",
+          "note": "Khung của 口."
+        },
+        {
+          "order": 5,
+          "stroke": "一",
+          "name": "Ngang",
+          "note": "Đóng phần 口."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "kanji": "国",
+      "meaning": "Nước, quốc gia",
+      "onyomi": "コク (KOKU)",
+      "kunyomi": "くに (kuni)",
+      "vocabulary": [
+        {
+          "word": "国籍",
+          "reading_meaning": "Kokuseki - Quốc tịch"
+        },
+        {
+          "word": "韓国",
+          "reading_meaning": "Kankoku - Hàn Quốc"
+        },
+        {
+          "word": "帰国",
+          "reading_meaning": "Kikoku - Về nước"
+        }
+      ],
+      "examples": [
+        {
+          "japanese": "お国は どこですか",
+          "vietnamese": "Nước bạn ở đâu?"
+        }
+      ],
+      "stroke_order": [
+        {
+          "order": 1,
+          "stroke": "丨",
+          "name": "Sổ",
+          "note": "Khung ngoài viết trước."
+        },
+        {
+          "order": 2,
+          "stroke": "𠃍",
+          "name": "Gập",
+          "note": "Tạo khung ngoài."
+        },
+        {
+          "order": 3,
+          "stroke": "一",
+          "name": "Ngang",
+          "note": "Viết phần 玉 bên trong."
+        },
+        {
+          "order": 4,
+          "stroke": "一",
+          "name": "Ngang",
+          "note": "Nét ngang thứ hai bên trong."
+        },
+        {
+          "order": 5,
+          "stroke": "丨",
+          "name": "Sổ",
+          "note": "Nét dọc bên trong."
+        },
+        {
+          "order": 6,
+          "stroke": "一",
+          "name": "Ngang",
+          "note": "Nét ngang dưới của 玉."
+        },
+        {
+          "order": 7,
+          "stroke": "丶",
+          "name": "Chấm",
+          "note": "Chấm trong 玉."
+        },
+        {
+          "order": 8,
+          "stroke": "一",
+          "name": "Ngang",
+          "note": "Đóng khung ngoài."
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "kanji": "学",
+      "meaning": "Học",
+      "onyomi": "ガク (GAKU)",
+      "kunyomi": "まな・ぶ (mana-bu)",
+      "vocabulary": [
+        {
+          "word": "学校",
+          "reading_meaning": "Gakkou - Trường học"
+        },
+        {
+          "word": "学生",
+          "reading_meaning": "Gakusei - Học sinh"
+        },
+        {
+          "word": "学習",
+          "reading_meaning": "Gakushuu - Học tập"
+        }
+      ],
+      "examples": [
+        {
+          "japanese": "大学で 日本語を 勉強します",
+          "vietnamese": "Học tiếng Nhật ở trường đại học"
+        }
+      ],
+      "stroke_order": [
+        {
+          "order": 1,
+          "stroke": "丶",
+          "name": "Chấm",
+          "note": "Phần trên viết trước."
+        },
+        {
+          "order": 2,
+          "stroke": "丶",
+          "name": "Chấm",
+          "note": "Phần trên."
+        },
+        {
+          "order": 3,
+          "stroke": "丿",
+          "name": "Phẩy",
+          "note": "Phần trên."
+        },
+        {
+          "order": 4,
+          "stroke": "丶",
+          "name": "Chấm",
+          "note": "Mái/đầu chữ."
+        },
+        {
+          "order": 5,
+          "stroke": "㇇",
+          "name": "Gập/Móc",
+          "note": "Mái/đầu chữ."
+        },
+        {
+          "order": 6,
+          "stroke": "㇇",
+          "name": "Gập/Móc",
+          "note": "Phần 子 bên dưới."
+        },
+        {
+          "order": 7,
+          "stroke": "亅",
+          "name": "Móc",
+          "note": "Nét móc của 子."
+        },
+        {
+          "order": 8,
+          "stroke": "一",
+          "name": "Ngang",
+          "note": "Nét ngang cuối."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "kanji": "先",
+      "meaning": "Trước",
+      "onyomi": "セン (SEN)",
+      "kunyomi": "さき (saki)",
+      "vocabulary": [
+        {
+          "word": "先生",
+          "reading_meaning": "Sensei - Giáo viên"
+        },
+        {
+          "word": "先月",
+          "reading_meaning": "Sengetsu - Tháng trước"
+        },
+        {
+          "word": "先週",
+          "reading_meaning": "Senshuu - Tuần trước"
+        }
+      ],
+      "examples": [
+        {
+          "japanese": "先生、おはようございます",
+          "vietnamese": "Chào thầy/cô, buổi sáng tốt lành"
+        }
+      ],
+      "stroke_order": [
+        {
+          "order": 1,
+          "stroke": "丿",
+          "name": "Phẩy",
+          "note": "Phần trên viết trước."
+        },
+        {
+          "order": 2,
+          "stroke": "一",
+          "name": "Ngang",
+          "note": "Phần trên."
+        },
+        {
+          "order": 3,
+          "stroke": "丨",
+          "name": "Sổ",
+          "note": "Phần trên."
+        },
+        {
+          "order": 4,
+          "stroke": "一",
+          "name": "Ngang",
+          "note": "Phần trên."
+        },
+        {
+          "order": 5,
+          "stroke": "丿",
+          "name": "Phẩy",
+          "note": "Phần dưới bên trái."
+        },
+        {
+          "order": 6,
+          "stroke": "乚",
+          "name": "Cong/Móc",
+          "note": "Phần dưới bên phải."
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "kanji": "何",
+      "meaning": "Cái gì",
+      "onyomi": "カ (KA)",
+      "kunyomi": "なに (nani) / なん (nan)",
+      "vocabulary": [
+        {
+          "word": "何時",
+          "reading_meaning": "Nan-ji - Mấy giờ"
+        },
+        {
+          "word": "何人",
+          "reading_meaning": "Nan-nin - Mấy người"
+        },
+        {
+          "word": "何曜日",
+          "reading_meaning": "Nan-youbi - Thứ mấy"
+        }
+      ],
+      "examples": [
+        {
+          "japanese": "これは 何の 本ですか",
+          "vietnamese": "Đây là sách về cái gì vậy?"
+        }
+      ],
+      "stroke_order": [
+        {
+          "order": 1,
+          "stroke": "丿",
+          "name": "Phẩy",
+          "note": "Bộ nhân đứng bên trái viết trước."
+        },
+        {
+          "order": 2,
+          "stroke": "丨",
+          "name": "Sổ",
+          "note": "Hoàn thành bộ nhân đứng."
+        },
+        {
+          "order": 3,
+          "stroke": "一",
+          "name": "Ngang",
+          "note": "Phần bên phải viết sau."
+        },
+        {
+          "order": 4,
+          "stroke": "丨",
+          "name": "Sổ",
+          "note": "Bắt đầu phần 口/可."
+        },
+        {
+          "order": 5,
+          "stroke": "𠃍",
+          "name": "Gập",
+          "note": "Khung nhỏ."
+        },
+        {
+          "order": 6,
+          "stroke": "一",
+          "name": "Ngang",
+          "note": "Đóng khung nhỏ."
+        },
+        {
+          "order": 7,
+          "stroke": "亅",
+          "name": "Móc",
+          "note": "Nét móc bên phải."
+        }
+      ]
+    }
+  ],
+  "practice_exercises": [
+    {
+      "id": 1,
+      "title": "Điền cách đọc phù hợp",
+      "instruction": "Hãy điền cách đọc Âm Kun hoặc Âm On phù hợp cho các từ vựng sau.",
+      "questions": [
+        {
+          "number": 1,
+          "kanji": "田中さん",
+          "prompt": "た................",
+          "hint": "Tên người",
+          "answer": "なか",
+          "full_reading": "たなかさん"
+        },
+        {
+          "number": 2,
+          "kanji": "外国",
+          "prompt": "................こく",
+          "hint": "Nước ngoài",
+          "answer": "がい",
+          "full_reading": "がいこく"
+        },
+        {
+          "number": 3,
+          "kanji": "机の上",
+          "prompt": "つくえの................",
+          "hint": "Trên bàn",
+          "answer": "うえ",
+          "full_reading": "つくえのうえ"
+        },
+        {
+          "number": 4,
+          "kanji": "先生",
+          "prompt": "................せい",
+          "hint": "Giáo viên",
+          "answer": "せん",
+          "full_reading": "せんせい"
+        },
+        {
+          "number": 5,
+          "kanji": "お国",
+          "prompt": "お................",
+          "hint": "Đất nước",
+          "answer": "くに",
+          "full_reading": "おくに"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Nối Kanji với nghĩa tiếng Việt",
+      "instruction": "Hãy nối các chữ Kanji ở cột A với nghĩa tiếng Việt tương ứng ở cột B.",
+      "questions": [
+        {
+          "number": 1,
+          "kanji": "中",
+          "answer": "C",
+          "vietnamese": "Trong, giữa"
+        },
+        {
+          "number": 2,
+          "kanji": "外",
+          "answer": "F",
+          "vietnamese": "Bên ngoài"
+        },
+        {
+          "number": 3,
+          "kanji": "上",
+          "answer": "B",
+          "vietnamese": "Bên trên"
+        },
+        {
+          "number": 4,
+          "kanji": "下",
+          "answer": "E",
+          "vietnamese": "Bên dưới"
+        },
+        {
+          "number": 5,
+          "kanji": "右",
+          "answer": "A",
+          "vietnamese": "Bên phải"
+        },
+        {
+          "number": 6,
+          "kanji": "国",
+          "answer": "D",
+          "vietnamese": "Nước, quốc gia"
+        }
+      ],
+      "choices": [
+        {
+          "label": "A",
+          "vietnamese": "Bên phải"
+        },
+        {
+          "label": "B",
+          "vietnamese": "Bên trên"
+        },
+        {
+          "label": "C",
+          "vietnamese": "Trong, giữa"
+        },
+        {
+          "label": "D",
+          "vietnamese": "Nước, quốc gia"
+        },
+        {
+          "label": "E",
+          "vietnamese": "Bên dưới"
+        },
+        {
+          "label": "F",
+          "vietnamese": "Bên ngoài"
+        }
+      ]
+    }
+  ]
+}
