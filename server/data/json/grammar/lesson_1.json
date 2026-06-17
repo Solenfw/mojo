@@ -1,0 +1,158 @@
+{
+  "lesson_no": 1,
+  "lesson_title": "Bài 1",
+  "grammar_points": [
+    {
+      "id": 1,
+      "structure": "S は N です",
+      "meaning": "S là N",
+      "explanations": [
+        "は: trợ từ, phát âm là わ.",
+        "S: chủ ngữ chỉ người.",
+        "N: danh từ chỉ tên, tuổi, nghề nghiệp, quốc tịch, ...",
+        "です: dạng khẳng định."
+      ],
+      "examples": [
+        {
+          "japanese": "わたしはリンです。",
+          "vietnamese": "Tôi là Linh."
+        },
+        {
+          "japanese": "リンさんはがくせいです。",
+          "vietnamese": "Linh là học sinh."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "structure": "S は N じゃ / ではありません",
+      "meaning": "S không phải là N",
+      "explanations": [
+        "は: trợ từ, phát âm là わ.",
+        "S: chủ ngữ chỉ người.",
+        "N: danh từ chỉ tên, tuổi, nghề nghiệp, quốc tịch, ...",
+        "じゃ / ではありません: dạng phủ định.",
+        "Lưu ý: ではありません lịch sự hơn, thường dùng trong phát biểu hoặc văn viết."
+      ],
+      "examples": [
+        {
+          "japanese": "リンさんはがくせいじゃありません。",
+          "vietnamese": "Linh không phải là học sinh."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "structure": "S は N ですか",
+      "meaning": "S có phải là N không?",
+      "explanations": [
+        "Cách trả lời khẳng định: はい、Nです / そうです.",
+        "Cách trả lời phủ định: いいえ、Nじゃありません / ちがいます."
+      ],
+      "examples": [
+        {
+          "japanese": "リンさんはがくせいですか。",
+          "vietnamese": "Linh là học sinh có phải không?"
+        },
+        {
+          "japanese": "はい、がくせいです。/ そうです。",
+          "vietnamese": "Vâng, đúng vậy."
+        },
+        {
+          "japanese": "いいえ、がくせいじゃありません。/ ちがいます。",
+          "vietnamese": "Không, không phải."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "structure": "N も",
+      "meaning": "N cũng",
+      "explanations": [
+        "Trợ từ も thay cho は khi muốn nói nghĩa 'cũng'."
+      ],
+      "examples": [
+        {
+          "japanese": "リンさんはがくせいです。",
+          "vietnamese": "Linh là học sinh."
+        },
+        {
+          "japanese": "わたしもがくせいです。",
+          "vietnamese": "Tôi cũng là học sinh."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "structure": "Một số từ để hỏi",
+      "meaning": "Từ nghi vấn cơ bản",
+      "explanations": [],
+      "examples": [
+        {
+          "word": "だれ",
+          "meaning": "Ai",
+          "japanese_example": "リンさんはだれですか。",
+          "vietnamese_example": "Linh là ai?"
+        },
+        {
+          "word": "なに / なん",
+          "meaning": "Cái gì",
+          "japanese_example": "これはなんですか。",
+          "vietnamese_example": "Đây là cái gì?"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "structure": "N1 の N2",
+      "meaning": "N2 của N1",
+      "explanations": [
+        "の dùng để nối hai danh từ, trong đó N1 bổ nghĩa cho N2.",
+        "Trong nhiều trường hợp, の mang nghĩa sở hữu hoặc chỉ tổ chức/quốc gia mà cá nhân thuộc về."
+      ],
+      "examples": [
+        {
+          "japanese": "リンさんはNのしゃいんです。",
+          "vietnamese": "Linh là nhân viên của công ty N."
+        }
+      ]
+    }
+  ],
+  "dialogues": [
+    {
+      "title": "Mẫu hội thoại tự giới thiệu (はじめまして)",
+      "conversation": [
+        {
+          "speaker": "A",
+          "japanese": "はじめまして。",
+          "vietnamese": "Rất vui được gặp bạn."
+        },
+        {
+          "speaker": "B",
+          "japanese": "はじめまして。",
+          "vietnamese": "Rất vui được gặp bạn."
+        },
+        {
+          "speaker": "A",
+          "japanese": "わたしはミラです。ベトナムじんです。",
+          "vietnamese": "Tôi là Miller. Tôi là người Việt Nam."
+        },
+        {
+          "speaker": "B",
+          "japanese": "わたしはマリアです。アメリカじんです。",
+          "vietnamese": "Tôi là Maria. Tôi là người Mỹ."
+        },
+        {
+          "speaker": "A",
+          "japanese": "どうぞよろしくおねがいします。",
+          "vietnamese": "Rất mong nhận được sự giúp đỡ của bạn."
+        },
+        {
+          "speaker": "B",
+          "japanese": "どうぞよろしくおねがいします。",
+          "vietnamese": "Rất mong nhận được sự giúp đỡ của bạn."
+        }
+      ]
+    }
+  ]
+}

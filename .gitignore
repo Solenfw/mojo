@@ -79,3 +79,8 @@ htmlcov/
 .env
 .env.*
 !.env.example
+
+
+# local trivial files
+*.local
+temp.py

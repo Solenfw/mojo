@@ -1,0 +1,622 @@
+{
+  "lesson_order": 4,
+  "lesson_title": "Bài 4",
+  "source_file": "Bài 4.xlsx",
+  "vocabulary_count": 50,
+  "sections": [
+    {
+      "section_title": "Từ vựng chính",
+      "headers": [
+        "Hiragana/Katakana",
+        "Kanji",
+        "Romanji",
+        "Nghĩa từ",
+        "Ví dụ",
+        "Nghĩa câu",
+        "Loại từ"
+      ],
+      "items": [
+        {
+          "row_number": 2,
+          "data": {
+            "Hiragana/Katakana": "おきます",
+            "Kanji": "起きます",
+            "Romanji": "okimasu",
+            "Nghĩa từ": "thức dậy",
+            "Ví dụ": "６時に起きます。",
+            "Nghĩa câu": "thức dậy lúc 6 giờ",
+            "Loại từ": "v"
+          }
+        },
+        {
+          "row_number": 3,
+          "data": {
+            "Hiragana/Katakana": "ねます",
+            "Kanji": "寝ます",
+            "Romanji": "nemasu",
+            "Nghĩa từ": "ngủ",
+            "Ví dụ": "１２時に寝ます。",
+            "Nghĩa câu": "ngủ lúc 12 giờ",
+            "Loại từ": "v"
+          }
+        },
+        {
+          "row_number": 4,
+          "data": {
+            "Hiragana/Katakana": "はたらきます",
+            "Kanji": "働きます",
+            "Romanji": "hatarakimasu",
+            "Nghĩa từ": "làm việc",
+            "Ví dụ": "毎日働きます。",
+            "Nghĩa câu": "làm việc mỗi ngày",
+            "Loại từ": "v"
+          }
+        },
+        {
+          "row_number": 5,
+          "data": {
+            "Hiragana/Katakana": "やすみます",
+            "Kanji": "休みます",
+            "Romanji": "yasumimasu",
+            "Nghĩa từ": "nghỉ ngơi",
+            "Ví dụ": "学校を休みます。",
+            "Nghĩa câu": "nghỉ học",
+            "Loại từ": "v"
+          }
+        },
+        {
+          "row_number": 6,
+          "data": {
+            "Hiragana/Katakana": "べんきょうします",
+            "Kanji": "勉強します",
+            "Romanji": "benkyoushimasu",
+            "Nghĩa từ": "học",
+            "Ví dụ": "日本語を勉強します。",
+            "Nghĩa câu": "học tiếng Nhật",
+            "Loại từ": "v"
+          }
+        },
+        {
+          "row_number": 7,
+          "data": {
+            "Hiragana/Katakana": "おわります",
+            "Kanji": "終わります",
+            "Romanji": "owarimasu",
+            "Nghĩa từ": "kết thúc, xong",
+            "Ví dụ": "えいがをおわります。",
+            "Nghĩa câu": "kết túc bộ phim",
+            "Loại từ": "v"
+          }
+        },
+        {
+          "row_number": 8,
+          "data": {
+            "Hiragana/Katakana": "デパート",
+            "Kanji": null,
+            "Romanji": "depa-to",
+            "Nghĩa từ": "bách hóa",
+            "Ví dụ": "デパートへ行きます。",
+            "Nghĩa câu": "đi bách hóa",
+            "Loại từ": "n"
+          }
+        },
+        {
+          "row_number": 9,
+          "data": {
+            "Hiragana/Katakana": "ぎんこう",
+            "Kanji": "銀行",
+            "Romanji": "ginkou",
+            "Nghĩa từ": "ngân hàng",
+            "Ví dụ": "銀行へ行きます。",
+            "Nghĩa câu": "đi ngân hàng",
+            "Loại từ": "n"
+          }
+        },
+        {
+          "row_number": 10,
+          "data": {
+            "Hiragana/Katakana": "ゆうびんきょく",
+            "Kanji": "郵便局",
+            "Romanji": "yuubinkyoku",
+            "Nghĩa từ": "bưu điện",
+            "Ví dụ": "郵便局へ行きます。",
+            "Nghĩa câu": "đi bưu điện",
+            "Loại từ": "n"
+          }
+        },
+        {
+          "row_number": 11,
+          "data": {
+            "Hiragana/Katakana": "としょかん",
+            "Kanji": "図書館",
+            "Romanji": "toshokan",
+            "Nghĩa từ": "thư viện",
+            "Ví dụ": "図書館へ行きます。",
+            "Nghĩa câu": "đi thư viện",
+            "Loại từ": "n"
+          }
+        },
+        {
+          "row_number": 12,
+          "data": {
+            "Hiragana/Katakana": "びじゅつかん",
+            "Kanji": "美術館",
+            "Romanji": "bijutsukan",
+            "Nghĩa từ": "bảo tàng mĩ thuật",
+            "Ví dụ": "美術館へ行きます。",
+            "Nghĩa câu": "đi bảo tàng mĩ thuật",
+            "Loại từ": "n"
+          }
+        },
+        {
+          "row_number": 13,
+          "data": {
+            "Hiragana/Katakana": "がっこう",
+            "Kanji": "学校",
+            "Romanji": "gakkou",
+            "Nghĩa từ": "trường học",
+            "Ví dụ": "学校へ行きます。",
+            "Nghĩa câu": "đi đến trường",
+            "Loại từ": "n"
+          }
+        },
+        {
+          "row_number": 14,
+          "data": {
+            "Hiragana/Katakana": "じ",
+            "Kanji": "時",
+            "Romanji": "ji",
+            "Nghĩa từ": "giờ",
+            "Ví dụ": "今は６時です。",
+            "Nghĩa câu": "bây giờ là 6 giờ",
+            "Loại từ": "n"
+          }
+        },
+        {
+          "row_number": 15,
+          "data": {
+            "Hiragana/Katakana": "ふん（ぷん）",
+            "Kanji": "分",
+            "Romanji": "pun(bun)",
+            "Nghĩa từ": "phút",
+            "Ví dụ": "今は６時１５分です。",
+            "Nghĩa câu": "bây giờ là 6 giờ 15 phút",
+            "Loại từ": "n"
+          }
+        },
+        {
+          "row_number": 16,
+          "data": {
+            "Hiragana/Katakana": "なんじ",
+            "Kanji": "何時",
+            "Romanji": "nanji",
+            "Nghĩa từ": "mấy giờ",
+            "Ví dụ": "今何時ですか。",
+            "Nghĩa câu": "bây giờ là mấy giờ",
+            "Loại từ": null
+          }
+        },
+        {
+          "row_number": 17,
+          "data": {
+            "Hiragana/Katakana": "なんふん",
+            "Kanji": "何分",
+            "Romanji": "nanpun",
+            "Nghĩa từ": "mấy phút",
+            "Ví dụ": "今何時何分ですか。",
+            "Nghĩa câu": "bây giờ là mấy giờ mấy phút",
+            "Loại từ": null
+          }
+        },
+        {
+          "row_number": 18,
+          "data": {
+            "Hiragana/Katakana": "いつ",
+            "Kanji": null,
+            "Romanji": "itsu",
+            "Nghĩa từ": "khi nào",
+            "Ví dụ": "いつ学校へ行きますか。",
+            "Nghĩa câu": "khi nào thì đi đến trường?",
+            "Loại từ": null
+          }
+        },
+        {
+          "row_number": 19,
+          "data": {
+            "Hiragana/Katakana": "いま",
+            "Kanji": "今ま",
+            "Romanji": "ima",
+            "Nghĩa từ": "bây giờ",
+            "Ví dụ": "今は１２時です。",
+            "Nghĩa câu": "bây giờ là 12 giờ",
+            "Loại từ": "n"
+          }
+        },
+        {
+          "row_number": 20,
+          "data": {
+            "Hiragana/Katakana": "ごご",
+            "Kanji": "午後",
+            "Romanji": "gogo",
+            "Nghĩa từ": "chiều ( sau 12h trưa )",
+            "Ví dụ": "午後銀行へ行きます。",
+            "Nghĩa câu": "chiều đi ngân hàng",
+            "Loại từ": "n"
+          }
+        },
+        {
+          "row_number": 21,
+          "data": {
+            "Hiragana/Katakana": "ごぜん",
+            "Kanji": "午前",
+            "Romanji": "gozen",
+            "Nghĩa từ": "sáng ( trước 12h trưa )",
+            "Ví dụ": "午前６時に起きます。",
+            "Nghĩa câu": "thức dậy lúc 6 giờ sáng",
+            "Loại từ": "n"
+          }
+        },
+        {
+          "row_number": 22,
+          "data": {
+            "Hiragana/Katakana": "あさ",
+            "Kanji": "朝",
+            "Romanji": "asa",
+            "Nghĩa từ": "sáng, buổi sáng",
+            "Ví dụ": null,
+            "Nghĩa câu": null,
+            "Loại từ": "n"
+          }
+        },
+        {
+          "row_number": 23,
+          "data": {
+            "Hiragana/Katakana": "ひる",
+            "Kanji": "昼",
+            "Romanji": "hiru",
+            "Nghĩa từ": "trưa, buổi trưa",
+            "Ví dụ": null,
+            "Nghĩa câu": null,
+            "Loại từ": "n"
+          }
+        },
+        {
+          "row_number": 24,
+          "data": {
+            "Hiragana/Katakana": "ばん（よる）",
+            "Kanji": "晩（夜）",
+            "Romanji": "ban(yoru)",
+            "Nghĩa từ": "tối, buổi tối",
+            "Ví dụ": null,
+            "Nghĩa câu": null,
+            "Loại từ": "n"
+          }
+        },
+        {
+          "row_number": 25,
+          "data": {
+            "Hiragana/Katakana": "おととい",
+            "Kanji": null,
+            "Romanji": "ototoi",
+            "Nghĩa từ": "ngày hôm kia",
+            "Ví dụ": null,
+            "Nghĩa câu": null,
+            "Loại từ": "n"
+          }
+        },
+        {
+          "row_number": 26,
+          "data": {
+            "Hiragana/Katakana": "きのう",
+            "Kanji": null,
+            "Romanji": "kinou",
+            "Nghĩa từ": "ngày hôm qua",
+            "Ví dụ": null,
+            "Nghĩa câu": null,
+            "Loại từ": "n"
+          }
+        },
+        {
+          "row_number": 27,
+          "data": {
+            "Hiragana/Katakana": "きょう",
+            "Kanji": null,
+            "Romanji": "kyou",
+            "Nghĩa từ": "hôm nay",
+            "Ví dụ": null,
+            "Nghĩa câu": null,
+            "Loại từ": "n"
+          }
+        },
+        {
+          "row_number": 28,
+          "data": {
+            "Hiragana/Katakana": "あした",
+            "Kanji": null,
+            "Romanji": "ashita",
+            "Nghĩa từ": "ngày mai",
+            "Ví dụ": null,
+            "Nghĩa câu": null,
+            "Loại từ": "n"
+          }
+        },
+        {
+          "row_number": 29,
+          "data": {
+            "Hiragana/Katakana": "あさって",
+            "Kanji": null,
+            "Romanji": "asatte",
+            "Nghĩa từ": "ngày kia",
+            "Ví dụ": null,
+            "Nghĩa câu": null,
+            "Loại từ": "n"
+          }
+        },
+        {
+          "row_number": 30,
+          "data": {
+            "Hiragana/Katakana": "けさ",
+            "Kanji": null,
+            "Romanji": "kesa",
+            "Nghĩa từ": "sáng nay",
+            "Ví dụ": null,
+            "Nghĩa câu": null,
+            "Loại từ": "n"
+          }
+        },
+        {
+          "row_number": 31,
+          "data": {
+            "Hiragana/Katakana": "こんばん",
+            "Kanji": "今晩",
+            "Romanji": "konban",
+            "Nghĩa từ": "tối nay",
+            "Ví dụ": null,
+            "Nghĩa câu": null,
+            "Loại từ": "n"
+          }
+        },
+        {
+          "row_number": 32,
+          "data": {
+            "Hiragana/Katakana": "まいあさ",
+            "Kanji": "毎朝",
+            "Romanji": "maiasa",
+            "Nghĩa từ": "mỗi sáng",
+            "Ví dụ": null,
+            "Nghĩa câu": null,
+            "Loại từ": "n"
+          }
+        },
+        {
+          "row_number": 33,
+          "data": {
+            "Hiragana/Katakana": "まいばん",
+            "Kanji": "毎晩",
+            "Romanji": "maiban",
+            "Nghĩa từ": "mỗi tối",
+            "Ví dụ": null,
+            "Nghĩa câu": null,
+            "Loại từ": "n"
+          }
+        },
+        {
+          "row_number": 34,
+          "data": {
+            "Hiragana/Katakana": "まいにち",
+            "Kanji": "毎日",
+            "Romanji": "mainichi",
+            "Nghĩa từ": "mỗi ngày",
+            "Ví dụ": null,
+            "Nghĩa câu": null,
+            "Loại từ": "n"
+          }
+        },
+        {
+          "row_number": 35,
+          "data": {
+            "Hiragana/Katakana": "げつようび",
+            "Kanji": "月曜日",
+            "Romanji": "getsuyoubi",
+            "Nghĩa từ": "thứ Hai",
+            "Ví dụ": null,
+            "Nghĩa câu": null,
+            "Loại từ": "n"
+          }
+        },
+        {
+          "row_number": 36,
+          "data": {
+            "Hiragana/Katakana": "かようび",
+            "Kanji": "火曜日",
+            "Romanji": "kayoubi",
+            "Nghĩa từ": "thứ Ba",
+            "Ví dụ": null,
+            "Nghĩa câu": null,
+            "Loại từ": "n"
+          }
+        },
+        {
+          "row_number": 37,
+          "data": {
+            "Hiragana/Katakana": "すいようび",
+            "Kanji": "水曜日",
+            "Romanji": "suiyoubi",
+            "Nghĩa từ": "thứ Tư",
+            "Ví dụ": null,
+            "Nghĩa câu": null,
+            "Loại từ": "n"
+          }
+        },
+        {
+          "row_number": 38,
+          "data": {
+            "Hiragana/Katakana": "もくようび",
+            "Kanji": "木曜日",
+            "Romanji": "mokuyoubi",
+            "Nghĩa từ": "thứ Năm",
+            "Ví dụ": null,
+            "Nghĩa câu": null,
+            "Loại từ": "n"
+          }
+        },
+        {
+          "row_number": 39,
+          "data": {
+            "Hiragana/Katakana": "きんようび",
+            "Kanji": "金曜日",
+            "Romanji": "kinyoubi",
+            "Nghĩa từ": "thứ Sáu",
+            "Ví dụ": null,
+            "Nghĩa câu": null,
+            "Loại từ": "n"
+          }
+        },
+        {
+          "row_number": 40,
+          "data": {
+            "Hiragana/Katakana": "どようび",
+            "Kanji": "土曜日",
+            "Romanji": "doyoubi",
+            "Nghĩa từ": "thứ Bảy",
+            "Ví dụ": null,
+            "Nghĩa câu": null,
+            "Loại từ": "n"
+          }
+        },
+        {
+          "row_number": 41,
+          "data": {
+            "Hiragana/Katakana": "にちようび",
+            "Kanji": "日曜日",
+            "Romanji": "nichiyoubi",
+            "Nghĩa từ": "Chủ Nhật",
+            "Ví dụ": null,
+            "Nghĩa câu": null,
+            "Loại từ": "n"
+          }
+        },
+        {
+          "row_number": 42,
+          "data": {
+            "Hiragana/Katakana": "なんようび",
+            "Kanji": "何曜日",
+            "Romanji": "nanyoubi",
+            "Nghĩa từ": "thứ mấy",
+            "Ví dụ": null,
+            "Nghĩa câu": null,
+            "Loại từ": "n"
+          }
+        },
+        {
+          "row_number": 43,
+          "data": {
+            "Hiragana/Katakana": "～から",
+            "Kanji": null,
+            "Romanji": "～kara",
+            "Nghĩa từ": "~ từ",
+            "Ví dụ": null,
+            "Nghĩa câu": null,
+            "Loại từ": null
+          }
+        },
+        {
+          "row_number": 44,
+          "data": {
+            "Hiragana/Katakana": "～まで",
+            "Kanji": null,
+            "Romanji": "～made",
+            "Nghĩa từ": "~ đến",
+            "Ví dụ": null,
+            "Nghĩa câu": null,
+            "Loại từ": null
+          }
+        },
+        {
+          "row_number": 45,
+          "data": {
+            "Hiragana/Katakana": "～と～",
+            "Kanji": null,
+            "Romanji": "～to～",
+            "Nghĩa từ": "~ và",
+            "Ví dụ": null,
+            "Nghĩa câu": null,
+            "Loại từ": null
+          }
+        },
+        {
+          "row_number": 46,
+          "data": {
+            "Hiragana/Katakana": "たいへんですね",
+            "Kanji": "大変ですね",
+            "Romanji": "taihenesune",
+            "Nghĩa từ": "vất vả nhỉ",
+            "Ví dụ": null,
+            "Nghĩa câu": null,
+            "Loại từ": null
+          }
+        },
+        {
+          "row_number": 47,
+          "data": {
+            "Hiragana/Katakana": "そちら",
+            "Kanji": null,
+            "Romanji": "sochira",
+            "Nghĩa từ": "ông/bà, phía ông/ phía bà",
+            "Ví dụ": null,
+            "Nghĩa câu": null,
+            "Loại từ": "n"
+          }
+        },
+        {
+          "row_number": 48,
+          "data": {
+            "Hiragana/Katakana": "ニューヨーク",
+            "Kanji": null,
+            "Romanji": "nyu-yo-ku",
+            "Nghĩa từ": "New York",
+            "Ví dụ": null,
+            "Nghĩa câu": null,
+            "Loại từ": "n"
+          }
+        },
+        {
+          "row_number": 49,
+          "data": {
+            "Hiragana/Katakana": "ぺきん",
+            "Kanji": "北京",
+            "Romanji": "pekin",
+            "Nghĩa từ": "Bắc Kinh",
+            "Ví dụ": null,
+            "Nghĩa câu": null,
+            "Loại từ": "n"
+          }
+        },
+        {
+          "row_number": 50,
+          "data": {
+            "Hiragana/Katakana": "ロサンゼルス",
+            "Kanji": null,
+            "Romanji": "rosanzerusu",
+            "Nghĩa từ": "Los Angeles",
+            "Ví dụ": null,
+            "Nghĩa câu": null,
+            "Loại từ": "n"
+          }
+        },
+        {
+          "row_number": 51,
+          "data": {
+            "Hiragana/Katakana": "ロンドン",
+            "Kanji": null,
+            "Romanji": "rondon",
+            "Nghĩa từ": "Luân Đôn",
+            "Ví dụ": null,
+            "Nghĩa câu": null,
+            "Loại từ": "n"
+          }
+        }
+      ]
+    }
+  ]
+}

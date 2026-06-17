@@ -1,0 +1,726 @@
+{
+  "lesson_order": 3,
+  "lesson_title": "Bài 3",
+  "source_file": "Bài 3.xlsx",
+  "vocabulary_count": 60,
+  "sections": [
+    {
+      "section_title": "Từ vựng chính",
+      "headers": [
+        "Hiragana/Katakana",
+        "Kanji",
+        "Romaji",
+        "Nghĩa (từ)",
+        "Ví dụ",
+        "Nghĩa (câu)",
+        "Từ loại"
+      ],
+      "items": [
+        {
+          "row_number": 2,
+          "data": {
+            "Hiragana/Katakana": "かばん",
+            "Kanji": "鞄",
+            "Romaji": "kaban",
+            "Nghĩa (từ)": "túi / cặp",
+            "Ví dụ": "かばんです",
+            "Nghĩa (câu)": "Đây là cái cặp",
+            "Từ loại": "N"
+          }
+        },
+        {
+          "row_number": 3,
+          "data": {
+            "Hiragana/Katakana": "リュック",
+            "Kanji": null,
+            "Romaji": "ryukku",
+            "Nghĩa (từ)": "ba lô",
+            "Ví dụ": "リュックです",
+            "Nghĩa (câu)": "Đây là ba lô",
+            "Từ loại": "N"
+          }
+        },
+        {
+          "row_number": 4,
+          "data": {
+            "Hiragana/Katakana": "とけい",
+            "Kanji": "時計",
+            "Romaji": "tokei",
+            "Nghĩa (từ)": "đồng hồ",
+            "Ví dụ": "とけいです",
+            "Nghĩa (câu)": "Đây là đồng hồ",
+            "Từ loại": "N"
+          }
+        },
+        {
+          "row_number": 5,
+          "data": {
+            "Hiragana/Katakana": "さいふ",
+            "Kanji": "財布",
+            "Romaji": "saifu",
+            "Nghĩa (từ)": "ví tiền",
+            "Ví dụ": "さいふです",
+            "Nghĩa (câu)": "Đây là ví",
+            "Từ loại": "N"
+          }
+        },
+        {
+          "row_number": 6,
+          "data": {
+            "Hiragana/Katakana": "スマホ",
+            "Kanji": null,
+            "Romaji": "sumaho",
+            "Nghĩa (từ)": "điện thoại",
+            "Ví dụ": "スマホです",
+            "Nghĩa (câu)": "Đây là điện thoại",
+            "Từ loại": "N"
+          }
+        },
+        {
+          "row_number": 7,
+          "data": {
+            "Hiragana/Katakana": "かぎ",
+            "Kanji": "鍵",
+            "Romaji": "kagi",
+            "Nghĩa (từ)": "chìa khóa",
+            "Ví dụ": "かぎです",
+            "Nghĩa (câu)": "Đây là chìa khóa",
+            "Từ loại": "N"
+          }
+        },
+        {
+          "row_number": 8,
+          "data": {
+            "Hiragana/Katakana": "ノート",
+            "Kanji": null,
+            "Romaji": "nooto",
+            "Nghĩa (từ)": "vở",
+            "Ví dụ": "ノートです",
+            "Nghĩa (câu)": "Đây là quyển vở",
+            "Từ loại": "N"
+          }
+        },
+        {
+          "row_number": 9,
+          "data": {
+            "Hiragana/Katakana": "ペン",
+            "Kanji": null,
+            "Romaji": "pen",
+            "Nghĩa (từ)": "bút",
+            "Ví dụ": "ペンです",
+            "Nghĩa (câu)": "Đây là cây bút",
+            "Từ loại": "N"
+          }
+        },
+        {
+          "row_number": 10,
+          "data": {
+            "Hiragana/Katakana": "えんぴつ",
+            "Kanji": "鉛筆",
+            "Romaji": "enpitsu",
+            "Nghĩa (từ)": "bút chì",
+            "Ví dụ": "えんぴつです",
+            "Nghĩa (câu)": "Đây là bút chì",
+            "Từ loại": "N"
+          }
+        },
+        {
+          "row_number": 11,
+          "data": {
+            "Hiragana/Katakana": "けしゴム",
+            "Kanji": "消しゴム",
+            "Romaji": "keshigomu",
+            "Nghĩa (từ)": "cục tẩy",
+            "Ví dụ": "けしゴムです",
+            "Nghĩa (câu)": "Đây là cục tẩy",
+            "Từ loại": "N"
+          }
+        },
+        {
+          "row_number": 12,
+          "data": {
+            "Hiragana/Katakana": "ほん",
+            "Kanji": "本",
+            "Romaji": "hon",
+            "Nghĩa (từ)": "sách",
+            "Ví dụ": "ほんです",
+            "Nghĩa (câu)": "Đây là quyển sách",
+            "Từ loại": "N"
+          }
+        },
+        {
+          "row_number": 13,
+          "data": {
+            "Hiragana/Katakana": "かみ",
+            "Kanji": "紙",
+            "Romaji": "kami",
+            "Nghĩa (từ)": "giấy",
+            "Ví dụ": "かみです",
+            "Nghĩa (câu)": "Đây là tờ giấy",
+            "Từ loại": "N"
+          }
+        },
+        {
+          "row_number": 14,
+          "data": {
+            "Hiragana/Katakana": "ティッシュ",
+            "Kanji": null,
+            "Romaji": "tisshu",
+            "Nghĩa (từ)": "khăn giấy",
+            "Ví dụ": "ティッシュです",
+            "Nghĩa (câu)": "Đây là khăn giấy",
+            "Từ loại": "N"
+          }
+        },
+        {
+          "row_number": 15,
+          "data": {
+            "Hiragana/Katakana": "カード",
+            "Kanji": null,
+            "Romaji": "kaado",
+            "Nghĩa (từ)": "thẻ",
+            "Ví dụ": "カードです",
+            "Nghĩa (câu)": "Đây là cái thẻ",
+            "Từ loại": "N"
+          }
+        },
+        {
+          "row_number": 16,
+          "data": {
+            "Hiragana/Katakana": "イヤホン",
+            "Kanji": null,
+            "Romaji": "iyahon",
+            "Nghĩa (từ)": "tai nghe",
+            "Ví dụ": "イヤホンです",
+            "Nghĩa (câu)": "Đây là tai nghe",
+            "Từ loại": "N"
+          }
+        },
+        {
+          "row_number": 17,
+          "data": {
+            "Hiragana/Katakana": "くつ",
+            "Kanji": "靴",
+            "Romaji": "kutsu",
+            "Nghĩa (từ)": "giày",
+            "Ví dụ": "くつです",
+            "Nghĩa (câu)": "Đây là đôi giày",
+            "Từ loại": "N"
+          }
+        },
+        {
+          "row_number": 18,
+          "data": {
+            "Hiragana/Katakana": "ぼうし",
+            "Kanji": "帽子",
+            "Romaji": "boushi",
+            "Nghĩa (từ)": "mũ",
+            "Ví dụ": "ぼうしです",
+            "Nghĩa (câu)": "Đây là cái mũ",
+            "Từ loại": "N"
+          }
+        },
+        {
+          "row_number": 19,
+          "data": {
+            "Hiragana/Katakana": "ふく",
+            "Kanji": "服",
+            "Romaji": "fuku",
+            "Nghĩa (từ)": "quần áo",
+            "Ví dụ": "ふくです",
+            "Nghĩa (câu)": "Đây là quần áo",
+            "Từ loại": "N"
+          }
+        },
+        {
+          "row_number": 20,
+          "data": {
+            "Hiragana/Katakana": "シャツ",
+            "Kanji": null,
+            "Romaji": "shatsu",
+            "Nghĩa (từ)": "áo sơ mi",
+            "Ví dụ": "シャツです",
+            "Nghĩa (câu)": "Đây là áo sơ mi",
+            "Từ loại": "N"
+          }
+        },
+        {
+          "row_number": 21,
+          "data": {
+            "Hiragana/Katakana": "ズボン",
+            "Kanji": null,
+            "Romaji": "zubon",
+            "Nghĩa (từ)": "quần",
+            "Ví dụ": "ズボンです",
+            "Nghĩa (câu)": "Đây là cái quần",
+            "Từ loại": "N"
+          }
+        },
+        {
+          "row_number": 22,
+          "data": {
+            "Hiragana/Katakana": "スカート",
+            "Kanji": null,
+            "Romaji": "sukaato",
+            "Nghĩa (từ)": "váy",
+            "Ví dụ": "スカートです",
+            "Nghĩa (câu)": "Đây là váy",
+            "Từ loại": "N"
+          }
+        },
+        {
+          "row_number": 23,
+          "data": {
+            "Hiragana/Katakana": "コート",
+            "Kanji": null,
+            "Romaji": "kooto",
+            "Nghĩa (từ)": "áo khoác",
+            "Ví dụ": "コートです",
+            "Nghĩa (câu)": "Đây là áo khoác",
+            "Từ loại": "N"
+          }
+        },
+        {
+          "row_number": 24,
+          "data": {
+            "Hiragana/Katakana": "てぶくろ",
+            "Kanji": "手袋",
+            "Romaji": "tebukuro",
+            "Nghĩa (từ)": "găng tay",
+            "Ví dụ": "てぶくろです",
+            "Nghĩa (câu)": "Đây là găng tay",
+            "Từ loại": "N"
+          }
+        },
+        {
+          "row_number": 25,
+          "data": {
+            "Hiragana/Katakana": "くつした",
+            "Kanji": "靴下",
+            "Romaji": "kutsushita",
+            "Nghĩa (từ)": "tất",
+            "Ví dụ": "くつしたです",
+            "Nghĩa (câu)": "Đây là tất",
+            "Từ loại": "N"
+          }
+        },
+        {
+          "row_number": 26,
+          "data": {
+            "Hiragana/Katakana": "めがね",
+            "Kanji": "眼鏡",
+            "Romaji": "megane",
+            "Nghĩa (từ)": "kính mắt",
+            "Ví dụ": "めがねです",
+            "Nghĩa (câu)": "Đây là kính",
+            "Từ loại": "N"
+          }
+        },
+        {
+          "row_number": 27,
+          "data": {
+            "Hiragana/Katakana": "てちょう",
+            "Kanji": "手帳",
+            "Romaji": "techou",
+            "Nghĩa (từ)": "sổ tay",
+            "Ví dụ": "てちょうです",
+            "Nghĩa (câu)": "Đây là sổ tay",
+            "Từ loại": "N"
+          }
+        },
+        {
+          "row_number": 28,
+          "data": {
+            "Hiragana/Katakana": "かさ",
+            "Kanji": "傘",
+            "Romaji": "kasa",
+            "Nghĩa (từ)": "ô / dù",
+            "Ví dụ": "かさです",
+            "Nghĩa (câu)": "Đây là cái ô",
+            "Từ loại": "N"
+          }
+        },
+        {
+          "row_number": 29,
+          "data": {
+            "Hiragana/Katakana": "いす",
+            "Kanji": "椅子",
+            "Romaji": "isu",
+            "Nghĩa (từ)": "ghế",
+            "Ví dụ": "いすです",
+            "Nghĩa (câu)": "Đây là ghế",
+            "Từ loại": "N"
+          }
+        },
+        {
+          "row_number": 30,
+          "data": {
+            "Hiragana/Katakana": "つくえ",
+            "Kanji": "机",
+            "Romaji": "tsukue",
+            "Nghĩa (từ)": "bàn",
+            "Ví dụ": "つくえです",
+            "Nghĩa (câu)": "Đây là bàn",
+            "Từ loại": "N"
+          }
+        },
+        {
+          "row_number": 31,
+          "data": {
+            "Hiragana/Katakana": "ベッド",
+            "Kanji": null,
+            "Romaji": "beddo",
+            "Nghĩa (từ)": "giường",
+            "Ví dụ": "ベッドです",
+            "Nghĩa (câu)": "Đây là giường",
+            "Từ loại": "N"
+          }
+        },
+        {
+          "row_number": 32,
+          "data": {
+            "Hiragana/Katakana": "テレビ",
+            "Kanji": null,
+            "Romaji": "terebi",
+            "Nghĩa (từ)": "tivi",
+            "Ví dụ": "テレビです",
+            "Nghĩa (câu)": "Đây là tivi",
+            "Từ loại": "N"
+          }
+        },
+        {
+          "row_number": 33,
+          "data": {
+            "Hiragana/Katakana": "れいぞうこ",
+            "Kanji": "冷蔵庫",
+            "Romaji": "reizouko",
+            "Nghĩa (từ)": "tủ lạnh",
+            "Ví dụ": "れいぞうこです",
+            "Nghĩa (câu)": "Đây là tủ lạnh",
+            "Từ loại": "N"
+          }
+        },
+        {
+          "row_number": 34,
+          "data": {
+            "Hiragana/Katakana": "せんたくき",
+            "Kanji": "洗濯機",
+            "Romaji": "sentakuki",
+            "Nghĩa (từ)": "máy giặt",
+            "Ví dụ": "せんたくきです",
+            "Nghĩa (câu)": "Đây là máy giặt",
+            "Từ loại": "N"
+          }
+        },
+        {
+          "row_number": 35,
+          "data": {
+            "Hiragana/Katakana": "まど",
+            "Kanji": "窓",
+            "Romaji": "mado",
+            "Nghĩa (từ)": "cửa sổ",
+            "Ví dụ": "まどです",
+            "Nghĩa (câu)": "Đây là cửa sổ",
+            "Từ loại": "N"
+          }
+        },
+        {
+          "row_number": 36,
+          "data": {
+            "Hiragana/Katakana": "ドア",
+            "Kanji": null,
+            "Romaji": "doa",
+            "Nghĩa (từ)": "cửa",
+            "Ví dụ": "ドアです",
+            "Nghĩa (câu)": "Đây là cửa",
+            "Từ loại": "N"
+          }
+        },
+        {
+          "row_number": 37,
+          "data": {
+            "Hiragana/Katakana": "でんき",
+            "Kanji": "電気",
+            "Romaji": "denki",
+            "Nghĩa (từ)": "đèn",
+            "Ví dụ": "でんきです",
+            "Nghĩa (câu)": "Đây là đèn",
+            "Từ loại": "N"
+          }
+        },
+        {
+          "row_number": 38,
+          "data": {
+            "Hiragana/Katakana": "エアコン",
+            "Kanji": null,
+            "Romaji": "eakon",
+            "Nghĩa (từ)": "máy lạnh",
+            "Ví dụ": "エアコンです",
+            "Nghĩa (câu)": "Đây là máy lạnh",
+            "Từ loại": "N"
+          }
+        },
+        {
+          "row_number": 39,
+          "data": {
+            "Hiragana/Katakana": "ほんだな",
+            "Kanji": "本棚",
+            "Romaji": "hondana",
+            "Nghĩa (từ)": "kệ sách",
+            "Ví dụ": "ほんだなです",
+            "Nghĩa (câu)": "Đây là kệ sách",
+            "Từ loại": "N"
+          }
+        }
+      ]
+    },
+    {
+      "section_title": "Phần phụ 2",
+      "headers": [
+        "Số",
+        "Kanji",
+        "Romaji",
+        "Ví dụ",
+        "Nghĩa"
+      ],
+      "items": [
+        {
+          "row_number": 43,
+          "data": {
+            "Số": 1,
+            "Kanji": "一",
+            "Romaji": "ichi",
+            "Ví dụ": "いちです",
+            "Nghĩa": "Số 1"
+          }
+        },
+        {
+          "row_number": 44,
+          "data": {
+            "Số": 2,
+            "Kanji": "二",
+            "Romaji": "ni",
+            "Ví dụ": "にです",
+            "Nghĩa": "Số 2"
+          }
+        },
+        {
+          "row_number": 45,
+          "data": {
+            "Số": 3,
+            "Kanji": "三",
+            "Romaji": "san",
+            "Ví dụ": "さんです",
+            "Nghĩa": "Số 3"
+          }
+        },
+        {
+          "row_number": 46,
+          "data": {
+            "Số": 4,
+            "Kanji": "四",
+            "Romaji": "yon",
+            "Ví dụ": "よんです",
+            "Nghĩa": "Số 4"
+          }
+        },
+        {
+          "row_number": 47,
+          "data": {
+            "Số": 5,
+            "Kanji": "五",
+            "Romaji": "go",
+            "Ví dụ": "ごです",
+            "Nghĩa": "Số 5"
+          }
+        },
+        {
+          "row_number": 48,
+          "data": {
+            "Số": 6,
+            "Kanji": "六",
+            "Romaji": "roku",
+            "Ví dụ": "ろくです",
+            "Nghĩa": "Số 6"
+          }
+        },
+        {
+          "row_number": 49,
+          "data": {
+            "Số": 7,
+            "Kanji": "七",
+            "Romaji": "nana",
+            "Ví dụ": "ななです",
+            "Nghĩa": "Số 7"
+          }
+        },
+        {
+          "row_number": 50,
+          "data": {
+            "Số": 8,
+            "Kanji": "八",
+            "Romaji": "hachi",
+            "Ví dụ": "はちです",
+            "Nghĩa": "Số 8"
+          }
+        },
+        {
+          "row_number": 51,
+          "data": {
+            "Số": 9,
+            "Kanji": "九",
+            "Romaji": "kyuu",
+            "Ví dụ": "きゅうです",
+            "Nghĩa": "Số 9"
+          }
+        },
+        {
+          "row_number": 52,
+          "data": {
+            "Số": 10,
+            "Kanji": "十",
+            "Romaji": "juu",
+            "Ví dụ": "じゅうです",
+            "Nghĩa": "Số 10"
+          }
+        }
+      ]
+    },
+    {
+      "section_title": "Phần phụ 3",
+      "headers": [
+        "Số",
+        "Kanji",
+        "Romaji",
+        "Nghĩa"
+      ],
+      "items": [
+        {
+          "row_number": 55,
+          "data": {
+            "Số": 11,
+            "Kanji": "十一",
+            "Romaji": "juuichi",
+            "Nghĩa": 11
+          }
+        },
+        {
+          "row_number": 56,
+          "data": {
+            "Số": 12,
+            "Kanji": "十二",
+            "Romaji": "juuni",
+            "Nghĩa": 12
+          }
+        },
+        {
+          "row_number": 57,
+          "data": {
+            "Số": 20,
+            "Kanji": "二十",
+            "Romaji": "nijuu",
+            "Nghĩa": 20
+          }
+        },
+        {
+          "row_number": 58,
+          "data": {
+            "Số": 21,
+            "Kanji": "二十一",
+            "Romaji": "nijuuichi",
+            "Nghĩa": 21
+          }
+        },
+        {
+          "row_number": 59,
+          "data": {
+            "Số": 22,
+            "Kanji": "二十二",
+            "Romaji": "nijuuni",
+            "Nghĩa": 22
+          }
+        },
+        {
+          "row_number": 60,
+          "data": {
+            "Số": 30,
+            "Kanji": "三十",
+            "Romaji": "sanjuu",
+            "Nghĩa": 30
+          }
+        },
+        {
+          "row_number": 61,
+          "data": {
+            "Số": 31,
+            "Kanji": "三十一",
+            "Romaji": "sanjuuichi",
+            "Nghĩa": 31
+          }
+        }
+      ]
+    },
+    {
+      "section_title": "Phần phụ 4",
+      "headers": [
+        "Số",
+        "Hiragana",
+        "Romaji",
+        "Ví dụ",
+        "Nghĩa"
+      ],
+      "items": [
+        {
+          "row_number": 64,
+          "data": {
+            "Số": 1,
+            "Hiragana": "ひとつ",
+            "Romaji": "hitotsu",
+            "Ví dụ": "ひとつあります",
+            "Nghĩa": "Có 1 cái"
+          }
+        },
+        {
+          "row_number": 65,
+          "data": {
+            "Số": 2,
+            "Hiragana": "ふたつ",
+            "Romaji": "futatsu",
+            "Ví dụ": "ふたつあります",
+            "Nghĩa": "Có 2 cái"
+          }
+        },
+        {
+          "row_number": 66,
+          "data": {
+            "Số": 3,
+            "Hiragana": "みっつ",
+            "Romaji": "mittsu",
+            "Ví dụ": "みっつあります",
+            "Nghĩa": "Có 3 cái"
+          }
+        },
+        {
+          "row_number": 67,
+          "data": {
+            "Số": 4,
+            "Hiragana": "よっつ",
+            "Romaji": "yottsu",
+            "Ví dụ": "よっつあります",
+            "Nghĩa": "Có 4 cái"
+          }
+        },
+        {
+          "row_number": 68,
+          "data": {
+            "Số": 5,
+            "Hiragana": "いつつ",
+            "Romaji": "itsutsu",
+            "Ví dụ": "いつつあります",
+            "Nghĩa": "Có 5 cái"
+          }
+        }
+      ]
+    }
+  ]
+}

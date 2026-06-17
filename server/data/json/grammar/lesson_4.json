@@ -1,0 +1,102 @@
+{
+  "lesson_no": 4,
+  "lesson_title": "Bài 4",
+  "grammar_points": [
+    {
+      "id": 1,
+      "structure": "いまは〜じ〜ふんです",
+      "meaning": "Bây giờ là ... giờ ... phút",
+      "explanations": [
+        "Dùng để nói giờ hiện tại."
+      ],
+      "examples": [
+        {
+          "japanese": "いまはなんじですか。",
+          "vietnamese": "Bây giờ là mấy giờ?"
+        },
+        {
+          "japanese": "いまは９じ１５ふんです。",
+          "vietnamese": "Bây giờ là 9 giờ 15 phút."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "structure": "Động từ Vます",
+      "meaning": "Thì hiện tại / tương lai, phủ định, quá khứ",
+      "explanations": [
+        "Vます: làm / sẽ làm.",
+        "Vません: không làm / sẽ không làm.",
+        "Vました: đã làm.",
+        "Vませんでした: đã không làm.",
+        "Vますか / Vましたか: dạng câu hỏi."
+      ],
+      "examples": [
+        {
+          "japanese": "はい、Vます。",
+          "vietnamese": "Vâng, sẽ làm."
+        },
+        {
+          "japanese": "いいえ、Vません。",
+          "vietnamese": "Không, sẽ không làm."
+        },
+        {
+          "japanese": "はい、Vました。",
+          "vietnamese": "Vâng, đã làm."
+        },
+        {
+          "japanese": "いいえ、Vませんでした。",
+          "vietnamese": "Không, đã không làm."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "structure": "N (thời gian) に Vます",
+      "meaning": "Làm V vào thời gian ...",
+      "explanations": [
+        "Dùng với thời gian cụ thể.",
+        "Thời gian không cụ thể thì không đi với に."
+      ],
+      "examples": [
+        {
+          "japanese": "わたしは７じにおきます。",
+          "vietnamese": "Tôi thức dậy lúc 7 giờ."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "structure": "N1 から N2 まで",
+      "meaning": "Từ N1 đến N2",
+      "explanations": [
+        "N1 và N2 có thể là thời gian hoặc địa điểm."
+      ],
+      "examples": [
+        {
+          "japanese": "がっこうは６じから１０じまでです。",
+          "vietnamese": "Trường học mở cửa từ 6 giờ đến 10 giờ."
+        },
+        {
+          "japanese": "うちからぎんこうまで100メートルです。",
+          "vietnamese": "Từ nhà đến ngân hàng 100m."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "structure": "N1 と N2",
+      "meaning": "N1 và N2",
+      "explanations": [
+        "Nối hai danh từ với nhau."
+      ],
+      "examples": [
+        {
+          "japanese": "土曜日と日曜日はやすみです。",
+          "vietnamese": "Thứ bảy và Chủ nhật là ngày nghỉ."
+        }
+      ]
+    }
+  ],
+  "dialogues": []
+}

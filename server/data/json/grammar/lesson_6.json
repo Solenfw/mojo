@@ -1,0 +1,84 @@
+{
+  "lesson_no": 6,
+  "lesson_title": "Bài 6",
+  "grammar_points": [
+    {
+      "id": 1,
+      "structure": "N を Vます",
+      "meaning": "Làm V",
+      "explanations": [
+        "N là đối tượng của hành động.",
+        "を chỉ đối tượng tác động của hành động.",
+        "Vます là động từ.",
+        "N を します cũng là một dạng động từ."
+      ],
+      "examples": [
+        {
+          "japanese": "にほんごをべんきょうします。",
+          "vietnamese": "Học tiếng Nhật."
+        },
+        {
+          "japanese": "ごはんをたべます。",
+          "vietnamese": "Ăn cơm."
+        },
+        {
+          "japanese": "なにもVません。",
+          "vietnamese": "Không làm gì cả."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "structure": "N (địa điểm) で Vます",
+      "meaning": "Thực hiện V ở địa điểm N",
+      "explanations": [
+        "Dùng để nói làm gì ở đâu."
+      ],
+      "examples": [
+        {
+          "japanese": "うちでたべます。",
+          "vietnamese": "Ăn ở nhà."
+        },
+        {
+          "japanese": "こうえんでしゃしんをとります。",
+          "vietnamese": "Chụp ảnh ở công viên."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "structure": "いっしょに Vませんか",
+      "meaning": "Cùng làm V với mình chứ?",
+      "explanations": [
+        "Dùng để rủ rê, đề nghị cùng làm gì đó.",
+        "Trả lời tích cực: ええ、いいですね。Vましょう！",
+        "Trả lời từ chối nhẹ: すみません。ちょっと..."
+      ],
+      "examples": [
+        {
+          "japanese": "8じにいっしょうにばんごはんをたべませんか。",
+          "vietnamese": "8 giờ cùng nhau ăn tối chứ?"
+        },
+        {
+          "japanese": "ええ、いいですね。たべましょう。",
+          "vietnamese": "Ừ hay đấy. Cùng ăn thôi nào."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "structure": "Vましょう",
+      "meaning": "Cùng làm thôi nào",
+      "explanations": [
+        "Mang tính cổ động, hô hào."
+      ],
+      "examples": [
+        {
+          "japanese": "みなさん、たべましょう！",
+          "vietnamese": "Mọi người, ăn thôi nào!"
+        }
+      ]
+    }
+  ],
+  "dialogues": []
+}

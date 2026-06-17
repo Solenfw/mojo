@@ -1,0 +1,89 @@
+{
+  "lesson_no": 3,
+  "lesson_title": "Bài 3",
+  "grammar_points": [
+    {
+      "id": 1,
+      "structure": "ここ／そこ／あそこ; こちら／そちら／あちら",
+      "meaning": "Chỗ này / chỗ đó / chỗ kia",
+      "explanations": [
+        "Dùng để chỉ địa điểm, nơi chốn.",
+        "こちら／そちら／あちら lịch sự hơn."
+      ],
+      "examples": [
+        {
+          "japanese": "ここはきょうしつです。",
+          "vietnamese": "Chỗ này là phòng học."
+        },
+        {
+          "japanese": "そこはトイレじゃありません。",
+          "vietnamese": "Chỗ đó không phải toilet."
+        },
+        {
+          "japanese": "あそこはじむしょですか。",
+          "vietnamese": "Chỗ kia là văn phòng phải không?"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "structure": "N は 地点 です",
+      "meaning": "N ở địa điểm ...",
+      "explanations": [
+        "Dùng để xác định vị trí của danh từ."
+      ],
+      "examples": [
+        {
+          "japanese": "しょくどうはここです。",
+          "vietnamese": "Nhà ăn ở đây."
+        },
+        {
+          "japanese": "かいだんはそこです。",
+          "vietnamese": "Cầu thang ở chỗ đó."
+        },
+        {
+          "japanese": "エレベーターはあそこです。",
+          "vietnamese": "Thang máy ở đằng kia."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "structure": "どこ／どちら",
+      "meaning": "Ở đâu / chỗ nào",
+      "explanations": [
+        "Dùng để hỏi địa điểm, nơi chốn."
+      ],
+      "examples": [
+        {
+          "japanese": "トイレはどこですか。",
+          "vietnamese": "Nhà vệ sinh ở đâu vậy?"
+        },
+        {
+          "japanese": "トイレはあそこです。",
+          "vietnamese": "Nhà vệ sinh ở đằng kia."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "structure": "N1 の N2",
+      "meaning": "N2 của N1",
+      "explanations": [
+        "Dùng để giới thiệu sản phẩm của công ty hoặc quốc gia.",
+        "N1 có thể là tên quốc gia/công ty; N2 là tên sản phẩm/đồ vật."
+      ],
+      "examples": [
+        {
+          "japanese": "にほんのチョコレートです。",
+          "vietnamese": "Chocolate của Nhật Bản."
+        },
+        {
+          "japanese": "これはアメリカのワインです。",
+          "vietnamese": "Đây là rượu vang của Mỹ."
+        }
+      ]
+    }
+  ],
+  "dialogues": []
+}
