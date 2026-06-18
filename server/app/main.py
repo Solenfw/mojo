@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from api.v1 import auth, users, srs, gamification, lessons, league
+from api.v1 import auth, users, srs, gamification, lessons, league, onboarding, nlp
 
 app = FastAPI(
     title="Linguasphere API",
@@ -20,9 +20,9 @@ app.add_middleware(
 api_prefix = "/api/v1"
 app.include_router(auth.router, prefix=api_prefix)
 app.include_router(users.router, prefix=api_prefix)
-# app.include_router(onboarding.router, prefix=api_prefix, tags=["onboarding"])
+app.include_router(onboarding.router, prefix=api_prefix)
 app.include_router(srs.router, prefix=api_prefix, tags=["srs"])
-# app.include_router(nlp.router, prefix=api_prefix, tags=["nlp"])
+app.include_router(nlp.router, prefix=api_prefix)
 # app.include_router(admin.router, prefix=api_prefix, tags=["admin"])
 app.include_router(gamification.router, prefix=api_prefix, tags=["gamification"])
 app.include_router(lessons.router, prefix=api_prefix, tags=["lessons"])

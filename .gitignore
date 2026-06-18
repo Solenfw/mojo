@@ -47,6 +47,8 @@ next-env.d.ts
 venv/
 env/
 .env/
+.pip-local/
+.python-packages/
 
 # Python cache
 __pycache__/
@@ -84,3 +86,7 @@ htmlcov/
 # local trivial files
 *.local
 temp.py
+client/node_modules/
+.tools/
+get-pip.py
+node-v*.tar.xz

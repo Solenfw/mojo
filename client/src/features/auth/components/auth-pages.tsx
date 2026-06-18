@@ -173,6 +173,10 @@ export const SignUpForm = ({
            </div>
         </div>
         <div className="space-y-2">
+           <label className="text-xs font-bold uppercase tracking-widest text-primary/60 ml-1">Phone Number</label>
+           <Input name="phone" type="tel" placeholder="0988888888" className="h-12 rounded-xl bg-muted/30 border-none focus-visible:ring-primary/20" />
+        </div>
+        <div className="space-y-2">
            <label className="text-xs font-bold uppercase tracking-widest text-primary/60 ml-1">Password</label>
            <div className="relative">
               <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />

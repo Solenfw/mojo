@@ -1,0 +1,189 @@
+{
+  "lesson": "Bài đọc Tiếng Nhật - Bài 3",
+  "title": "デパートで りんごを かいます / いま、どこに いますか。",
+  "reading_passages": [
+    {
+      "id": 1,
+      "title": "デパートで りんごを かいます",
+      "vietnamese_title": "Mua táo ở cửa hàng",
+      "japanese": [
+        "ナムさんは デパートへ いきます。"
+      ],
+      "conversation": [
+        {
+          "speaker": "ナム",
+          "japanese": "すみません。りんごは ありますか。",
+          "vietnamese": "Xin lỗi. Có táo không ạ?"
+        },
+        {
+          "speaker": "店員",
+          "japanese": "はい、あります。",
+          "vietnamese": "Vâng, có ạ."
+        },
+        {
+          "speaker": "ナム",
+          "japanese": "いくらですか。",
+          "vietnamese": "Bao nhiêu tiền vậy?"
+        },
+        {
+          "speaker": "店員",
+          "japanese": "３００えんです。",
+          "vietnamese": "300 yên ạ."
+        },
+        {
+          "speaker": "ナム",
+          "japanese": "じゃ、５つ ください。",
+          "vietnamese": "Vậy cho tôi 5 cái."
+        }
+      ],
+      "japanese_after": [
+        "ナムさんは りんごを ５つ かいました。"
+      ]
+    },
+    {
+      "id": 2,
+      "title": "いま、どこに いますか。",
+      "vietnamese_title": "Bây giờ bạn đang ở đâu?",
+      "conversation": [
+        {
+          "speaker": "リン",
+          "japanese": "もしもし、ゴックさん、どこですか。",
+          "vietnamese": "A lô, Goku, bạn đang ở đâu?"
+        },
+        {
+          "speaker": "ゴック",
+          "japanese": "わたしは ３かいに います。",
+          "vietnamese": "Tôi đang ở tầng 3."
+        },
+        {
+          "speaker": "リン",
+          "japanese": "わたしは １かいに います。",
+          "vietnamese": "Tôi đang ở tầng 1."
+        },
+        {
+          "speaker": "ゴック",
+          "japanese": "エレベーターで きてください。",
+          "vietnamese": "Hãy đến bằng thang máy nhé."
+        },
+        {
+          "speaker": "リン",
+          "japanese": "はい、いま いきます。",
+          "vietnamese": "Vâng, bây giờ tôi đi."
+        }
+      ]
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "デパート",
+      "meaning": "cửa hàng lớn"
+    },
+    {
+      "word": "りんご",
+      "meaning": "táo"
+    },
+    {
+      "word": "あります",
+      "meaning": "có"
+    },
+    {
+      "word": "いくら",
+      "meaning": "bao nhiêu tiền"
+    },
+    {
+      "word": "えん",
+      "meaning": "yên"
+    },
+    {
+      "word": "ください",
+      "meaning": "cho tôi"
+    },
+    {
+      "word": "５つ",
+      "meaning": "5 cái"
+    },
+    {
+      "word": "いま",
+      "meaning": "bây giờ"
+    },
+    {
+      "word": "どこ",
+      "meaning": "đâu"
+    },
+    {
+      "word": "います",
+      "meaning": "ở / có (người)"
+    },
+    {
+      "word": "１かい",
+      "meaning": "tầng 1"
+    },
+    {
+      "word": "３かい",
+      "meaning": "tầng 3"
+    },
+    {
+      "word": "エレベーター",
+      "meaning": "thang máy"
+    },
+    {
+      "word": "いきます",
+      "meaning": "đi"
+    },
+    {
+      "word": "きてください",
+      "meaning": "hãy đến"
+    }
+  ],
+  "exercises": [
+    {
+      "id": 1,
+      "title": "ただしいですか",
+      "type": "true_false",
+      "questions": [
+        {
+          "id": 1,
+          "statement": "ナムさんは デパートへ いきます。",
+          "answer": "〇"
+        },
+        {
+          "id": 2,
+          "statement": "りんごは ３００えんです。",
+          "answer": "〇"
+        },
+        {
+          "id": 3,
+          "statement": "ナムさんは みかんを かいます。",
+          "answer": "✕"
+        },
+        {
+          "id": 4,
+          "statement": "ナムさんは りんごを ５つ かいます。",
+          "answer": "〇"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "問題",
+      "type": "short_answer",
+      "questions": [
+        {
+          "id": 1,
+          "question": "ゴックさんは どこに いますか。",
+          "answer": "３かいに います。"
+        },
+        {
+          "id": 2,
+          "question": "リンさんは なんかいに いますか。",
+          "answer": "１かいに います。"
+        },
+        {
+          "id": 3,
+          "question": "リンさんは どうやって いきますか。",
+          "answer": "エレベーターで いきます。"
+        }
+      ]
+    }
+  ]
+}

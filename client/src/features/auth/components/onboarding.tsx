@@ -13,10 +13,13 @@ import {
 import { Button } from '@/components/ui/button';
 
 interface OnboardingProps {
-  onComplete: (data: { level: string; goal: string; time: string }) => void;
+  onComplete: (data: { level: string; goal: string; time: string }) => Promise<void> | void;
+  onSkip?: () => void;
+  isSubmitting?: boolean;
+  error?: string | null;
 }
 
-export const Onboarding = ({ onComplete }: OnboardingProps) => {
+export const Onboarding = ({ onComplete, onSkip, isSubmitting = false, error = null }: OnboardingProps) => {
   const [step, setStep] = useState(1);
   const [data, setData] = useState({
     level: 'n5',
@@ -39,7 +42,7 @@ export const Onboarding = ({ onComplete }: OnboardingProps) => {
 
   const nextStep = () => {
     if (step < 3) setStep(step + 1);
-    else onComplete(data);
+    else void onComplete(data);
   };
 
   return (
@@ -160,12 +163,18 @@ export const Onboarding = ({ onComplete }: OnboardingProps) => {
           )}
         </AnimatePresence>
 
+        {error ? (
+          <div className="mt-6 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+            {error}
+          </div>
+        ) : null}
+
         <div className="flex justify-between items-center mt-12 pt-8 border-t border-gray-100">
           <Button 
             variant="ghost" 
             className="text-xs font-bold uppercase tracking-widest text-muted-foreground hover:text-primary"
             onClick={() => setStep(prev => Math.max(1, prev - 1))}
-            disabled={step === 1}
+            disabled={step === 1 || isSubmitting}
           >
             Back
           </Button>
@@ -174,7 +183,8 @@ export const Onboarding = ({ onComplete }: OnboardingProps) => {
                <Button 
                 variant="outline" 
                 className="text-xs font-bold uppercase tracking-widest hover:bg-gray-50 rounded-xl"
-                onClick={() => onComplete(data)}
+                onClick={onSkip}
+                disabled={isSubmitting}
               >
                 Skip for now
               </Button>
@@ -182,8 +192,9 @@ export const Onboarding = ({ onComplete }: OnboardingProps) => {
             <Button 
               className="px-8 h-12 bg-accent hover:bg-accent/90 rounded-xl font-bold gap-2 text-sm shadow-lg shadow-accent/20"
               onClick={nextStep}
+              disabled={isSubmitting}
             >
-              {step === 3 ? 'Finish Setup' : 'Next Step'}
+              {isSubmitting ? 'Saving...' : step === 3 ? 'Finish Setup' : 'Next Step'}
               <ArrowRight className="w-4 h-4" />
             </Button>
           </div>

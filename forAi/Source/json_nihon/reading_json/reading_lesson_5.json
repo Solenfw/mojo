@@ -1,0 +1,291 @@
+{
+  "lesson": "Bài đọc Tiếng Nhật - Bài 5",
+  "title": "にほんへ いきます",
+  "reading_passages": [
+    {
+      "id": 1,
+      "title": "にほんへ いきます",
+      "japanese": [
+        "ヤマモトさんは がくせいです。らいねん にほんへ いきます。きょうは ５がつ なのかです。ヤマモトさんは スーパーで さくらさんに あいました。"
+      ],
+      "conversation": [
+        {
+          "speaker": "さくら",
+          "japanese": "ヤマモトさん、こんにちは。",
+          "vietnamese": "Yamamoto, xin chào."
+        },
+        {
+          "speaker": "ヤマモト",
+          "japanese": "こんにちは。",
+          "vietnamese": "Xin chào."
+        },
+        {
+          "speaker": "さくら",
+          "japanese": "にほんへ いつ いきますか。",
+          "vietnamese": "Khi nào bạn đi Nhật vậy?"
+        },
+        {
+          "speaker": "ヤマモト",
+          "japanese": "らいねんの ４がつに いきます。",
+          "vietnamese": "Tháng 4 năm sau tôi sẽ đi."
+        },
+        {
+          "speaker": "さくら",
+          "japanese": "なにで いきますか。",
+          "vietnamese": "Bạn đi bằng gì?"
+        },
+        {
+          "speaker": "ヤマモト",
+          "japanese": "ひこうきで いきます。",
+          "vietnamese": "Tôi đi bằng máy bay."
+        },
+        {
+          "speaker": "さくら",
+          "japanese": "そうですか。とうきょうまで ひとりで いきますか。",
+          "vietnamese": "Vậy à. Bạn sẽ đi một mình đến Tokyo sao?"
+        },
+        {
+          "speaker": "ヤマモト",
+          "japanese": "いいえ、ともだちと いきます。",
+          "vietnamese": "Không, tôi đi cùng bạn bè."
+        },
+        {
+          "speaker": "さくら",
+          "japanese": "ごかぞくは？",
+          "vietnamese": "Còn gia đình bạn thì sao?"
+        },
+        {
+          "speaker": "ヤマモト",
+          "japanese": "かぞくは ベトナムに います。",
+          "vietnamese": "Gia đình tôi ở Việt Nam."
+        },
+        {
+          "speaker": "さくら",
+          "japanese": "にほんで どこへ いきますか。",
+          "vietnamese": "Ở Nhật bạn sẽ đi đâu?"
+        },
+        {
+          "speaker": "ヤマモト",
+          "japanese": "えきから でんしゃに のります。しんかんせんにも のりたいです。",
+          "vietnamese": "Từ ga tôi sẽ đi tàu điện. Tôi cũng muốn đi Shinkansen nữa."
+        },
+        {
+          "speaker": "さくら",
+          "japanese": "いいですね。",
+          "vietnamese": "Nghe tuyệt nhỉ."
+        },
+        {
+          "speaker": "ヤマモト",
+          "japanese": "はい。ちかてつや バスにも のります。でも、ちいさい まちは あるいて いきたいです。",
+          "vietnamese": "Vâng. Tôi cũng sẽ đi tàu điện ngầm và xe buýt. Nhưng ở những thị trấn nhỏ, tôi muốn đi bộ."
+        },
+        {
+          "speaker": "さくら",
+          "japanese": "たんじょうびは いつですか。",
+          "vietnamese": "Sinh nhật bạn là khi nào?"
+        },
+        {
+          "speaker": "ヤマモト",
+          "japanese": "８がつ ようかです。",
+          "vietnamese": "Ngày 8 tháng 8."
+        },
+        {
+          "speaker": "さくら",
+          "japanese": "そうですか。たんじょうびに なにを しますか。",
+          "vietnamese": "Vậy à. Vào sinh nhật bạn sẽ làm gì?"
+        },
+        {
+          "speaker": "ヤマモト",
+          "japanese": "ともだちと レストランへ いきます。",
+          "vietnamese": "Tôi sẽ đi nhà hàng cùng bạn bè."
+        },
+        {
+          "speaker": "さくら",
+          "japanese": "どうも ありがとうございます。しゃしんを みせてくださいね。",
+          "vietnamese": "Cảm ơn bạn rất nhiều. Nhớ cho tôi xem ảnh nhé."
+        },
+        {
+          "speaker": "ヤマモト",
+          "japanese": "はい、もちろんです。どうも ありがとうございます。",
+          "vietnamese": "Vâng, tất nhiên rồi. Cảm ơn bạn rất nhiều."
+        },
+        {
+          "speaker": "さくら",
+          "japanese": "どう いたしまして。",
+          "vietnamese": "Không có gì."
+        }
+      ],
+      "vietnamese": [
+        "Yamamoto là sinh viên. Năm sau anh ấy sẽ đi Nhật. Hôm nay là ngày 7 tháng 5. Yamamoto đã gặp Sakura ở siêu thị."
+      ]
+    }
+  ],
+  "vocabulary": [
+    {
+      "hiragana_katakana": "いきます",
+      "kanji": "行きます",
+      "romaji": "ikimasu",
+      "meaning": "đi"
+    },
+    {
+      "hiragana_katakana": "ひこうき",
+      "kanji": "飛行機",
+      "romaji": "hikouki",
+      "meaning": "máy bay"
+    },
+    {
+      "hiragana_katakana": "でんしゃ",
+      "kanji": "電車",
+      "romaji": "densha",
+      "meaning": "tàu điện"
+    },
+    {
+      "hiragana_katakana": "ちかてつ",
+      "kanji": "地下鉄",
+      "romaji": "chikatetsu",
+      "meaning": "tàu điện ngầm"
+    },
+    {
+      "hiragana_katakana": "しんかんせん",
+      "kanji": "新幹線",
+      "romaji": "shinkansen",
+      "meaning": "tàu shinkansen"
+    },
+    {
+      "hiragana_katakana": "バス",
+      "kanji": "",
+      "romaji": "basu",
+      "meaning": "xe buýt"
+    },
+    {
+      "hiragana_katakana": "あるいて",
+      "kanji": "歩いて",
+      "romaji": "aruite",
+      "meaning": "đi bộ"
+    },
+    {
+      "hiragana_katakana": "えき",
+      "kanji": "駅",
+      "romaji": "eki",
+      "meaning": "ga tàu"
+    },
+    {
+      "hiragana_katakana": "ともだち",
+      "kanji": "友達",
+      "romaji": "tomodachi",
+      "meaning": "bạn bè"
+    },
+    {
+      "hiragana_katakana": "かぞく",
+      "kanji": "家族",
+      "romaji": "kazoku",
+      "meaning": "gia đình"
+    },
+    {
+      "hiragana_katakana": "ひとりで",
+      "kanji": "一人で",
+      "romaji": "hitoride",
+      "meaning": "một mình"
+    },
+    {
+      "hiragana_katakana": "らいねん",
+      "kanji": "来年",
+      "romaji": "rainen",
+      "meaning": "năm sau"
+    },
+    {
+      "hiragana_katakana": "たんじょうび",
+      "kanji": "誕生日",
+      "romaji": "tanjoubi",
+      "meaning": "sinh nhật"
+    },
+    {
+      "hiragana_katakana": "スーパー",
+      "kanji": "",
+      "romaji": "suupaa",
+      "meaning": "siêu thị"
+    },
+    {
+      "hiragana_katakana": "いつ",
+      "kanji": "",
+      "romaji": "itsu",
+      "meaning": "khi nào"
+    }
+  ],
+  "exercises": [
+    {
+      "id": 1,
+      "title": "ただしいですか。〇か✕をつけてください",
+      "type": "true_false",
+      "questions": [
+        {
+          "id": 1,
+          "statement": "ヤマモトさんは ことし にほんへ いきます。",
+          "answer": "✕"
+        },
+        {
+          "id": 2,
+          "statement": "ヤマモトさんは ひこうきで にほんへ いきます。",
+          "answer": "〇"
+        },
+        {
+          "id": 3,
+          "statement": "ヤマモトさんは ひとりで にほんへ いきます。",
+          "answer": "✕"
+        },
+        {
+          "id": 4,
+          "statement": "ヤマモトさんの かぞくは にほんに います。",
+          "answer": "✕"
+        },
+        {
+          "id": 5,
+          "statement": "ヤマモトさんは しんかんせんに のりたいです。",
+          "answer": "〇"
+        },
+        {
+          "id": 6,
+          "statement": "ヤマモトさんの たんじょうびは ８がつ ようかです。",
+          "answer": "〇"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "しつもんにこたえてください",
+      "type": "short_answer",
+      "questions": [
+        {
+          "id": 1,
+          "question": "ヤマモトさんは いつ にほんへ いきますか。",
+          "answer": "らいねんの ４がつに いきます。"
+        },
+        {
+          "id": 2,
+          "question": "なにで にほんへ いきますか。",
+          "answer": "ひこうきで いきます。"
+        },
+        {
+          "id": 3,
+          "question": "だれと にほんへ いきますか。",
+          "answer": "ともだちと いきます。"
+        },
+        {
+          "id": 4,
+          "question": "かぞくは どこに いますか。",
+          "answer": "ベトナムに います。"
+        },
+        {
+          "id": 5,
+          "question": "ヤマモトさんは なにに のりたいですか。",
+          "answer": "しんかんせんに のりたいです。"
+        },
+        {
+          "id": 6,
+          "question": "たんじょうびは いつですか。",
+          "answer": "８がつ ようかです。"
+        }
+      ]
+    }
+  ]
+}

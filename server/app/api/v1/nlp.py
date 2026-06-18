@@ -1,39 +1,41 @@
-# from fastapi import APIRouter, Depends
-# from pydantic import BaseModel
+from fastapi import APIRouter, Depends, HTTPException, status
+from pydantic import BaseModel, Field
 
-# from app.api.v1.users import get_current_user
-# from app.db import models
-# from app.services.mecab_service import MeCabService
-# from app.services.gpt_service import GPTService
+from app.api.deps import get_current_user
+from app.db import models
+from app.services.mecab_service import MeCabService
 
-# router = APIRouter()
+router = APIRouter(prefix="/nlp", tags=["nlp"])
 
-# mecab_service = MeCabService()
-# gpt_service = GPTService()
+mecab_service = MeCabService()
 
 
-# class TokenizeRequest(BaseModel):
-#     text: str
+class TokenizeRequest(BaseModel):
+    text: str = Field(default="", max_length=5000)
 
 
-# class ExplainRequest(BaseModel):
-#     sentence: str
-#     context: str
+class TokenizeItem(BaseModel):
+    word: str
+    reading: str
+    pos: str
 
 
-# @router.post("/nlp/tokenize")
-# async def tokenize_text(
-#     request: TokenizeRequest,
-#     current_user: models.User = Depends(get_current_user),
-# ):
-#     tokens = mecab_service.tokenize_japanese_sentence(request.text)
-#     return {"tokens": tokens}
+class TokenizeResponse(BaseModel):
+    tokens: list[TokenizeItem]
 
 
-# @router.post("/nlp/ai-explain")
-# async def explain_grammar(
-#     request: ExplainRequest,
-#     current_user: models.User = Depends(get_current_user),
-# ):
-#     explanation = await gpt_service.explain_grammar(request.sentence, request.context)
-#     return {"explanation": explanation}
+@router.post("/tokenize", response_model=TokenizeResponse)
+async def tokenize_text(
+    request: TokenizeRequest,
+    current_user: models.User = Depends(get_current_user),
+):
+    del current_user
+    try:
+        tokens = mecab_service.tokenize_japanese_sentence(request.text)
+    except RuntimeError as exc:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail=str(exc),
+        ) from exc
+
+    return {"tokens": tokens}

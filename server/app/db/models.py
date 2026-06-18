@@ -94,13 +94,21 @@ class Users(Base):
     __table_args__ = (
         PrimaryKeyConstraint('id', name='users_pkey'),
         UniqueConstraint('email', name='users_email_key'),
+        UniqueConstraint('phone', name='users_phone_key'),
         UniqueConstraint('username', name='users_username_key')
     )
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     username: Mapped[str] = mapped_column(String(50), nullable=False)
+    full_name: Mapped[Optional[str]] = mapped_column(String(255))
     email: Mapped[str] = mapped_column(String(120), nullable=False)
+    phone: Mapped[Optional[str]] = mapped_column(String(20))
     hashed_password: Mapped[str] = mapped_column(String(128), nullable=False)
+    session_token: Mapped[Optional[str]] = mapped_column(String(512))
+    is_logged_in: Mapped[Optional[bool]] = mapped_column(Boolean, server_default=text('false'))
+    last_login_at: Mapped[Optional[datetime.datetime]] = mapped_column(DateTime(True))
+    is_onboarded: Mapped[Optional[bool]] = mapped_column(Boolean, server_default=text('false'))
+    onboarded_at: Mapped[Optional[datetime.datetime]] = mapped_column(DateTime(True))
     created_at: Mapped[datetime.datetime] = mapped_column(DateTime, nullable=False, server_default=text('now()'))
     updated_at: Mapped[datetime.datetime] = mapped_column(DateTime, nullable=False, server_default=text('now()'))
 
@@ -244,7 +252,7 @@ class Feedbacks(Base):
     user: Mapped['Users'] = relationship('Users', back_populates='feedbacks')
 
 
-class LearnerProfiles(Users):
+class LearnerProfiles(Base):
     __tablename__ = 'learner_profiles'
     __table_args__ = (
         ForeignKeyConstraint(['user_id'], ['users.id'], ondelete='CASCADE', name='learner_profiles_user_id_fkey'),
@@ -260,6 +268,8 @@ class LearnerProfiles(Users):
     study_goal: Mapped[Optional[str]] = mapped_column(Text)
     study_mode: Mapped[Optional[str]] = mapped_column(String(50))
     commitment_hours_per_week: Mapped[Optional[int]] = mapped_column(Integer)
+
+    user: Mapped['Users'] = relationship('Users')
 
 
 class LearningPlans(Base):

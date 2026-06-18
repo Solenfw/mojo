@@ -3,7 +3,7 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import { AuthLayout, SignUpForm } from '@/features/auth/components/auth-pages';
-import { register, saveToken } from '@/lib/auth';
+import { checkUserByEmailOrPhone, register, saveToken } from '@/lib/auth';
 
 export default function SignUpPage() {
   const router = useRouter();
@@ -18,10 +18,15 @@ export default function SignUpPage() {
     const formData = new FormData(e.currentTarget);
     const fullName = formData.get('fullName') as string;
     const email = formData.get('email') as string;
+    const phone = formData.get('phone') as string;
     const password = formData.get('password') as string;
 
     try {
-      const token = await register(email, password, fullName);
+      await checkUserByEmailOrPhone({
+        email,
+        phone: phone || undefined,
+      });
+      const token = await register(email, password, fullName, phone || undefined);
       saveToken(token.access_token);
       router.push('/onboarding');
     } catch (err) {

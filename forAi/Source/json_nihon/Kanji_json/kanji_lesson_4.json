@@ -1,0 +1,983 @@
+{
+  "lesson": "Chữ Hán Tiếng Nhật - Lesson 4",
+  "grammar_points": [
+    {
+      "id": 1,
+      "structure": "Nhóm Kanji chỉ thời gian",
+      "meaning": "Các chữ Hán dùng để nói về giờ, phút, hiện tại, trước/sau và buổi sáng/buổi chiều.",
+      "explanations": [
+        "時 dùng để chỉ giờ hoặc thời gian; khi hỏi mấy giờ dùng 何時（なんじ）.",
+        "分 dùng để chỉ phút; tùy số đứng trước mà đọc là ふん hoặc ぷん.",
+        "半 nghĩa là một nửa/rưỡi, thường dùng trong cách nói giờ như 三時半.",
+        "午 kết hợp với 前 và 後 tạo thành 午前（ごぜん: buổi sáng/AM）và 午後（ごご: buổi chiều/PM）.",
+        "今, 前, 後 dùng để nói về bây giờ, trước và sau."
+      ],
+      "examples": [
+        {
+          "japanese": "今、何時ですか。",
+          "vietnamese": "Bây giờ là mấy giờ?"
+        },
+        {
+          "japanese": "今は 十時三十分です。",
+          "vietnamese": "Bây giờ là 10 giờ 30 phút."
+        },
+        {
+          "japanese": "会議は 十時半からです。",
+          "vietnamese": "Cuộc họp bắt đầu từ 10 giờ rưỡi."
+        },
+        {
+          "japanese": "午後に 銀行へ 行きます。",
+          "vietnamese": "Tôi sẽ đi ngân hàng vào buổi chiều."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "structure": "Nhóm Kanji chỉ hành động",
+      "meaning": "Các chữ Hán thường gặp trong động từ đi, đến và nghỉ ngơi.",
+      "explanations": [
+        "行 có nghĩa là đi, thường đọc là い・く khi dùng trong động từ 行きます.",
+        "来 có nghĩa là đến, thường đọc là く・る khi dùng trong động từ 来ます.",
+        "休 có nghĩa là nghỉ ngơi, thường đọc là やす・む hoặc xuất hiện trong từ 休み."
+      ],
+      "examples": [
+        {
+          "japanese": "明日、大学へ 行きます。",
+          "vietnamese": "Ngày mai tôi đi đến trường đại học."
+        },
+        {
+          "japanese": "友達が うちに 来ます。",
+          "vietnamese": "Bạn sẽ đến nhà tôi."
+        },
+        {
+          "japanese": "土曜日は 学校を 休んでいます。",
+          "vietnamese": "Thứ Bảy tôi nghỉ học."
+        }
+      ]
+    }
+  ],
+  "kanji_vocabulary": [
+    {
+      "id": 1,
+      "kanji": "時",
+      "han_viet": "Thời",
+      "meaning": "Giờ, thời gian",
+      "onyomi": "ジ (JI)",
+      "kunyomi": "とき (toki)",
+      "components": [
+        "日",
+        "寺"
+      ],
+      "vocabulary": [
+        {
+          "word": "何時",
+          "reading": "なんじ",
+          "meaning": "Mấy giờ"
+        },
+        {
+          "word": "時計",
+          "reading": "とけい",
+          "meaning": "Đồng hồ"
+        },
+        {
+          "word": "時々",
+          "reading": "ときどき",
+          "meaning": "Thỉnh thoảng"
+        }
+      ],
+      "examples": [
+        {
+          "japanese": "今、何時ですか。",
+          "vietnamese": "Bây giờ là mấy giờ?"
+        }
+      ],
+      "stroke_order": [
+        {
+          "order": 1,
+          "stroke": "丨",
+          "name": "Sổ",
+          "note": "Bắt đầu phần 日 bên trái."
+        },
+        {
+          "order": 2,
+          "stroke": "┐",
+          "name": "Gập",
+          "note": "Tạo cạnh trên và cạnh phải của 日."
+        },
+        {
+          "order": 3,
+          "stroke": "一",
+          "name": "Ngang",
+          "note": "Nét ngang bên trong 日."
+        },
+        {
+          "order": 4,
+          "stroke": "一",
+          "name": "Ngang",
+          "note": "Đóng phần 日."
+        },
+        {
+          "order": 5,
+          "stroke": "一",
+          "name": "Ngang",
+          "note": "Bắt đầu phần 寺 bên phải."
+        },
+        {
+          "order": 6,
+          "stroke": "丨",
+          "name": "Sổ",
+          "note": "Nét dọc của phần 土 trong 寺."
+        },
+        {
+          "order": 7,
+          "stroke": "一",
+          "name": "Ngang",
+          "note": "Đóng phần 土."
+        },
+        {
+          "order": 8,
+          "stroke": "一",
+          "name": "Ngang",
+          "note": "Nét ngang của 寸."
+        },
+        {
+          "order": 9,
+          "stroke": "亅",
+          "name": "Móc",
+          "note": "Nét sổ có móc của 寸."
+        },
+        {
+          "order": 10,
+          "stroke": "丶",
+          "name": "Chấm",
+          "note": "Chấm cuối của 寸."
+        }
+      ],
+      "stroke_count": 10
+    },
+    {
+      "id": 2,
+      "kanji": "分",
+      "han_viet": "Phân",
+      "meaning": "Phút, phân chia",
+      "onyomi": "フン・プン (FUN/PUN)",
+      "kunyomi": "わ・かる (wa-karu)",
+      "components": [
+        "八",
+        "刀"
+      ],
+      "vocabulary": [
+        {
+          "word": "五分",
+          "reading": "ごふん",
+          "meaning": "5 phút"
+        },
+        {
+          "word": "半分",
+          "reading": "はんぶん",
+          "meaning": "Một nửa"
+        },
+        {
+          "word": "分かる",
+          "reading": "わかる",
+          "meaning": "Hiểu"
+        }
+      ],
+      "examples": [
+        {
+          "japanese": "今は 八時十分です。",
+          "vietnamese": "Bây giờ là 8 giờ 10 phút."
+        }
+      ],
+      "stroke_order": [
+        {
+          "order": 1,
+          "stroke": "丿",
+          "name": "Phẩy",
+          "note": "Nét trái phía trên."
+        },
+        {
+          "order": 2,
+          "stroke": "乀",
+          "name": "Mác",
+          "note": "Nét phải phía trên."
+        },
+        {
+          "order": 3,
+          "stroke": "┐",
+          "name": "Gập",
+          "note": "Bắt đầu phần 刀 bên dưới."
+        },
+        {
+          "order": 4,
+          "stroke": "丿",
+          "name": "Phẩy",
+          "note": "Nét phẩy của 刀."
+        }
+      ],
+      "stroke_count": 4
+    },
+    {
+      "id": 3,
+      "kanji": "半",
+      "han_viet": "Bán",
+      "meaning": "Một nửa, rưỡi",
+      "onyomi": "ハン (HAN)",
+      "kunyomi": "-",
+      "components": [
+        "丶",
+        "丿",
+        "二",
+        "丨"
+      ],
+      "vocabulary": [
+        {
+          "word": "三時半",
+          "reading": "さんじはん",
+          "meaning": "3 giờ rưỡi"
+        },
+        {
+          "word": "半年",
+          "reading": "はんねん",
+          "meaning": "Nửa năm"
+        },
+        {
+          "word": "半日",
+          "reading": "はんにち",
+          "meaning": "Nửa ngày"
+        }
+      ],
+      "examples": [
+        {
+          "japanese": "会議は 十時半からです。",
+          "vietnamese": "Cuộc họp bắt đầu từ 10 giờ rưỡi."
+        }
+      ],
+      "stroke_order": [
+        {
+          "order": 1,
+          "stroke": "丶",
+          "name": "Chấm",
+          "note": "Chấm bên trái phía trên."
+        },
+        {
+          "order": 2,
+          "stroke": "丿",
+          "name": "Phẩy",
+          "note": "Nét phẩy bên phải phía trên."
+        },
+        {
+          "order": 3,
+          "stroke": "一",
+          "name": "Ngang",
+          "note": "Nét ngang ngắn."
+        },
+        {
+          "order": 4,
+          "stroke": "一",
+          "name": "Ngang",
+          "note": "Nét ngang dài."
+        },
+        {
+          "order": 5,
+          "stroke": "丨",
+          "name": "Sổ",
+          "note": "Nét dọc giữa cắt qua hai nét ngang."
+        }
+      ],
+      "stroke_count": 5
+    },
+    {
+      "id": 4,
+      "kanji": "午",
+      "han_viet": "Ngọ",
+      "meaning": "Buổi trưa",
+      "onyomi": "ゴ (GO)",
+      "kunyomi": "-",
+      "components": [
+        "丿",
+        "干"
+      ],
+      "vocabulary": [
+        {
+          "word": "午前",
+          "reading": "ごぜん",
+          "meaning": "Sáng/AM"
+        },
+        {
+          "word": "午後",
+          "reading": "ごご",
+          "meaning": "Chiều/PM"
+        },
+        {
+          "word": "正午",
+          "reading": "しょうご",
+          "meaning": "12 giờ trưa"
+        }
+      ],
+      "examples": [
+        {
+          "japanese": "午後に 銀行へ 行きます。",
+          "vietnamese": "Tôi sẽ đi ngân hàng vào buổi chiều."
+        }
+      ],
+      "stroke_order": [
+        {
+          "order": 1,
+          "stroke": "丿",
+          "name": "Phẩy",
+          "note": "Nét phẩy trên cùng."
+        },
+        {
+          "order": 2,
+          "stroke": "一",
+          "name": "Ngang",
+          "note": "Nét ngang ngắn."
+        },
+        {
+          "order": 3,
+          "stroke": "一",
+          "name": "Ngang",
+          "note": "Nét ngang dài."
+        },
+        {
+          "order": 4,
+          "stroke": "丨",
+          "name": "Sổ",
+          "note": "Nét dọc ở giữa."
+        }
+      ],
+      "stroke_count": 4
+    },
+    {
+      "id": 5,
+      "kanji": "前",
+      "han_viet": "Tiền",
+      "meaning": "Trước",
+      "onyomi": "ゼン (ZEN)",
+      "kunyomi": "まえ (mae)",
+      "components": [
+        "䒑",
+        "月",
+        "刂"
+      ],
+      "vocabulary": [
+        {
+          "word": "名前",
+          "reading": "なまえ",
+          "meaning": "Tên"
+        },
+        {
+          "word": "三日前",
+          "reading": "みっかまえ",
+          "meaning": "3 ngày trước"
+        },
+        {
+          "word": "駅の前",
+          "reading": "えきのまえ",
+          "meaning": "Trước nhà ga"
+        }
+      ],
+      "examples": [
+        {
+          "japanese": "寝る前に 本を 読みます。",
+          "vietnamese": "Tôi đọc sách trước khi ngủ."
+        }
+      ],
+      "stroke_order": [
+        {
+          "order": 1,
+          "stroke": "丶",
+          "name": "Chấm",
+          "note": "Chấm phía trên bên trái."
+        },
+        {
+          "order": 2,
+          "stroke": "丿",
+          "name": "Phẩy",
+          "note": "Nét phẩy phía trên bên phải."
+        },
+        {
+          "order": 3,
+          "stroke": "一",
+          "name": "Ngang",
+          "note": "Nét ngang trên."
+        },
+        {
+          "order": 4,
+          "stroke": "丨",
+          "name": "Sổ",
+          "note": "Bắt đầu phần 月 bên dưới bên trái."
+        },
+        {
+          "order": 5,
+          "stroke": "┐",
+          "name": "Gập",
+          "note": "Cạnh trên/phải của phần 月."
+        },
+        {
+          "order": 6,
+          "stroke": "一",
+          "name": "Ngang",
+          "note": "Nét ngang trong 月."
+        },
+        {
+          "order": 7,
+          "stroke": "一",
+          "name": "Ngang",
+          "note": "Nét ngang dưới của 月."
+        },
+        {
+          "order": 8,
+          "stroke": "丨",
+          "name": "Sổ",
+          "note": "Nét sổ của bộ dao刂."
+        },
+        {
+          "order": 9,
+          "stroke": "亅",
+          "name": "Móc",
+          "note": "Nét sổ móc của bộ dao刂."
+        }
+      ],
+      "stroke_count": 9
+    },
+    {
+      "id": 6,
+      "kanji": "後",
+      "han_viet": "Hậu",
+      "meaning": "Sau",
+      "onyomi": "ゴ (GO) / コウ (KOU)",
+      "kunyomi": "あと (ato) / うし・ろ (ushi-ro)",
+      "components": [
+        "彳",
+        "幺",
+        "夂"
+      ],
+      "vocabulary": [
+        {
+          "word": "後ろ",
+          "reading": "うしろ",
+          "meaning": "Phía sau"
+        },
+        {
+          "word": "最後",
+          "reading": "さいご",
+          "meaning": "Cuối cùng"
+        },
+        {
+          "word": "放課後",
+          "reading": "ほうかご",
+          "meaning": "Sau giờ học"
+        }
+      ],
+      "examples": [
+        {
+          "japanese": "ご飯の 後で、コーヒーを 飲みます。",
+          "vietnamese": "Sau bữa ăn, tôi uống cà phê."
+        }
+      ],
+      "stroke_order": [
+        {
+          "order": 1,
+          "stroke": "丿",
+          "name": "Phẩy",
+          "note": "Nét đầu của bộ 彳 bên trái."
+        },
+        {
+          "order": 2,
+          "stroke": "丿",
+          "name": "Phẩy",
+          "note": "Nét thứ hai của bộ 彳."
+        },
+        {
+          "order": 3,
+          "stroke": "丨",
+          "name": "Sổ",
+          "note": "Nét sổ của bộ 彳."
+        },
+        {
+          "order": 4,
+          "stroke": "ㄥ",
+          "name": "Cong",
+          "note": "Nét cong nhỏ của phần giữa."
+        },
+        {
+          "order": 5,
+          "stroke": "ㄥ",
+          "name": "Cong",
+          "note": "Nét cong nhỏ tiếp theo."
+        },
+        {
+          "order": 6,
+          "stroke": "丶",
+          "name": "Chấm",
+          "note": "Chấm của phần giữa."
+        },
+        {
+          "order": 7,
+          "stroke": "丿",
+          "name": "Phẩy",
+          "note": "Nét phẩy của phần 夂 bên dưới."
+        },
+        {
+          "order": 8,
+          "stroke": "㇇",
+          "name": "Gập",
+          "note": "Nét gập của phần 夂."
+        },
+        {
+          "order": 9,
+          "stroke": "乀",
+          "name": "Mác",
+          "note": "Nét mác kết thúc phần 夂."
+        }
+      ],
+      "stroke_count": 9
+    },
+    {
+      "id": 7,
+      "kanji": "今",
+      "han_viet": "Kim",
+      "meaning": "Bây giờ",
+      "onyomi": "コン (KON)",
+      "kunyomi": "いま (ima)",
+      "components": [
+        "人",
+        "丶",
+        "フ"
+      ],
+      "vocabulary": [
+        {
+          "word": "今日",
+          "reading": "きょう",
+          "meaning": "Hôm nay"
+        },
+        {
+          "word": "今月",
+          "reading": "こんげつ",
+          "meaning": "Tháng này"
+        },
+        {
+          "word": "今年",
+          "reading": "ことし",
+          "meaning": "Năm nay"
+        }
+      ],
+      "examples": [
+        {
+          "japanese": "今、忙しいですか。",
+          "vietnamese": "Bây giờ bạn có bận không?"
+        }
+      ],
+      "stroke_order": [
+        {
+          "order": 1,
+          "stroke": "丿",
+          "name": "Phẩy",
+          "note": "Nét trái phía trên."
+        },
+        {
+          "order": 2,
+          "stroke": "乀",
+          "name": "Mác",
+          "note": "Nét phải phía trên."
+        },
+        {
+          "order": 3,
+          "stroke": "丶",
+          "name": "Chấm",
+          "note": "Chấm ở giữa."
+        },
+        {
+          "order": 4,
+          "stroke": "┐",
+          "name": "Gập",
+          "note": "Nét gập phía dưới."
+        }
+      ],
+      "stroke_count": 4
+    },
+    {
+      "id": 8,
+      "kanji": "行",
+      "han_viet": "Hành",
+      "meaning": "Đi",
+      "onyomi": "コウ (KOU)",
+      "kunyomi": "い・く (i-ku)",
+      "components": [
+        "彳",
+        "亍"
+      ],
+      "vocabulary": [
+        {
+          "word": "銀行",
+          "reading": "ぎんこう",
+          "meaning": "Ngân hàng"
+        },
+        {
+          "word": "旅行",
+          "reading": "りょこう",
+          "meaning": "Du lịch"
+        },
+        {
+          "word": "行う",
+          "reading": "おこなう",
+          "meaning": "Tổ chức/Tiến hành"
+        }
+      ],
+      "examples": [
+        {
+          "japanese": "明日、大学へ 行きます。",
+          "vietnamese": "Ngày mai tôi đi đến trường đại học."
+        }
+      ],
+      "stroke_order": [
+        {
+          "order": 1,
+          "stroke": "丿",
+          "name": "Phẩy",
+          "note": "Nét đầu của bộ 彳."
+        },
+        {
+          "order": 2,
+          "stroke": "丿",
+          "name": "Phẩy",
+          "note": "Nét thứ hai của bộ 彳."
+        },
+        {
+          "order": 3,
+          "stroke": "丨",
+          "name": "Sổ",
+          "note": "Nét sổ của bộ 彳."
+        },
+        {
+          "order": 4,
+          "stroke": "一",
+          "name": "Ngang",
+          "note": "Nét ngang trên bên phải."
+        },
+        {
+          "order": 5,
+          "stroke": "一",
+          "name": "Ngang",
+          "note": "Nét ngang dưới bên phải."
+        },
+        {
+          "order": 6,
+          "stroke": "亅",
+          "name": "Móc",
+          "note": "Nét sổ móc bên phải."
+        }
+      ],
+      "stroke_count": 6
+    },
+    {
+      "id": 9,
+      "kanji": "来",
+      "han_viet": "Lai",
+      "meaning": "Đến",
+      "onyomi": "ライ (RAI)",
+      "kunyomi": "く・る (ku-ru)",
+      "components": [
+        "一",
+        "米"
+      ],
+      "vocabulary": [
+        {
+          "word": "来月",
+          "reading": "らいげつ",
+          "meaning": "Tháng sau"
+        },
+        {
+          "word": "来年",
+          "reading": "らいねん",
+          "meaning": "Năm sau"
+        },
+        {
+          "word": "未来",
+          "reading": "みらい",
+          "meaning": "Tương lai"
+        }
+      ],
+      "examples": [
+        {
+          "japanese": "友達が うちに 来ます。",
+          "vietnamese": "Bạn sẽ đến nhà tôi."
+        }
+      ],
+      "stroke_order": [
+        {
+          "order": 1,
+          "stroke": "一",
+          "name": "Ngang",
+          "note": "Nét ngang trên cùng."
+        },
+        {
+          "order": 2,
+          "stroke": "丶",
+          "name": "Chấm",
+          "note": "Chấm bên trái."
+        },
+        {
+          "order": 3,
+          "stroke": "丿",
+          "name": "Phẩy",
+          "note": "Nét phẩy bên phải."
+        },
+        {
+          "order": 4,
+          "stroke": "一",
+          "name": "Ngang",
+          "note": "Nét ngang giữa."
+        },
+        {
+          "order": 5,
+          "stroke": "丨",
+          "name": "Sổ",
+          "note": "Nét dọc giữa."
+        },
+        {
+          "order": 6,
+          "stroke": "丿",
+          "name": "Phẩy",
+          "note": "Nét phẩy bên trái dưới."
+        },
+        {
+          "order": 7,
+          "stroke": "乀",
+          "name": "Mác",
+          "note": "Nét mác bên phải dưới."
+        }
+      ],
+      "stroke_count": 7
+    },
+    {
+      "id": 10,
+      "kanji": "休",
+      "han_viet": "Hưu",
+      "meaning": "Nghỉ ngơi",
+      "onyomi": "キュウ (KYUU)",
+      "kunyomi": "やす・む (yasu-mu)",
+      "components": [
+        "亻",
+        "木"
+      ],
+      "vocabulary": [
+        {
+          "word": "休み",
+          "reading": "やすみ",
+          "meaning": "Ngày nghỉ/Nghỉ phép"
+        },
+        {
+          "word": "昼休み",
+          "reading": "ひるやすみ",
+          "meaning": "Nghỉ trưa"
+        },
+        {
+          "word": "休日",
+          "reading": "きゅうじつ",
+          "meaning": "Ngày lễ/Ngày nghỉ"
+        }
+      ],
+      "examples": [
+        {
+          "japanese": "土曜日は 学校を 休んでいます。",
+          "vietnamese": "Thứ Bảy tôi nghỉ học."
+        }
+      ],
+      "stroke_order": [
+        {
+          "order": 1,
+          "stroke": "丿",
+          "name": "Phẩy",
+          "note": "Nét đầu của bộ nhân đứng 亻."
+        },
+        {
+          "order": 2,
+          "stroke": "丨",
+          "name": "Sổ",
+          "note": "Nét sổ của bộ nhân đứng 亻."
+        },
+        {
+          "order": 3,
+          "stroke": "一",
+          "name": "Ngang",
+          "note": "Nét ngang của 木."
+        },
+        {
+          "order": 4,
+          "stroke": "丨",
+          "name": "Sổ",
+          "note": "Nét sổ giữa của 木."
+        },
+        {
+          "order": 5,
+          "stroke": "丿",
+          "name": "Phẩy",
+          "note": "Nét phẩy trái của 木."
+        },
+        {
+          "order": 6,
+          "stroke": "乀",
+          "name": "Mác",
+          "note": "Nét mác phải của 木."
+        }
+      ],
+      "stroke_count": 6
+    }
+  ],
+  "practice_exercises": [
+    {
+      "id": 1,
+      "title": "Nối Kanji với nghĩa tiếng Việt",
+      "instruction": "Hãy nối các chữ Kanji ở cột A với nghĩa tương ứng ở cột B.",
+      "questions": [
+        {
+          "number": 1,
+          "kanji": "今",
+          "answer": "B",
+          "vietnamese": "Bây giờ"
+        },
+        {
+          "number": 2,
+          "kanji": "前",
+          "answer": "A",
+          "vietnamese": "Trước"
+        },
+        {
+          "number": 3,
+          "kanji": "後",
+          "answer": "D",
+          "vietnamese": "Sau"
+        },
+        {
+          "number": 4,
+          "kanji": "時",
+          "answer": "E",
+          "vietnamese": "Giờ"
+        },
+        {
+          "number": 5,
+          "kanji": "分",
+          "answer": "C",
+          "vietnamese": "Phút"
+        },
+        {
+          "number": 6,
+          "kanji": "半",
+          "answer": "F",
+          "vietnamese": "Một nửa / rưỡi"
+        }
+      ],
+      "choices": [
+        {
+          "label": "A",
+          "vietnamese": "Trước"
+        },
+        {
+          "label": "B",
+          "vietnamese": "Bây giờ"
+        },
+        {
+          "label": "C",
+          "vietnamese": "Phút"
+        },
+        {
+          "label": "D",
+          "vietnamese": "Sau"
+        },
+        {
+          "label": "E",
+          "vietnamese": "Giờ"
+        },
+        {
+          "label": "F",
+          "vietnamese": "Một nửa / rưỡi"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Điền cách đọc phù hợp",
+      "instruction": "Dựa vào từ Kanji cho sẵn, hãy điền từ đúng vào chỗ trống.",
+      "questions": [
+        {
+          "number": 1,
+          "kanji": "何時",
+          "prompt": "なん................",
+          "hint": "Mấy giờ",
+          "answer": "じ",
+          "full_reading": "なんじ"
+        },
+        {
+          "number": 2,
+          "kanji": "午前",
+          "prompt": "................ぜん",
+          "hint": "Buổi sáng",
+          "answer": "ご",
+          "full_reading": "ごぜん"
+        },
+        {
+          "number": 3,
+          "kanji": "午後",
+          "prompt": "................ご",
+          "hint": "Buổi chiều",
+          "answer": "ご",
+          "full_reading": "ごご"
+        },
+        {
+          "number": 4,
+          "kanji": "今日",
+          "prompt": "................",
+          "hint": "Hôm nay",
+          "answer": "きょう",
+          "full_reading": "きょう"
+        },
+        {
+          "number": 5,
+          "kanji": "銀行",
+          "prompt": "ぎん................",
+          "hint": "Ngân hàng",
+          "answer": "こう",
+          "full_reading": "ぎんこう"
+        },
+        {
+          "number": 6,
+          "kanji": "休み",
+          "prompt": "................み",
+          "hint": "Nghỉ ngơi",
+          "answer": "やす",
+          "full_reading": "やすみ"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Dịch câu sang tiếng Nhật bằng Kanji đã học",
+      "instruction": "Sử dụng các chữ Kanji đã học trong Lesson 4 để dịch các câu sau.",
+      "questions": [
+        {
+          "number": 1,
+          "vietnamese": "Bây giờ là 10 giờ 30 phút.",
+          "answer": "今は 十時三十分(半)です。"
+        },
+        {
+          "number": 2,
+          "vietnamese": "Ngày mai tôi đi đến ngân hàng.",
+          "answer": "明日、銀行へ 行きます。"
+        },
+        {
+          "number": 3,
+          "vietnamese": "Tôi sẽ đến nhà bạn vào buổi chiều.",
+          "answer": "午後に 友達のうちへ 来ます。"
+        },
+        {
+          "number": 4,
+          "vietnamese": "Thứ Bảy tôi nghỉ học.",
+          "answer": "土曜日は 学校を 休んでいます。"
+        }
+      ]
+    }
+  ]
+}
