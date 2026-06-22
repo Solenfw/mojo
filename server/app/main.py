@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from api.v1 import auth, users, srs, gamification, lessons, league, onboarding, nlp
+from server.app.api.v1 import auth, users, srs, gamification, lessons, league, onboarding, nlp
 
 app = FastAPI(
     title="Linguasphere API",
