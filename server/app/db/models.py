@@ -547,6 +547,52 @@ class Lessons(Base):
     course: Mapped['Courses'] = relationship('Courses', back_populates='lessons')
     exercises: Mapped[list['Exercises']] = relationship('Exercises', back_populates='lesson')
     lesson_resources: Mapped[list['LessonResources']] = relationship('LessonResources', back_populates='lesson')
+    reading_passages: Mapped[list['ReadingPassages']] = relationship('ReadingPassages', back_populates='lesson', cascade='all, delete-orphan')
+    reading_vocabulary_items: Mapped[list['ReadingVocabularyItems']] = relationship('ReadingVocabularyItems', back_populates='lesson', cascade='all, delete-orphan')
+
+
+class ReadingPassages(Base):
+    __tablename__ = 'reading_passages'
+    __table_args__ = (
+        ForeignKeyConstraint(['lesson_id'], ['lessons.id'], ondelete='CASCADE', name='reading_passages_lesson_id_fkey'),
+        PrimaryKeyConstraint('id', name='reading_passages_pkey'),
+        UniqueConstraint('lesson_id', 'source_passage_id', name='reading_passages_lesson_source_key'),
+        Index('idx_reading_passages_lesson_id', 'lesson_id')
+    )
+
+    id: Mapped[int] = mapped_column(Integer, Identity(start=1, increment=1), primary_key=True)
+    lesson_id: Mapped[int] = mapped_column(Integer, nullable=False)
+    source_passage_id: Mapped[int] = mapped_column(Integer, nullable=False)
+    title: Mapped[str] = mapped_column(String(255), nullable=False)
+    vietnamese_title: Mapped[Optional[str]] = mapped_column(String(255))
+    content_japanese: Mapped[str] = mapped_column(Text, nullable=False)
+    content_vietnamese: Mapped[Optional[str]] = mapped_column(Text)
+    sort_order: Mapped[Optional[int]] = mapped_column(Integer)
+
+    lesson: Mapped['Lessons'] = relationship('Lessons', back_populates='reading_passages')
+
+
+class ReadingVocabularyItems(Base):
+    __tablename__ = 'reading_vocabulary_items'
+    __table_args__ = (
+        ForeignKeyConstraint(['lesson_id'], ['lessons.id'], ondelete='CASCADE', name='reading_vocabulary_items_lesson_id_fkey'),
+        PrimaryKeyConstraint('id', name='reading_vocabulary_items_pkey'),
+        UniqueConstraint('lesson_id', 'word', name='reading_vocabulary_items_lesson_word_key'),
+        Index('idx_reading_vocabulary_items_lesson_id', 'lesson_id')
+    )
+
+    id: Mapped[int] = mapped_column(Integer, Identity(start=1, increment=1), primary_key=True)
+    lesson_id: Mapped[int] = mapped_column(Integer, nullable=False)
+    word: Mapped[str] = mapped_column(String(255), nullable=False)
+    kana: Mapped[Optional[str]] = mapped_column(String(255))
+    kanji: Mapped[Optional[str]] = mapped_column(String(255))
+    romaji: Mapped[Optional[str]] = mapped_column(String(255))
+    word_type: Mapped[Optional[str]] = mapped_column(String(50))
+    meaning: Mapped[str] = mapped_column(Text, nullable=False)
+    level: Mapped[Optional[str]] = mapped_column(String(50))
+    sort_order: Mapped[Optional[int]] = mapped_column(Integer)
+
+    lesson: Mapped['Lessons'] = relationship('Lessons', back_populates='reading_vocabulary_items')
 
 
 class OnboardingAnswers(Base):
@@ -693,3 +739,41 @@ class ExerciseOptions(Base):
     is_correct: Mapped[bool] = mapped_column(Boolean, nullable=False)
 
     exercise: Mapped['Exercises'] = relationship('Exercises', back_populates='exercise_options')
+
+
+class Vocabularies(Base):
+    __tablename__ = 'vocabularies'
+    __table_args__ = (
+        PrimaryKeyConstraint('id', name='vocabularies_pkey'),
+    )
+
+    id: Mapped[int] = mapped_column(Integer, Identity(start=1, increment=1), primary_key=True)
+    kanji: Mapped[str] = mapped_column(String(100), nullable=False)
+    kana: Mapped[str] = mapped_column(String(100), nullable=False)
+    romaji: Mapped[str] = mapped_column(String(100), nullable=False)
+    meaning: Mapped[str] = mapped_column(String(255), nullable=False)
+    example_sentence: Mapped[Optional[str]] = mapped_column(Text)
+    example_english: Mapped[Optional[str]] = mapped_column(Text)
+    level: Mapped[str] = mapped_column(String(50), nullable=False)
+
+
+class UserVocabulary(Base):
+    __tablename__ = 'user_vocabularies'
+    __table_args__ = (
+        PrimaryKeyConstraint('id', name='user_vocabularies_pkey'),
+        ForeignKeyConstraint(['user_id'], ['users.id'], ondelete='CASCADE', name='user_vocabularies_user_id_fkey'),
+        ForeignKeyConstraint(['vocab_id'], ['vocabularies.id'], ondelete='CASCADE', name='user_vocabularies_vocab_id_fkey'),
+        Index('idx_user_vocab_user_id', 'user_id'),
+    )
+
+    id: Mapped[int] = mapped_column(Integer, Identity(start=1, increment=1), primary_key=True)
+    user_id: Mapped[int] = mapped_column(Integer, nullable=False)
+    vocab_id: Mapped[int] = mapped_column(Integer, nullable=False)
+    ease_factor: Mapped[float] = mapped_column(Numeric(5, 2), default=2.5)
+    interval: Mapped[int] = mapped_column(Integer, default=1)
+    repetitions: Mapped[int] = mapped_column(Integer, default=0)
+    next_review_date: Mapped[Optional[datetime.date]] = mapped_column(Date)
+
+    # Relationships
+    user: Mapped['Users'] = relationship('Users')
+    vocab: Mapped['Vocabularies'] = relationship('Vocabularies')

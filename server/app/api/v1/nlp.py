@@ -4,24 +4,11 @@ from pydantic import BaseModel, Field
 from app.api.deps import get_current_user
 from app.db import models
 from app.services.mecab_service import MeCabService
+from server.app.db.schemas import TokenizeRequest, TokenizeResponse, TokenizeItem
 
 router = APIRouter(prefix="/nlp", tags=["nlp"])
 
 mecab_service = MeCabService()
-
-
-class TokenizeRequest(BaseModel):
-    text: str = Field(default="", max_length=5000)
-
-
-class TokenizeItem(BaseModel):
-    word: str
-    reading: str
-    pos: str
-
-
-class TokenizeResponse(BaseModel):
-    tokens: list[TokenizeItem]
 
 
 @router.post("/tokenize", response_model=TokenizeResponse)

@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from server.app.api.v1 import auth, users, srs, gamification, lessons, league, onboarding, nlp
+from server.app.api.v1 import auth, speaking, users, srs, gamification, lessons, league, onboarding, nlp, writing
 
 app = FastAPI(
     title="Linguasphere API",
@@ -23,12 +23,10 @@ app.include_router(users.router, prefix=api_prefix)
 app.include_router(onboarding.router, prefix=api_prefix)
 app.include_router(srs.router, prefix=api_prefix, tags=["srs"])
 app.include_router(nlp.router, prefix=api_prefix)
-# app.include_router(admin.router, prefix=api_prefix, tags=["admin"])
+app.include_router(speaking.router, prefix=api_prefix)
+app.include_router(writing.router, prefix=api_prefix)
 app.include_router(gamification.router, prefix=api_prefix, tags=["gamification"])
 app.include_router(lessons.router, prefix=api_prefix, tags=["lessons"])
-app.include_router(league.router, prefix=api_prefix, tags=["league"])
-# app.include_router(shop.router, prefix=api_prefix, tags=["shop"])
-# app.include_router(social.router, prefix=api_prefix, tags=["social"])
 
 
 @app.get("/healthz")

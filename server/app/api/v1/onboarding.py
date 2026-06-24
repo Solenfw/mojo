@@ -10,6 +10,29 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.api.deps import get_current_user, get_db
 from app.core.security import oauth2_scheme
 from app.db import models
+from server.app.db.schemas import (
+    CreateOnboardingSessionRequest,
+    CreateOnboardingSessionResponse,
+    CreateOnboardingSessionData,
+    SaveOnboardingAnswerRequest,
+    SaveOnboardingAnswerResponse,
+    SaveOnboardingAnswerData,
+    LoadOnboardingAnswersResponse,
+    LoadOnboardingAnswersData,
+    OnboardingAnswerItem,
+    FinalizeOnboardingSessionRequest,
+    FinalizeOnboardingSessionResponse,
+    FinalizeOnboardingSessionData,
+    SubmitOnboardingRequest,
+    SubmitOnboardingResponse,
+    SubmitOnboardingData,
+    UpsertLearnerProfileRequest,
+    UpsertLearnerProfileResponse,
+    UpsertLearnerProfileData,
+    ConfirmCommitmentRequest,
+    ConfirmCommitmentResponse,
+    ConfirmCommitmentData,
+)
 
 router = APIRouter(prefix="/onboarding", tags=["onboarding"])
 
@@ -60,148 +83,6 @@ def _raise_error(status_code: int, *, message: str, business_code: str) -> None:
         detail=_response(message=message, success=False, business_code=business_code),
     )
 
-
-class CreateOnboardingSessionRequest(BaseModel):
-    userId: int = Field(gt=0)
-    sessionToken: str | None = Field(default=None, min_length=1)
-
-
-class CreateOnboardingSessionData(BaseModel):
-    sessionId: int
-    status: str
-    startedAt: str
-
-
-class CreateOnboardingSessionResponse(BaseModel):
-    success: bool = True
-    businessCode: str
-    message: str
-    data: CreateOnboardingSessionData
-    timestamp: str
-
-
-class SaveOnboardingAnswerRequest(BaseModel):
-    sessionId: int = Field(gt=0)
-    questionCode: str = Field(min_length=1, max_length=100)
-    answerValue: str = Field(min_length=1, max_length=500)
-
-
-class SaveOnboardingAnswerData(BaseModel):
-    answerId: int
-    sessionId: int
-    questionCode: str
-    savedAt: str
-
-
-class SaveOnboardingAnswerResponse(BaseModel):
-    success: bool = True
-    businessCode: str
-    message: str
-    data: SaveOnboardingAnswerData
-    timestamp: str
-
-
-class OnboardingAnswerItem(BaseModel):
-    answerId: int
-    questionCode: str
-    answerValue: str
-    updatedAt: str
-
-
-class LoadOnboardingAnswersData(BaseModel):
-    sessionId: int
-    answers: list[OnboardingAnswerItem]
-
-
-class LoadOnboardingAnswersResponse(BaseModel):
-    success: bool = True
-    businessCode: str
-    message: str
-    data: LoadOnboardingAnswersData
-    timestamp: str
-
-
-class FinalizeOnboardingSessionRequest(BaseModel):
-    sessionId: int = Field(gt=0)
-    sessionToken: str | None = Field(default=None, min_length=1)
-
-
-class FinalizeOnboardingSessionData(BaseModel):
-    sessionId: int
-    status: str
-    completedAt: str
-
-
-class FinalizeOnboardingSessionResponse(BaseModel):
-    success: bool = True
-    businessCode: str
-    message: str
-    data: FinalizeOnboardingSessionData
-    timestamp: str
-
-
-class SubmitOnboardingRequest(BaseModel):
-    level: str = Field(min_length=1, max_length=50)
-    goal: str = Field(min_length=1, max_length=255)
-    time: str = Field(min_length=1, max_length=50)
-
-
-class SubmitOnboardingData(BaseModel):
-    sessionId: int
-    status: str
-    level: str
-    goal: str
-    time: str
-    completedAt: str
-
-
-class SubmitOnboardingResponse(BaseModel):
-    success: bool = True
-    businessCode: str
-    message: str
-    data: SubmitOnboardingData
-    timestamp: str
-
-
-class UpsertLearnerProfileRequest(BaseModel):
-    userId: int = Field(gt=0)
-    targetLevel: str = Field(min_length=1, max_length=50)
-    targetGoal: str = Field(min_length=1, max_length=255)
-    experience: str = Field(min_length=1, max_length=50)
-    testResult: float = Field(ge=0, le=100)
-
-
-class UpsertLearnerProfileData(BaseModel):
-    profileId: int
-    userId: int
-    currentLevel: str
-    targetLevel: str
-    updatedAt: str
-
-
-class UpsertLearnerProfileResponse(BaseModel):
-    success: bool = True
-    businessCode: str
-    message: str
-    data: UpsertLearnerProfileData
-    timestamp: str
-
-
-class ConfirmCommitmentRequest(BaseModel):
-    sessionToken: str = Field(min_length=1)
-
-
-class ConfirmCommitmentData(BaseModel):
-    loginState: bool
-    userId: int | None = None
-    redirectScreen: str
-
-
-class ConfirmCommitmentResponse(BaseModel):
-    businessCode: str
-    message: str
-    timestamp: str
-    data: ConfirmCommitmentData
 
 
 def _calculate_current_level(score: float) -> str:
