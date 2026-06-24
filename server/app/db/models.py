@@ -109,6 +109,12 @@ class Users(Base):
     last_login_at: Mapped[Optional[datetime.datetime]] = mapped_column(DateTime(True))
     is_onboarded: Mapped[Optional[bool]] = mapped_column(Boolean, server_default=text('false'))
     onboarded_at: Mapped[Optional[datetime.datetime]] = mapped_column(DateTime(True))
+    xp: Mapped[int] = mapped_column(Integer, nullable=False, server_default=text('0'))
+    streak: Mapped[int] = mapped_column(Integer, nullable=False, server_default=text('0'))
+    gems: Mapped[int] = mapped_column(Integer, nullable=False, server_default=text('0'))
+    hearts: Mapped[int] = mapped_column(Integer, nullable=False, server_default=text('5'))
+    hearts_last_updated: Mapped[Optional[datetime.datetime]] = mapped_column(DateTime(True))
+    last_activity_date: Mapped[Optional[datetime.date]] = mapped_column(Date)
     created_at: Mapped[datetime.datetime] = mapped_column(DateTime, nullable=False, server_default=text('now()'))
     updated_at: Mapped[datetime.datetime] = mapped_column(DateTime, nullable=False, server_default=text('now()'))
 
@@ -120,6 +126,7 @@ class Users(Base):
     business_student_assignments_user: Mapped[list['BusinessStudentAssignments']] = relationship('BusinessStudentAssignments', foreign_keys='[BusinessStudentAssignments.user_id]', back_populates='user')
     courses: Mapped[list['Courses']] = relationship('Courses', back_populates='users')
     feedbacks: Mapped[list['Feedbacks']] = relationship('Feedbacks', back_populates='user')
+    learner_profile: Mapped[Optional['LearnerProfiles']] = relationship('LearnerProfiles', back_populates='user', uselist=False)
     learning_plans: Mapped[list['LearningPlans']] = relationship('LearningPlans', back_populates='user')
     notifications: Mapped[list['Notifications']] = relationship('Notifications', back_populates='user')
     onboarding_sessions: Mapped[list['OnboardingSessions']] = relationship('OnboardingSessions', back_populates='user')
@@ -268,8 +275,10 @@ class LearnerProfiles(Base):
     study_goal: Mapped[Optional[str]] = mapped_column(Text)
     study_mode: Mapped[Optional[str]] = mapped_column(String(50))
     commitment_hours_per_week: Mapped[Optional[int]] = mapped_column(Integer)
+    created_at: Mapped[Optional[datetime.datetime]] = mapped_column(DateTime(True), server_default=text('CURRENT_TIMESTAMP'))
+    updated_at: Mapped[Optional[datetime.datetime]] = mapped_column(DateTime(True), server_default=text('CURRENT_TIMESTAMP'))
 
-    user: Mapped['Users'] = relationship('Users')
+    user: Mapped['Users'] = relationship('Users', back_populates='learner_profile')
 
 
 class LearningPlans(Base):
@@ -599,7 +608,9 @@ class OnboardingAnswers(Base):
     __tablename__ = 'onboarding_answers'
     __table_args__ = (
         ForeignKeyConstraint(['session_id'], ['onboarding_sessions.id'], ondelete='CASCADE', name='onboarding_answers_session_id_fkey'),
-        PrimaryKeyConstraint('id', name='onboarding_answers_pkey')
+        PrimaryKeyConstraint('id', name='onboarding_answers_pkey'),
+        UniqueConstraint('session_id', 'question_code', name='onboarding_answers_session_question_key'),
+        Index('idx_onboarding_answers_session_id', 'session_id')
     )
 
     id: Mapped[int] = mapped_column(Integer, Identity(start=1, increment=1, minvalue=1, maxvalue=2147483647, cycle=False, cache=1), primary_key=True)
@@ -609,6 +620,7 @@ class OnboardingAnswers(Base):
     answer_text: Mapped[Optional[str]] = mapped_column(Text)
     answer_value: Mapped[Optional[str]] = mapped_column(String(255))
     created_at: Mapped[Optional[datetime.datetime]] = mapped_column(DateTime(True), server_default=text('CURRENT_TIMESTAMP'))
+    updated_at: Mapped[Optional[datetime.datetime]] = mapped_column(DateTime(True), server_default=text('CURRENT_TIMESTAMP'))
 
     session: Mapped['OnboardingSessions'] = relationship('OnboardingSessions', back_populates='onboarding_answers')
 

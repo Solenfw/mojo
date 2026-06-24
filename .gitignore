@@ -90,3 +90,4 @@ client/node_modules/
 .tools/
 get-pip.py
 node-v*.tar.xz
+forAi/

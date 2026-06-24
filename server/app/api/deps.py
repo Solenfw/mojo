@@ -1,6 +1,6 @@
 from fastapi import Depends, HTTPException, status
 from jose import JWTError, jwt
-from sqlalchemy import select
+from sqlalchemy import or_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.db.database import SessionLocal
@@ -51,8 +51,15 @@ async def get_current_active_user(current_user: models.User = Depends(get_curren
     return current_user
 
     
-async def authenticate_user(db: AsyncSession, email: str, password: str):
-    result = await db.execute(select(models.User).where(models.User.email == email))
+async def authenticate_user(db: AsyncSession, email_or_phone: str, password: str):
+    result = await db.execute(
+        select(models.User).where(
+            or_(
+                models.User.email == email_or_phone,
+                models.User.phone == email_or_phone,
+            )
+        )
+    )
     user = result.scalars().first()
     if not user or not verify_password(password, user.hashed_password):
         return None

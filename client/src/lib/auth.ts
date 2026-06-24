@@ -4,12 +4,7 @@ const TOKEN_KEY = 'linguasphere_access_token';
 export interface AuthToken {
   access_token: string;
   token_type: string;
-}
-
-export interface OnboardingPayload {
-  level: string;
-  goal: string;
-  time: string;
+  refresh_token?: string;
 }
 
 export interface CheckUserPayload {
@@ -17,13 +12,43 @@ export interface CheckUserPayload {
   phone?: string;
 }
 
-interface AuthPayload {
-  email: string;
-  password: string;
-  username?: string;
-  full_name?: string;
-  phone?: string;
+interface CurrentUser {
+  id: number;
 }
+
+interface AuthPayload {
+  emailOrPhone?: string;
+  passwordHash: string;
+  fullName?: string;
+  email?: string;
+  phone?: string;
+  deviceId?: string;
+  platform?: 'mobile' | 'web';
+}
+
+type ErrorBag = {
+  message?: string;
+  detail?: string;
+  errors?: Array<{ message?: string }>;
+};
+
+const asErrorBag = (value: unknown): ErrorBag => {
+  if (!value || typeof value !== 'object') {
+    return {};
+  }
+  return value as ErrorBag;
+};
+
+const getErrorMessage = async (response: Response, fallback: string) => {
+  try {
+    const payload = asErrorBag(await response.json());
+    const detail = typeof payload.detail === 'string' ? payload : asErrorBag(payload.detail);
+    const firstError = Array.isArray(detail.errors) ? detail.errors[0] : null;
+    return firstError?.message || detail.message || detail.detail || payload.message || fallback;
+  } catch {
+    return response.statusText || fallback;
+  }
+};
 
 const authRequest = async (path: string, payload: AuthPayload): Promise<AuthToken> => {
   const response = await fetch(`${API_BASE_URL}${path}`, {
@@ -35,31 +60,32 @@ const authRequest = async (path: string, payload: AuthPayload): Promise<AuthToke
   });
 
   if (!response.ok) {
-    let message = 'Authentication failed';
-    try {
-      const error = await response.json();
-      message = error.detail || message;
-    } catch {
-      message = response.statusText || message;
-    }
-    throw new Error(message);
+    throw new Error(await getErrorMessage(response, 'Authentication failed'));
   }
 
-  return response.json();
+  const result = await response.json();
+  const data = result.data ?? {};
+  return {
+    access_token: data.accessToken,
+    token_type: 'bearer',
+    refresh_token: data.refreshToken,
+  };
 };
 
-export const login = (email: string, password: string) => {
-  return authRequest('/api/v1/auth/login', { email, password });
+export const login = (emailOrPhone: string, password: string) => {
+  return authRequest('/api/v1/auth/login', {
+    emailOrPhone,
+    passwordHash: password,
+    platform: 'web',
+  });
 };
 
-export const register = (email: string, password: string, fullName?: string, phone?: string) => {
-  const username = fullName?.trim() || email.split('@')[0];
+export const register = (email: string, password: string, fullName: string, phone: string) => {
   return authRequest('/api/v1/auth/register', {
+    fullName: fullName.trim() || email.split('@')[0],
     email,
-    password,
-    username,
-    full_name: fullName?.trim() || undefined,
-    phone: phone?.trim() || undefined,
+    phone: phone.trim(),
+    passwordHash: password,
   });
 };
 
@@ -73,22 +99,11 @@ export const checkUserByEmailOrPhone = async (payload: CheckUserPayload) => {
   });
 
   if (response.status === 409) {
-    const error = await response.json();
-    const detail = error.detail ?? error;
-    const firstError = Array.isArray(detail.errors) ? detail.errors[0] : null;
-    throw new Error(firstError?.message || detail.message || 'User already exists');
+    throw new Error(await getErrorMessage(response, 'User already exists'));
   }
 
   if (!response.ok) {
-    let message = 'Unable to validate account details';
-    try {
-      const error = await response.json();
-      const detail = error.detail ?? error;
-      message = detail.message || detail.detail || message;
-    } catch {
-      message = response.statusText || message;
-    }
-    throw new Error(message);
+    throw new Error(await getErrorMessage(response, 'Unable to validate account details'));
   }
 
   return response.json();
@@ -104,36 +119,6 @@ export const getToken = () => {
 
 export const clearToken = () => {
   window.localStorage.removeItem(TOKEN_KEY);
-};
-
-export const submitOnboarding = async (data: OnboardingPayload) => {
-  const token = getToken();
-  if (!token) {
-    throw new Error('You need to log in again before finishing onboarding.');
-  }
-
-  const response = await fetch(`${API_BASE_URL}/api/v1/onboarding/submit`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify(data),
-  });
-
-  if (!response.ok) {
-    let message = 'Unable to save onboarding preferences';
-    try {
-      const error = await response.json();
-      const detail = error.detail ?? error;
-      message = detail.message || detail.detail || message;
-    } catch {
-      message = response.statusText || message;
-    }
-    throw new Error(message);
-  }
-
-  return response.json();
 };
 
 export const getCurrentUser = async () => {
@@ -157,5 +142,5 @@ export const getCurrentUser = async () => {
     return null;
   }
 
-  return response.json();
+  return (await response.json()) as CurrentUser;
 };

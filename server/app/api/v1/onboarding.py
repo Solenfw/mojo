@@ -10,7 +10,10 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.api.deps import get_current_user, get_db
 from app.core.security import oauth2_scheme
 from app.db import models
-from server.app.db.schemas import (
+from app.db.schemas import (
+    AnalyzeOnboardingDataRequest,
+    AnalyzeOnboardingDataResponse,
+    AnalyzeOnboardingDataResult,
     CreateOnboardingSessionRequest,
     CreateOnboardingSessionResponse,
     CreateOnboardingSessionData,
@@ -99,6 +102,64 @@ def _calculate_current_level(score: float) -> str:
     return "N1"
 
 
+def _normalize_answer_map(answer_list: list) -> dict[str, str]:
+    return {
+        item.questionCode.strip().lower(): item.answerValue.strip()
+        for item in answer_list
+        if item.questionCode and item.answerValue
+    }
+
+
+def _infer_learning_style(answer_map: dict[str, str]) -> str:
+    goal = " ".join(
+        answer_map.get(key, "")
+        for key in ("learning_goal", "goal", "study_goal")
+    ).lower()
+    if any(token in goal for token in ("jlpt", "exam", "cert")):
+        return "structured_learning"
+    if any(token in goal for token in ("business", "career", "work", "professional")):
+        return "goal_oriented_learning"
+    return "visual_learning"
+
+
+def _infer_study_intensity(answer_map: dict[str, str], score: float) -> str:
+    time_value = " ".join(
+        answer_map.get(key, "")
+        for key in ("study_frequency", "daily_commitment", "time", "study_time")
+    ).lower()
+    if any(token in time_value for token in ("90", "120", "2 hour", "intense", "professional")):
+        return "high"
+    if any(token in time_value for token in ("60", "1 hour", "1h", "steady", "30")):
+        return "medium"
+    if score >= 80:
+        return "medium"
+    return "low"
+
+
+def _recommended_level_from(current_level: str, answer_map: dict[str, str]) -> str:
+    explicit_target = next(
+        (
+            answer_map.get(key, "").upper()
+            for key in ("target_level", "learning_goal", "goal")
+            if answer_map.get(key)
+            and answer_map.get(key, "").upper() in {"N1", "N2", "N3", "N4", "N5"}
+        ),
+        None,
+    )
+    if explicit_target:
+        return explicit_target
+
+    progression = {
+        "beginner": "N5",
+        "N5": "N4",
+        "N4": "N3",
+        "N3": "N2",
+        "N2": "N1",
+        "N1": "N1",
+    }
+    return progression.get(current_level, current_level)
+
+
 async def _load_session_for_user(
     db: AsyncSession,
     *,
@@ -169,6 +230,7 @@ async def _upsert_answer(
     question_code: str,
     answer_value: str,
 ) -> models.OnboardingAnswers:
+    now = _utcnow()
     result = await db.execute(
         select(models.OnboardingAnswers)
         .where(models.OnboardingAnswers.session_id == session.id)
@@ -184,12 +246,14 @@ async def _upsert_answer(
             question_text=question_text,
             answer_text=answer_value,
             answer_value=answer_value,
+            updated_at=now,
         )
         db.add(answer)
     else:
         answer.question_text = question_text
         answer.answer_text = answer_value
         answer.answer_value = answer_value
+        answer.updated_at = now
 
     await db.commit()
     await db.refresh(answer)
@@ -252,6 +316,29 @@ async def _load_user_by_id(db: AsyncSession, user_id: int) -> models.User:
     return user
 
 
+async def _load_attempt_for_user(
+    db: AsyncSession,
+    *,
+    attempt_id: int,
+    user_id: int,
+) -> models.TestAttempts:
+    result = await db.execute(select(models.TestAttempts).where(models.TestAttempts.id == attempt_id))
+    attempt = result.scalars().first()
+    if attempt is None:
+        _raise_error(
+            status.HTTP_404_NOT_FOUND,
+            message="Resource not found.",
+            business_code=BUSINESS_NOT_FOUND,
+        )
+    if attempt.user_id != user_id:
+        _raise_error(
+            status.HTTP_401_UNAUTHORIZED,
+            message="Unauthorized access.",
+            business_code=BUSINESS_UNAUTHORIZED,
+        )
+    return attempt
+
+
 @router.post("/session", response_model=CreateOnboardingSessionResponse, status_code=status.HTTP_201_CREATED)
 async def create_onboarding_session(
     payload: CreateOnboardingSessionRequest,
@@ -279,6 +366,51 @@ async def create_onboarding_session(
             sessionId=session.id,
             status=session.status or "in_progress",
             startedAt=_isoformat(session.started_at) or _isoformat(_utcnow()) or "",
+        ),
+    )
+
+
+@router.post("/analyze", response_model=AnalyzeOnboardingDataResponse)
+async def analyze_onboarding_data(
+    payload: AnalyzeOnboardingDataRequest,
+    current_user: models.User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+):
+    attempt = await _load_attempt_for_user(
+        db,
+        attempt_id=payload.placementAttempt.attemptId,
+        user_id=current_user.id,
+    )
+    if attempt.status not in {"submitted", "completed"}:
+        _raise_error(
+            status.HTTP_400_BAD_REQUEST,
+            message="Validation failed.",
+            business_code=BUSINESS_INVALID,
+        )
+
+    persisted_score = float(attempt.score) if attempt.score is not None else None
+    request_score = payload.placementAttempt.score
+    if persisted_score is not None and abs(persisted_score - request_score) > 0.01:
+        _raise_error(
+            status.HTTP_400_BAD_REQUEST,
+            message="Validation failed.",
+            business_code=BUSINESS_INVALID,
+        )
+
+    answer_map = _normalize_answer_map(payload.answerList)
+    current_level = _calculate_current_level(request_score)
+    recommended_level = _recommended_level_from(current_level, answer_map)
+    learning_style = _infer_learning_style(answer_map)
+    study_intensity = _infer_study_intensity(answer_map, request_score)
+
+    return _response(
+        message="Request completed successfully.",
+        data=AnalyzeOnboardingDataResult(
+            currentLevel=current_level,
+            recommendedLevel=recommended_level,
+            learningStyle=learning_style,
+            studyIntensity=study_intensity,
+            analysisVersion="v1.0.0",
         ),
     )
 
@@ -343,7 +475,7 @@ async def load_onboarding_answers(
                     answerId=answer.id,
                     questionCode=answer.question_code or "",
                     answerValue=answer.answer_value or "",
-                    updatedAt=_isoformat(answer.created_at) or _isoformat(_utcnow()) or "",
+                    updatedAt=_isoformat(answer.updated_at or answer.created_at) or _isoformat(_utcnow()) or "",
                 )
                 for answer in answers
             ],
@@ -453,6 +585,7 @@ async def upsert_learner_profile(
             target_level=payload.targetLevel,
             study_goal=payload.targetGoal,
             study_mode=payload.experience,
+            updated_at=_utcnow(),
         )
         db.add(profile)
     else:
@@ -460,6 +593,7 @@ async def upsert_learner_profile(
         profile.target_level = payload.targetLevel
         profile.study_goal = payload.targetGoal
         profile.study_mode = payload.experience
+        profile.updated_at = _utcnow()
         if not profile.target_language:
             profile.target_language = "ja"
 
@@ -473,7 +607,7 @@ async def upsert_learner_profile(
             userId=profile.user_id,
             currentLevel=profile.current_level or current_level,
             targetLevel=profile.target_level or payload.targetLevel,
-            updatedAt=_isoformat(_utcnow()) or "",
+            updatedAt=_isoformat(profile.updated_at) or _isoformat(_utcnow()) or "",
         ),
     )
 

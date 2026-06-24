@@ -9,6 +9,11 @@ class GamificationEngine:
     HEART_REGENERATION_RATE = timedelta(hours=4)  # 1 heart per 4 hours
 
     @staticmethod
+    def _has_role(user: models.User, code: str) -> bool:
+        roles = getattr(user, "role", []) or []
+        return any(getattr(role, "code", None) == code for role in roles)
+
+    @staticmethod
     async def add_xp(user: models.User, amount: int, db: AsyncSession):
         user.xp += amount
         await db.commit()
@@ -28,7 +33,7 @@ class GamificationEngine:
 
     @staticmethod
     async def deduct_heart(user: models.User, db: AsyncSession) -> bool:
-        if user.role == "B2B":  # Unlimited hearts
+        if GamificationEngine._has_role(user, "B2B"):  # Unlimited hearts
             return True
         if user.hearts > 0:
             user.hearts -= 1
@@ -38,7 +43,7 @@ class GamificationEngine:
 
     @staticmethod
     async def regenerate_hearts(user: models.User, db: AsyncSession):
-        if user.role == "B2B":
+        if GamificationEngine._has_role(user, "B2B"):
             user.hearts = GamificationEngine.MAX_HEARTS
         else:
             now = datetime.utcnow()

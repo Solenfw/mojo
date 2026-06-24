@@ -24,9 +24,9 @@ export default function SignUpPage() {
     try {
       await checkUserByEmailOrPhone({
         email,
-        phone: phone || undefined,
+        phone,
       });
-      const token = await register(email, password, fullName, phone || undefined);
+      const token = await register(email, password, fullName, phone);
       saveToken(token.access_token);
       router.push('/onboarding');
     } catch (err) {

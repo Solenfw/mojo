@@ -3,11 +3,10 @@ from datetime import datetime, timezone, timedelta
 import random
 
 from fastapi import APIRouter, Depends, HTTPException, status
-from pydantic import BaseModel, Field
 from sqlalchemy import select, func
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.db.schemas import UserRead
+from app.db.schemas import MarkUserOnboardedRequest, MarkUserOnboardedResponse, UserRead
 from app.db import models
 from app.api.deps import get_current_user, get_db
 from app.core.security import oauth2_scheme
@@ -21,10 +20,6 @@ def _isoformat(value: datetime | None) -> str | None:
     if value is None:
         return None
     return value.astimezone(timezone.utc).isoformat().replace("+00:00", "Z")
-
-class MarkUserOnboardedRequest(BaseModel):
-    userId: int = Field(gt=0)
-    sessionToken: str | None = Field(default=None, min_length=1)
 
 @router.get("/me", response_model=UserRead)
 async def read_users_me(current_user: models.User = Depends(get_current_user)):
@@ -95,7 +90,7 @@ async def get_profile_data(
         "avatarUrl": f"https://api.dicebear.com/7.x/avataaars/svg?seed={current_user.username}"
     }
 
-@router.put("/onboarding/complete")
+@router.put("/onboarding/complete", response_model=MarkUserOnboardedResponse)
 async def mark_user_onboarded(
     payload: MarkUserOnboardedRequest,
     token: str = Depends(oauth2_scheme),
@@ -103,12 +98,39 @@ async def mark_user_onboarded(
     db: AsyncSession = Depends(get_db),
 ):
     if payload.userId != current_user.id:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Unauthorized access.")
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail={
+                "success": False,
+                "businessCode": "LMS-RESP-UNAUTHORIZED",
+                "message": "Unauthorized access.",
+                "errors": [{"field": "userId", "message": "User does not match access token."}],
+                "timestamp": _isoformat(_utcnow()),
+            },
+        )
     if payload.sessionToken is not None and payload.sessionToken != current_user.session_token and payload.sessionToken != token:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Unauthorized access.")
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail={
+                "success": False,
+                "businessCode": "LMS-RESP-UNAUTHORIZED",
+                "message": "Unauthorized access.",
+                "errors": [{"field": "sessionToken", "message": "Session token is invalid."}],
+                "timestamp": _isoformat(_utcnow()),
+            },
+        )
 
     if current_user.is_onboarded:
-        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Already onboarded.")
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail={
+                "success": False,
+                "businessCode": "LMS-RESP-FAILED",
+                "message": "Invalid input data.",
+                "errors": [{"field": "userId", "message": "User is already onboarded."}],
+                "timestamp": _isoformat(_utcnow()),
+            },
+        )
 
     now = _utcnow()
     current_user.is_onboarded = True
@@ -125,5 +147,6 @@ async def mark_user_onboarded(
             "userId": current_user.id,
             "isOnboarded": True,
             "updatedAt": _isoformat(current_user.onboarded_at),
-        }
+        },
+        "timestamp": _isoformat(_utcnow()),
     }

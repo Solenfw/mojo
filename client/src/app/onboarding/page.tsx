@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Onboarding } from '@/features/auth/components/onboarding';
 import { AuthGuard } from '@/features/auth/components/auth-guard';
-import { submitOnboarding } from '@/lib/auth';
+import { submitOnboarding } from '@/lib/onboarding';
 
 export default function OnboardingPage() {
   const router = useRouter();
