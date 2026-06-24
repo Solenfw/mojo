@@ -1,0 +1,367 @@
+{
+  "lesson_id": 2,
+  "lesson_title": "Bài 2",
+  "vocabulary_count": 40,
+  "items": [
+    {
+      "vocab": "ほん",
+      "Kanji": "本",
+      "Romaji": "hon",
+      "meaning": "sách",
+      "example": "ほんをよみます",
+      "example_meaning": "Tôi đọc sách",
+      "word_type": "N"
+    },
+    {
+      "vocab": "ノート",
+      "Kanji": null,
+      "Romaji": "nooto",
+      "meaning": "vở",
+      "example": "ノートをつかいます",
+      "example_meaning": "Tôi dùng vở",
+      "word_type": "N"
+    },
+    {
+      "vocab": "ペン",
+      "Kanji": null,
+      "Romaji": "pen",
+      "meaning": "bút",
+      "example": "ペンでかきます",
+      "example_meaning": "Tôi viết bằng bút",
+      "word_type": "N"
+    },
+    {
+      "vocab": "えんぴつ",
+      "Kanji": "鉛筆",
+      "Romaji": "enpitsu",
+      "meaning": "bút chì",
+      "example": "えんぴつでかきます",
+      "example_meaning": "Tôi viết bằng bút chì",
+      "word_type": "N"
+    },
+    {
+      "vocab": "けしゴム",
+      "Kanji": "消しゴム",
+      "Romaji": "keshigomu",
+      "meaning": "cục tẩy",
+      "example": "けしゴムをつかいます",
+      "example_meaning": "Tôi dùng tẩy",
+      "word_type": "N"
+    },
+    {
+      "vocab": "つくえ",
+      "Kanji": "机",
+      "Romaji": "tsukue",
+      "meaning": "bàn",
+      "example": "つくえがあります",
+      "example_meaning": "Có cái bàn",
+      "word_type": "N"
+    },
+    {
+      "vocab": "いす",
+      "Kanji": "椅子",
+      "Romaji": "isu",
+      "meaning": "ghế",
+      "example": "いすにすわります",
+      "example_meaning": "Tôi ngồi ghế",
+      "word_type": "N"
+    },
+    {
+      "vocab": "かばん",
+      "Kanji": "鞄",
+      "Romaji": "kaban",
+      "meaning": "cặp/túi",
+      "example": "かばんをもちます",
+      "example_meaning": "Tôi cầm cặp",
+      "word_type": "N"
+    },
+    {
+      "vocab": "とけい",
+      "Kanji": "時計",
+      "Romaji": "tokei",
+      "meaning": "đồng hồ",
+      "example": "とけいをみます",
+      "example_meaning": "Tôi xem đồng hồ",
+      "word_type": "N"
+    },
+    {
+      "vocab": "でんわ",
+      "Kanji": "電話",
+      "Romaji": "denwa",
+      "meaning": "điện thoại",
+      "example": "でんわをかけます",
+      "example_meaning": "Tôi gọi điện",
+      "word_type": "N"
+    },
+    {
+      "vocab": "スマホ",
+      "Kanji": null,
+      "Romaji": "sumaho",
+      "meaning": "điện thoại thông minh",
+      "example": "スマホをつかいます",
+      "example_meaning": "Tôi dùng điện thoại",
+      "word_type": "N"
+    },
+    {
+      "vocab": "テレビ",
+      "Kanji": null,
+      "Romaji": "terebi",
+      "meaning": "TV",
+      "example": "テレビをみます",
+      "example_meaning": "Tôi xem TV",
+      "word_type": "N"
+    },
+    {
+      "vocab": "パソコン",
+      "Kanji": null,
+      "Romaji": "pasokon",
+      "meaning": "máy tính",
+      "example": "パソコンをつかいます",
+      "example_meaning": "Tôi dùng máy tính",
+      "word_type": "N"
+    },
+    {
+      "vocab": "ドア",
+      "Kanji": null,
+      "Romaji": "doa",
+      "meaning": "cửa",
+      "example": "ドアをあけます",
+      "example_meaning": "Tôi mở cửa",
+      "word_type": "N"
+    },
+    {
+      "vocab": "まど",
+      "Kanji": "窓",
+      "Romaji": "mado",
+      "meaning": "cửa sổ",
+      "example": "まどをあけます",
+      "example_meaning": "Tôi mở cửa sổ",
+      "word_type": "N"
+    },
+    {
+      "vocab": "でんき",
+      "Kanji": "電気",
+      "Romaji": "denki",
+      "meaning": "đèn/điện",
+      "example": "でんきをつけます",
+      "example_meaning": "Tôi bật đèn",
+      "word_type": "N"
+    },
+    {
+      "vocab": "かぎ",
+      "Kanji": "鍵",
+      "Romaji": "kagi",
+      "meaning": "chìa khóa",
+      "example": "かぎをかけます",
+      "example_meaning": "Tôi khóa cửa",
+      "word_type": "N"
+    },
+    {
+      "vocab": "さいふ",
+      "Kanji": "財布",
+      "Romaji": "saifu",
+      "meaning": "ví",
+      "example": "さいふをもっています",
+      "example_meaning": "Tôi có ví",
+      "word_type": "N"
+    },
+    {
+      "vocab": "かさ",
+      "Kanji": "傘",
+      "Romaji": "kasa",
+      "meaning": "ô/dù",
+      "example": "かさをさします",
+      "example_meaning": "Tôi che ô",
+      "word_type": "N"
+    },
+    {
+      "vocab": "くつ",
+      "Kanji": "靴",
+      "Romaji": "kutsu",
+      "meaning": "giày",
+      "example": "くつをはきます",
+      "example_meaning": "Tôi mang giày",
+      "word_type": "N"
+    },
+    {
+      "vocab": "ぼうし",
+      "Kanji": "帽子",
+      "Romaji": "boushi",
+      "meaning": "mũ",
+      "example": "ぼうしをかぶります",
+      "example_meaning": "Tôi đội mũ",
+      "word_type": "N"
+    },
+    {
+      "vocab": "ふく",
+      "Kanji": "服",
+      "Romaji": "fuku",
+      "meaning": "quần áo",
+      "example": "ふくをきます",
+      "example_meaning": "Tôi mặc quần áo",
+      "word_type": "N"
+    },
+    {
+      "vocab": "コップ",
+      "Kanji": null,
+      "Romaji": "koppu",
+      "meaning": "cốc",
+      "example": "コップでのみます",
+      "example_meaning": "Tôi uống bằng cốc",
+      "word_type": "N"
+    },
+    {
+      "vocab": "さら",
+      "Kanji": "皿",
+      "Romaji": "sara",
+      "meaning": "đĩa",
+      "example": "さらをあらいます",
+      "example_meaning": "Tôi rửa đĩa",
+      "word_type": "N"
+    },
+    {
+      "vocab": "スプーン",
+      "Kanji": null,
+      "Romaji": "supuun",
+      "meaning": "thìa",
+      "example": "スプーンをつかいます",
+      "example_meaning": "Tôi dùng thìa",
+      "word_type": "N"
+    },
+    {
+      "vocab": "フォーク",
+      "Kanji": null,
+      "Romaji": "fooku",
+      "meaning": "dĩa",
+      "example": "フォークをつかいます",
+      "example_meaning": "Tôi dùng dĩa",
+      "word_type": "N"
+    },
+    {
+      "vocab": "ナイフ",
+      "Kanji": null,
+      "Romaji": "naifu",
+      "meaning": "dao",
+      "example": "ナイフをつかいます",
+      "example_meaning": "Tôi dùng dao",
+      "word_type": "N"
+    },
+    {
+      "vocab": "れいぞうこ",
+      "Kanji": "冷蔵庫",
+      "Romaji": "reizouko",
+      "meaning": "tủ lạnh",
+      "example": "れいぞうこにあります",
+      "example_meaning": "Nó ở trong tủ lạnh",
+      "word_type": "N"
+    },
+    {
+      "vocab": "せんたくき",
+      "Kanji": "洗濯機",
+      "Romaji": "sentakuki",
+      "meaning": "máy giặt",
+      "example": "せんたくきをつかいます",
+      "example_meaning": "Tôi dùng máy giặt",
+      "word_type": "N"
+    },
+    {
+      "vocab": "エアコン",
+      "Kanji": null,
+      "Romaji": "eakon",
+      "meaning": "điều hòa",
+      "example": "エアコンをつけます",
+      "example_meaning": "Tôi bật điều hòa",
+      "word_type": "N"
+    },
+    {
+      "vocab": "かがみ",
+      "Kanji": "鏡",
+      "Romaji": "kagami",
+      "meaning": "gương",
+      "example": "かがみをみます",
+      "example_meaning": "Tôi soi gương",
+      "word_type": "N"
+    },
+    {
+      "vocab": "ベッド",
+      "Kanji": null,
+      "Romaji": "beddo",
+      "meaning": "giường",
+      "example": "ベッドでねます",
+      "example_meaning": "Tôi ngủ trên giường",
+      "word_type": "N"
+    },
+    {
+      "vocab": "ふとん",
+      "Kanji": "布団",
+      "Romaji": "futon",
+      "meaning": "chăn nệm",
+      "example": "ふとんでねます",
+      "example_meaning": "Tôi ngủ trên futon",
+      "word_type": "N"
+    },
+    {
+      "vocab": "たおる",
+      "Kanji": "タオル",
+      "Romaji": "taoru",
+      "meaning": "khăn",
+      "example": "タオルをつかいます",
+      "example_meaning": "Tôi dùng khăn",
+      "word_type": "N"
+    },
+    {
+      "vocab": "かみ",
+      "Kanji": "紙",
+      "Romaji": "kami",
+      "meaning": "giấy",
+      "example": "かみにかきます",
+      "example_meaning": "Tôi viết lên giấy",
+      "word_type": "N"
+    },
+    {
+      "vocab": "はこ",
+      "Kanji": "箱",
+      "Romaji": "hako",
+      "meaning": "hộp",
+      "example": "はこをあけます",
+      "example_meaning": "Tôi mở hộp",
+      "word_type": "N"
+    },
+    {
+      "vocab": "ふくろ",
+      "Kanji": "袋",
+      "Romaji": "fukuro",
+      "meaning": "túi",
+      "example": "ふくろにいれます",
+      "example_meaning": "Tôi cho vào túi",
+      "word_type": "N"
+    },
+    {
+      "vocab": "ボトル",
+      "Kanji": null,
+      "Romaji": "botoru",
+      "meaning": "chai",
+      "example": "ボトルをもっています",
+      "example_meaning": "Tôi cầm chai",
+      "word_type": "N"
+    },
+    {
+      "vocab": "じてんしゃ",
+      "Kanji": "自転車",
+      "Romaji": "jitensha",
+      "meaning": "xe đạp",
+      "example": "じてんしゃにのります",
+      "example_meaning": "Tôi đi xe đạp",
+      "word_type": "N"
+    },
+    {
+      "vocab": "くるま",
+      "Kanji": "車",
+      "Romaji": "kuruma",
+      "meaning": "ô tô",
+      "example": "くるまにのります",
+      "example_meaning": "Tôi đi ô tô",
+      "word_type": "N"
+    }
+  ]
+}

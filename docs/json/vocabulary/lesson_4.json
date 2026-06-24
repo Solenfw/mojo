@@ -1,0 +1,457 @@
+{
+  "lesson_id": 4,
+  "lesson_title": "Bài 4",
+  "vocabulary_count": 50,
+  "items": [
+    {
+    "vocab": "おきます",
+    "Kanji": "起きます",
+    "romaji": "okimasu",
+    "meaning": "thức dậy",
+    "example": "６時に起きます。",
+    "example_meaning": "thức dậy lúc 6 giờ",
+    "word_type": "v"
+    },
+    {
+    "vocab": "ねます",
+    "Kanji": "寝ます",
+    "romaji": "nemasu",
+    "meaning": "ngủ",
+    "example": "１２時に寝ます。",
+    "example_meaning": "ngủ lúc 12 giờ",
+    "word_type": "v"
+    },
+    {
+    "vocab": "はたらきます",
+    "Kanji": "働きます",
+    "romaji": "hatarakimasu",
+    "meaning": "làm việc",
+    "example": "毎日働きます。",
+    "example_meaning": "làm việc mỗi ngày",
+    "word_type": "v"
+    },
+    {
+    "vocab": "やすみます",
+    "Kanji": "休みます",
+    "romaji": "yasumimasu",
+    "meaning": "nghỉ ngơi",
+    "example": "学校を休みます。",
+    "example_meaning": "nghỉ học",
+    "word_type": "v"
+    },
+    {
+    "vocab": "べんきょうします",
+    "Kanji": "勉強します",
+    "romaji": "benkyoushimasu",
+    "meaning": "học",
+    "example": "日本語を勉強します。",
+    "example_meaning": "học tiếng Nhật",
+    "word_type": "v"
+    },
+    {
+    "vocab": "おわります",
+    "Kanji": "終わります",
+    "romaji": "owarimasu",
+    "meaning": "kết thúc, xong",
+    "example": "えいがをおわります。",
+    "example_meaning": "kết túc bộ phim",
+    "word_type": "v"
+    },
+    {
+    "vocab": "デパート",
+    "Kanji": null,
+    "romaji": "depa-to",
+    "meaning": "bách hóa",
+    "example": "デパートへ行きます。",
+    "example_meaning": "đi bách hóa",
+    "word_type": "n"
+    },
+    {
+    "vocab": "ぎんこう",
+    "Kanji": "銀行",
+    "romaji": "ginkou",
+    "meaning": "ngân hàng",
+    "example": "銀行へ行きます。",
+    "example_meaning": "đi ngân hàng",
+    "word_type": "n"
+    },
+    {
+    "vocab": "ゆうびんきょく",
+    "Kanji": "郵便局",
+    "romaji": "yuubinkyoku",
+    "meaning": "bưu điện",
+    "example": "郵便局へ行きます。",
+    "example_meaning": "đi bưu điện",
+    "word_type": "n"
+    },
+    {
+    "vocab": "としょかん",
+    "Kanji": "図書館",
+    "romaji": "toshokan",
+    "meaning": "thư viện",
+    "example": "図書館へ行きます。",
+    "example_meaning": "đi thư viện",
+    "word_type": "n"
+    },
+    {
+    "vocab": "びじゅつかん",
+    "Kanji": "美術館",
+    "romaji": "bijutsukan",
+    "meaning": "bảo tàng mĩ thuật",
+    "example": "美術館へ行きます。",
+    "example_meaning": "đi bảo tàng mĩ thuật",
+    "word_type": "n"
+    },
+    {
+    "vocab": "がっこう",
+    "Kanji": "学校",
+    "romaji": "gakkou",
+    "meaning": "trường học",
+    "example": "学校へ行きます。",
+    "example_meaning": "đi đến trường",
+    "word_type": "n"
+    },
+    {
+    "vocab": "じ",
+    "Kanji": "時",
+    "romaji": "ji",
+    "meaning": "giờ",
+    "example": "今は６時です。",
+    "example_meaning": "bây giờ là 6 giờ",
+    "word_type": "n"
+    },
+    {
+    "vocab": "ふん（ぷん）",
+    "Kanji": "分",
+    "romaji": "pun(bun)",
+    "meaning": "phút",
+    "example": "今は６時１５分です。",
+    "example_meaning": "bây giờ là 6 giờ 15 phút",
+    "word_type": "n"
+    },
+    {
+    "vocab": "なんじ",
+    "Kanji": "何時",
+    "romaji": "nanji",
+    "meaning": "mấy giờ",
+    "example": "今何時ですか。",
+    "example_meaning": "bây giờ là mấy giờ",
+    "word_type": null
+    },
+    {
+    "vocab": "なんふん",
+    "Kanji": "何分",
+    "romaji": "nanpun",
+    "meaning": "mấy phút",
+    "example": "今何時何分ですか。",
+    "example_meaning": "bây giờ là mấy giờ mấy phút",
+    "word_type": null
+    },
+    {
+    "vocab": "いつ",
+    "Kanji": null,
+    "romaji": "itsu",
+    "meaning": "khi nào",
+    "example": "いつ学校へ行きますか。",
+    "example_meaning": "khi nào thì đi đến trường?",
+    "word_type": null
+    },
+    {
+    "vocab": "いま",
+    "Kanji": "今ま",
+    "romaji": "ima",
+    "meaning": "bây giờ",
+    "example": "今は１２時です。",
+    "example_meaning": "bây giờ là 12 giờ",
+    "word_type": "n"
+    },
+    {
+    "vocab": "ごご",
+    "Kanji": "午後",
+    "romaji": "gogo",
+    "meaning": "chiều ( sau 12h trưa )",
+    "example": "午後銀行へ行きます。",
+    "example_meaning": "chiều đi ngân hàng",
+    "word_type": "n"
+    },
+    {
+    "vocab": "ごぜん",
+    "Kanji": "午前",
+    "romaji": "gozen",
+    "meaning": "sáng ( trước 12h trưa )",
+    "example": "午前６時に起きます。",
+    "example_meaning": "thức dậy lúc 6 giờ sáng",
+    "word_type": "n"
+    },
+    {
+    "vocab": "あさ",
+    "Kanji": "朝",
+    "romaji": "asa",
+    "meaning": "sáng, buổi sáng",
+    "example": null,
+    "example_meaning": null,
+    "word_type": "n"
+    },
+    {
+    "vocab": "ひる",
+    "Kanji": "昼",
+    "romaji": "hiru",
+    "meaning": "trưa, buổi trưa",
+    "example": null,
+    "example_meaning": null,
+    "word_type": "n"
+    },
+    {
+    "vocab": "ばん（よる）",
+    "Kanji": "晩（夜）",
+    "romaji": "ban(yoru)",
+    "meaning": "tối, buổi tối",
+    "example": null,
+    "example_meaning": null,
+    "word_type": "n"
+    },
+    {
+    "vocab": "おととい",
+    "Kanji": null,
+    "romaji": "ototoi",
+    "meaning": "ngày hôm kia",
+    "example": null,
+    "example_meaning": null,
+    "word_type": "n"
+    },
+    {
+    "vocab": "きのう",
+    "Kanji": null,
+    "romaji": "kinou",
+    "meaning": "ngày hôm qua",
+    "example": null,
+    "example_meaning": null,
+    "word_type": "n"
+    },
+    {
+    "vocab": "きょう",
+    "Kanji": null,
+    "romaji": "kyou",
+    "meaning": "hôm nay",
+    "example": null,
+    "example_meaning": null,
+    "word_type": "n"
+    },
+    {
+    "vocab": "あした",
+    "Kanji": null,
+    "romaji": "ashita",
+    "meaning": "ngày mai",
+    "example": null,
+    "example_meaning": null,
+    "word_type": "n"
+    },
+    {
+    "vocab": "あさって",
+    "Kanji": null,
+    "romaji": "asatte",
+    "meaning": "ngày kia",
+    "example": null,
+    "example_meaning": null,
+    "word_type": "n"
+    },
+    {
+    "vocab": "けさ",
+    "Kanji": null,
+    "romaji": "kesa",
+    "meaning": "sáng nay",
+    "example": null,
+    "example_meaning": null,
+    "word_type": "n"
+    },
+    {
+    "vocab": "こんばん",
+    "Kanji": "今晩",
+    "romaji": "konban",
+    "meaning": "tối nay",
+    "example": null,
+    "example_meaning": null,
+    "word_type": "n"
+    },
+    {
+    "vocab": "まいあさ",
+    "Kanji": "毎朝",
+    "romaji": "maiasa",
+    "meaning": "mỗi sáng",
+    "example": null,
+    "example_meaning": null,
+    "word_type": "n"
+    },
+    {
+    "vocab": "まいばん",
+    "Kanji": "毎晩",
+    "romaji": "maiban",
+    "meaning": "mỗi tối",
+    "example": null,
+    "example_meaning": null,
+    "word_type": "n"
+    },
+    {
+    "vocab": "まいにち",
+    "Kanji": "毎日",
+    "romaji": "mainichi",
+    "meaning": "mỗi ngày",
+    "example": null,
+    "example_meaning": null,
+    "word_type": "n"
+    },
+    {
+    "vocab": "げつようび",
+    "Kanji": "月曜日",
+    "romaji": "getsuyoubi",
+    "meaning": "thứ Hai",
+    "example": null,
+    "example_meaning": null,
+    "word_type": "n"
+    },
+    {
+    "vocab": "かようび",
+    "Kanji": "火曜日",
+    "romaji": "kayoubi",
+    "meaning": "thứ Ba",
+    "example": null,
+    "example_meaning": null,
+    "word_type": "n"
+    },
+    {
+    "vocab": "すいようび",
+    "Kanji": "水曜日",
+    "romaji": "suiyoubi",
+    "meaning": "thứ Tư",
+    "example": null,
+    "example_meaning": null,
+    "word_type": "n"
+    },
+    {
+    "vocab": "もくようび",
+    "Kanji": "木曜日",
+    "romaji": "mokuyoubi",
+    "meaning": "thứ Năm",
+    "example": null,
+    "example_meaning": null,
+    "word_type": "n"
+    },
+    {
+    "vocab": "きんようび",
+    "Kanji": "金曜日",
+    "romaji": "kinyoubi",
+    "meaning": "thứ Sáu",
+    "example": null,
+    "example_meaning": null,
+    "word_type": "n"
+    },
+    {
+    "vocab": "どようび",
+    "Kanji": "土曜日",
+    "romaji": "doyoubi",
+    "meaning": "thứ Bảy",
+    "example": null,
+    "example_meaning": null,
+    "word_type": "n"
+    },
+    {
+    "vocab": "にちようび",
+    "Kanji": "日曜日",
+    "romaji": "nichiyoubi",
+    "meaning": "Chủ Nhật",
+    "example": null,
+    "example_meaning": null,
+    "word_type": "n"
+    },
+    {
+    "vocab": "なんようび",
+    "Kanji": "何曜日",
+    "romaji": "nanyoubi",
+    "meaning": "thứ mấy",
+    "example": null,
+    "example_meaning": null,
+    "word_type": "n"
+    },
+    {
+    "vocab": "～から",
+    "Kanji": null,
+    "romaji": "～kara",
+    "meaning": "~ từ",
+    "example": null,
+    "example_meaning": null,
+    "word_type": null
+    },
+    {
+    "vocab": "～まで",
+    "Kanji": null,
+    "romaji": "～made",
+    "meaning": "~ đến",
+    "example": null,
+    "example_meaning": null,
+    "word_type": null
+    },
+    {
+    "vocab": "～と～",
+    "Kanji": null,
+    "romaji": "～to～",
+    "meaning": "~ và",
+    "example": null,
+    "example_meaning": null,
+    "word_type": null
+    },
+    {
+    "vocab": "たいへんですね",
+    "Kanji": "大変ですね",
+    "romaji": "taihenesune",
+    "meaning": "vất vả nhỉ",
+    "example": null,
+    "example_meaning": null,
+    "word_type": null
+    },
+    {
+    "vocab": "そちら",
+    "Kanji": null,
+    "romaji": "sochira",
+    "meaning": "ông/bà, phía ông/ phía bà",
+    "example": null,
+    "example_meaning": null,
+    "word_type": "n"
+    },
+    {
+    "vocab": "ニューヨーク",
+    "Kanji": null,
+    "romaji": "nyu-yo-ku",
+    "meaning": "New York",
+    "example": null,
+    "example_meaning": null,
+    "word_type": "n"
+    },
+    {
+    "vocab": "ぺきん",
+    "Kanji": "北京",
+    "romaji": "pekin",
+    "meaning": "Bắc Kinh",
+    "example": null,
+    "example_meaning": null,
+    "word_type": "n"
+    },
+    {
+    "vocab": "ロサンゼルス",
+    "Kanji": null,
+    "romaji": "rosanzerusu",
+    "meaning": "Los Angeles",
+    "example": null,
+    "example_meaning": null,
+    "word_type": "n"
+    },
+    {
+    "vocab": "ロンドン",
+    "Kanji": null,
+    "romaji": "rondon",
+    "meaning": "Luân Đôn",
+    "example": null,
+    "example_meaning": null,
+    "word_type": "n"
+    }
+  ]
+}

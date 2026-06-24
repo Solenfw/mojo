@@ -1,0 +1,205 @@
+{
+  "lesson": "Bài đọc Tiếng Nhật - Bài 4",
+  "title": "がっこうは なんようびから ですか / アルバイトへ いきます",
+  "reading_passages": [
+    {
+      "id": 1,
+      "title": "がっこうは なんようびから ですか",
+      "japanese": [
+        "ヤマモトさんは だいがくせいです。",
+        "まいしゅう げつようびから きんようびまで がっこうへ いきます。"
+      ],
+      "conversation": [
+        {
+          "speaker": "さくら",
+          "japanese": "ヤマモトさん、がっこうは なんようびから ですか。",
+          "vietnamese": "Yamamoto, trường bắt đầu từ thứ mấy?"
+        },
+        {
+          "speaker": "ヤマモト",
+          "japanese": "げつようびから です。",
+          "vietnamese": "Từ thứ hai."
+        },
+        {
+          "speaker": "さくら",
+          "japanese": "なんじから ですか。",
+          "vietnamese": "Bắt đầu lúc mấy giờ?"
+        },
+        {
+          "speaker": "ヤマモト",
+          "japanese": "あさ ８じから です。",
+          "vietnamese": "Từ 8 giờ sáng."
+        },
+        {
+          "speaker": "さくら",
+          "japanese": "なんじまで ですか。",
+          "vietnamese": "Đến mấy giờ?"
+        },
+        {
+          "speaker": "ヤマモト",
+          "japanese": "ごご ３じまで です。",
+          "vietnamese": "Đến 3 giờ chiều."
+        },
+        {
+          "speaker": "さくら",
+          "japanese": "どようびと にちようびは？",
+          "vietnamese": "Thứ bảy và chủ nhật thì sao?"
+        },
+        {
+          "speaker": "ヤマモト",
+          "japanese": "やすみです。",
+          "vietnamese": "Nghỉ."
+        }
+      ],
+      "vietnamese": [
+        "Yamamoto là sinh viên đại học.",
+        "Hàng tuần, từ thứ hai đến thứ sáu, anh ấy đi học."
+      ]
+    },
+    {
+      "id": 2,
+      "title": "アルバイトへ いきます",
+      "vietnamese_title": "Đi làm thêm",
+      "japanese": [
+        "ゴックさんは だいがくせいです。",
+        "きょう アルバイトが あります。"
+      ],
+      "conversation": [
+        {
+          "speaker": "ゴック",
+          "japanese": "リンさん、いま なんじですか。",
+          "vietnamese": "Lin, bây giờ là mấy giờ?"
+        },
+        {
+          "speaker": "リン",
+          "japanese": "４じ はんです。",
+          "vietnamese": "4 giờ rưỡi."
+        },
+        {
+          "speaker": "ゴック",
+          "japanese": "そうですか。アルバイトは ５じから です。",
+          "vietnamese": "Vậy à. Công việc làm thêm bắt đầu từ 5 giờ."
+        },
+        {
+          "speaker": "リン",
+          "japanese": "どこへ いきますか。",
+          "vietnamese": "Bạn đi đâu vậy?"
+        },
+        {
+          "speaker": "ゴック",
+          "japanese": "レストランへ いきます。",
+          "vietnamese": "Tôi đi đến nhà hàng."
+        },
+        {
+          "speaker": "リン",
+          "japanese": "なんじまで ですか。",
+          "vietnamese": "Đến mấy giờ?"
+        },
+        {
+          "speaker": "ゴック",
+          "japanese": "９じまで です。",
+          "vietnamese": "Đến 9 giờ."
+        }
+      ]
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "なんじ",
+      "meaning": "mấy giờ"
+    },
+    {
+      "word": "～から",
+      "meaning": "từ"
+    },
+    {
+      "word": "～まで",
+      "meaning": "đến"
+    },
+    {
+      "word": "まいにち",
+      "meaning": "mỗi ngày"
+    },
+    {
+      "word": "うち",
+      "meaning": "nhà"
+    },
+    {
+      "word": "でます",
+      "meaning": "ra khỏi"
+    },
+    {
+      "word": "だいがくせい",
+      "meaning": "sinh viên"
+    },
+    {
+      "word": "アルバイト",
+      "meaning": "làm thêm"
+    },
+    {
+      "word": "～じはん",
+      "meaning": "rưỡi"
+    },
+    {
+      "word": "レストラン",
+      "meaning": "nhà hàng"
+    }
+  ],
+  "exercises": [
+    {
+      "id": 1,
+      "title": "問題",
+      "type": "short_answer",
+      "questions": [
+        {
+          "id": 1,
+          "question": "がっこうは なんようびから ですか。",
+          "answer": "げつようびから です。"
+        },
+        {
+          "id": 2,
+          "question": "がっこうは なんじから ですか。",
+          "answer": "８じから です。"
+        },
+        {
+          "id": 3,
+          "question": "がっこうは なんじまで ですか。",
+          "answer": "３じまで です。"
+        },
+        {
+          "id": 4,
+          "question": "どようびは がっこうですか。",
+          "answer": "いいえ、やすみです。"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "問題",
+      "type": "short_answer",
+      "questions": [
+        {
+          "id": 1,
+          "question": "いま なんじですか。",
+          "answer": "４じ はんです。",
+          "note": "Trong file đáp án gốc ghi 'かようびです', có vẻ bị lệch đáp án; câu trả lời đúng theo bài đọc là '４じ はんです'."
+        },
+        {
+          "id": 2,
+          "question": "アルバイトは なんじから ですか。",
+          "answer": "５じから です。"
+        },
+        {
+          "id": 3,
+          "question": "ゴックさんは どこへ いきますか。",
+          "answer": "レストランへ いきます。"
+        },
+        {
+          "id": 4,
+          "question": "アルバイトは なんじまで ですか。",
+          "answer": "９じまで です。"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "lesson_id": 4,
+  "title": "あさ がっこうへ いく まえ",
+  "dialogues": [
+    {
+      "title": "Buổi sáng – trước giờ đi học",
+      "conversation": [
+        {
+          "speaker": "チソラさん",
+          "japanese": "おはよう、もみじさん。けさは なんじに おきましたか。",
+          "romaji": "Ohayou, Momiji-san. Kesa wa nanji ni okimashita ka.",
+          "vietnamese": "Chào buổi sáng, Momiji. Sáng nay bạn thức dậy lúc mấy giờ?"
+        },
+        {
+          "speaker": "もみじさん",
+          "japanese": "おはようございます。ごぜん 6じに おきました。",
+          "romaji": "Ohayou gozaimasu. Gozen rokuji ni okimashita.",
+          "vietnamese": "Chào buổi sáng. Mình thức dậy lúc 6 giờ sáng."
+        },
+        {
+          "speaker": "チソラさん",
+          "japanese": "6じ30ぷんです。 それから、7じから べんきょうしました。",
+          "romaji": "Rokuji sanjuppun desu. Sorekara, shichiji kara benkyou shimashita.",
+          "vietnamese": "Còn Chisora? Mình dậy lúc 6 giờ 30. Sau đó mình học từ 7 giờ."
+        },
+        {
+          "speaker": "もみじさん",
+          "japanese": "すごいですね。 べんきょうは なんじまででしたか。",
+          "romaji": "Sugoi desu ne. Benkyou wa nanji made deshita ka.",
+          "vietnamese": "Giỏi thật nhỉ. Bạn học đến mấy giờ?"
+        },
+        {
+          "speaker": "チソラさん",
+          "japanese": "ひる 12じまでです。 そのあと、デパートと としょかんへ いきました。",
+          "romaji": "Hiru juuniji made desu. Sono ato, depaato to toshokan e ikimashita.",
+          "vietnamese": "Đến 12 giờ trưa. Sau đó mình đi bách hóa và thư viện."
+        },
+        {
+          "speaker": "もみじさん",
+          "japanese": "たいへんですね。 きょうも がっこうですか。",
+          "romaji": "Taihen desu ne. Kyou mo gakkou desu ka.",
+          "vietnamese": "Vất vả nhỉ. Hôm nay bạn cũng đi học à?"
+        },
+        {
+          "speaker": "チソラさん",
+          "japanese": "はい。 でも、こんばんは やすみます。 いっしょに ばんごはんを たべませんか。",
+          "romaji": "Hai. Demo, konban wa yasumimasu. Issho ni bangohan o tabemasen ka.",
+          "vietnamese": "Ừ. Nhưng tối nay mình nghỉ. Đi ăn tối cùng nhau nhé?"
+        },
+        {
+          "speaker": "もみじさん",
+          "japanese": "いいですね！ じゃ、がっこうが おわったあとに あいましょう。",
+          "romaji": "Ii desu ne! Ja, gakkou ga owatta ato ni aimashou.",
+          "vietnamese": "Được đó! Vậy gặp nhau sau khi tan học nhé."
+        }
+      ]
+    }
+  ]
+}

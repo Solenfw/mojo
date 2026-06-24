@@ -1,0 +1,170 @@
+{
+  "lesson_id": 2,
+  "lesson_title": "Bài 2",
+  "grammar_points": [
+    {
+      "id": 1,
+      "grammar": "これ／それ／あれ は N です",
+      "meaning": "Cái này / cái đó / cái kia là N",
+      "explanation": [
+        "これ: vật ở gần người nói.",
+        "それ: vật ở xa người nói, gần người nghe.",
+        "あれ: vật ở xa cả người nói và người nghe."
+      ],
+      "examples": [
+        {
+          "japanese": "これはじしょです。",
+          "vietnamese": "Cái này là từ điển."
+        },
+        {
+          "japanese": "それはかばんじゃありません。",
+          "vietnamese": "Cái đó không phải là cặp sách."
+        },
+        {
+          "japanese": "あれはめがねですか。",
+          "vietnamese": "Cái kia là cái kính phải không?"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "grammar": "この／その／あの N1 は N2 です",
+      "meaning": "Cái này / cái đó / cái kia là N",
+      "explanation": [
+        "この / その / あの dùng để bổ nghĩa cho danh từ.",
+        "この: vật ở gần người nói.",
+        "その: vật ở xa người nói, gần người nghe.",
+        "あの: vật ở xa cả người nói và người nghe."
+      ],
+      "examples": [
+        {
+          "japanese": "このざっしはわたしのじしょです。",
+          "vietnamese": "Quyển tạp chí này là của tôi."
+        },
+        {
+          "japanese": "そのしんぶんはわたしのかばんじゃありません。",
+          "vietnamese": "Tờ báo đó không phải là của tôi."
+        },
+        {
+          "japanese": "あのひとはだれですか。",
+          "vietnamese": "Người kia là ai?"
+        },
+        {
+          "japanese": "あのひとはリンさんです。",
+          "vietnamese": "Người kia là Linh."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "grammar": "そうです / ちがいます / そうですか",
+      "meaning": "Đúng vậy / Không phải / Vậy à",
+      "explanation": [
+        "そうです: đúng vậy.",
+        "ちがいます: không phải.",
+        "そうですか: vậy à."
+      ],
+      "examples": [
+        {
+          "japanese": "これはテレビですか。",
+          "vietnamese": "Cái này là tivi phải không?"
+        },
+        {
+          "japanese": "はい、そうです。",
+          "vietnamese": "Vâng, đúng vậy."
+        },
+        {
+          "japanese": "それはえんびつですか。",
+          "vietnamese": "Cái đó là bút chì phải không?"
+        },
+        {
+          "japanese": "いいえ、ちがいます。",
+          "vietnamese": "Không, không phải."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "grammar": "N1 ですか、N2 ですか",
+      "meaning": "Là N1 hay N2?",
+      "explanation": [
+        "Dùng để lựa chọn giữa hai danh từ."
+      ],
+      "examples": [
+        {
+          "japanese": "これはボールペンですか、シャープペンシルですか。",
+          "vietnamese": "Cái này là bút bi hay bút chì kim?"
+        },
+        {
+          "japanese": "これはボールペンです。",
+          "vietnamese": "Cái này là bút bi."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "grammar": "N1 の N2",
+      "meaning": "N2 về N1",
+      "explanation": [
+        "N1 bổ nghĩa cho N2.",
+        "の ở đây mang nghĩa 'về'."
+      ],
+      "examples": [
+        {
+          "japanese": "これはにほんのほんです。",
+          "vietnamese": "Đây là quyển sách về tiếng Nhật."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "grammar": "の",
+      "meaning": "Thay thế cho danh từ",
+      "explanation": [
+        "の có thể đứng một mình để thay thế cho một danh từ đã được nhắc tới trước đó."
+      ],
+      "examples": [
+        {
+          "japanese": "そのほんはだれのですか。",
+          "vietnamese": "Quyển sách đó là của ai?"
+        },
+        {
+          "japanese": "それはわたしのです。",
+          "vietnamese": "Đó là của tôi."
+        }
+      ]
+    }
+  ],
+  "dialogues": [
+    {
+      "title": "Mẫu hội thoại hỏi đồ vật",
+      "conversation": [
+        {
+          "speaker": "A",
+          "japanese": "これは なんですか。",
+          "vietnamese": "Đây là cái gì?"
+        },
+        {
+          "speaker": "B",
+          "japanese": "それは かさです。",
+          "vietnamese": "Đó là cái ô."
+        },
+        {
+          "speaker": "A",
+          "japanese": "だれの かさですか。",
+          "vietnamese": "Ô của ai vậy?"
+        },
+        {
+          "speaker": "B",
+          "japanese": "さとうさんのです。",
+          "vietnamese": "Là của anh/chị Sato."
+        },
+        {
+          "speaker": "A",
+          "japanese": "そうですか。",
+          "vietnamese": "À, vậy à."
+        }
+      ]
+    }
+  ]
+}

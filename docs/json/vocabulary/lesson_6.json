@@ -1,0 +1,421 @@
+{
+  "lesson_id": 6,
+  "lesson_title": "Bài 6",
+  "vocabulary_count": 46,
+  "items": [
+    {
+      "vocab": "たべます",
+      "Kanji": "食べます",
+      "romaji": "tabemsu",
+      "meaning": "ăn",
+      "example": "ご飯を食べます。",
+      "example_meaning": "ăn cơm",
+      "word_type": "v"
+    },
+    {
+      "vocab": "のみます",
+      "Kanji": "飲みます",
+      "romaji": "nomimasu",
+      "meaning": "uống",
+      "example": "水を飲みます。",
+      "example_meaning": "uống nước",
+      "word_type": "v"
+    },
+    {
+      "vocab": "すいます",
+      "Kanji": "吸います",
+      "romaji": "suimasu",
+      "meaning": "hút ( thuốc )",
+      "example": "タバコを吸います。",
+      "example_meaning": "hút thuốc",
+      "word_type": "v"
+    },
+    {
+      "vocab": "みます",
+      "Kanji": "見ます",
+      "romaji": "mimasu",
+      "meaning": "xem, nhìn",
+      "example": "テレビを見ます。",
+      "example_meaning": "xem tivi",
+      "word_type": "v"
+    },
+    {
+      "vocab": "ききます",
+      "Kanji": "聞きます",
+      "romaji": "kikimasu",
+      "meaning": "nghe",
+      "example": "音楽を聞きます。",
+      "example_meaning": "nghe nhạc",
+      "word_type": "v"
+    },
+    {
+      "vocab": "よみます",
+      "Kanji": "読みます",
+      "romaji": "yomimasu",
+      "meaning": "đọc",
+      "example": "本を読みます。",
+      "example_meaning": "đọc sách",
+      "word_type": "v"
+    },
+    {
+      "vocab": "かきます",
+      "Kanji": "書きます",
+      "romaji": "kakimasu",
+      "meaning": "viết, vẽ",
+      "example": "絵を書きます。",
+      "example_meaning": "vẽ tranh",
+      "word_type": "v"
+    },
+    {
+      "vocab": "かいます",
+      "Kanji": "買います",
+      "romaji": "kaimasu",
+      "meaning": "mua",
+      "example": "ペンを買います。",
+      "example_meaning": "mua bánh mì",
+      "word_type": "v"
+    },
+    {
+      "vocab": "とります",
+      "Kanji": "撮ります",
+      "romaji": "torimasu",
+      "meaning": "chụp ( ảnh )",
+      "example": "写真を撮ります。",
+      "example_meaning": "chụp ảnh",
+      "word_type": "v"
+    },
+    {
+      "vocab": "します",
+      "Kanji": null,
+      "romaji": "shimasu",
+      "meaning": "làm",
+      "example": "サッカーをします。",
+      "example_meaning": "chơi đá bóng",
+      "word_type": "v"
+    },
+    {
+      "vocab": "［ともだち に］あいます",
+      "Kanji": "［友達に］会います",
+      "romaji": "(tomodachi ni) aimasu",
+      "meaning": "gặp ( bạn bè )",
+      "example": "友達を会います。",
+      "example_meaning": "gặp bạn",
+      "word_type": "v"
+    },
+    {
+      "vocab": "ごはん",
+      "Kanji": "ご飯",
+      "romaji": "gohan",
+      "meaning": "cơm",
+      "example": "ご飯を食べます。",
+      "example_meaning": "ăn cơm",
+      "word_type": "n"
+    },
+    {
+      "vocab": "あさごはん",
+      "Kanji": "朝ご飯",
+      "romaji": "asagohan",
+      "meaning": "bữa sáng",
+      "example": "朝ご飯を食べます。",
+      "example_meaning": "ăn sáng",
+      "word_type": "n"
+    },
+    {
+      "vocab": "ひるごはん",
+      "Kanji": "昼ご飯",
+      "romaji": "hirugohan",
+      "meaning": "bữa trưa",
+      "example": "昼ご飯を食べます。",
+      "example_meaning": "ăn trưa",
+      "word_type": "n"
+    },
+    {
+      "vocab": "ばんごはん",
+      "Kanji": "晩ご飯",
+      "romaji": "bangohan",
+      "meaning": "bữa tối",
+      "example": "晩ご飯を食べます。",
+      "example_meaning": "ăn tối",
+      "word_type": "n"
+    },
+    {
+      "vocab": "おんがく",
+      "Kanji": "音楽",
+      "romaji": "ongaku",
+      "meaning": "âm nhạc",
+      "example": "音楽を聞きます。",
+      "example_meaning": "nghe nhạc",
+      "word_type": "n"
+    },
+    {
+      "vocab": "パン",
+      "Kanji": null,
+      "romaji": "pan",
+      "meaning": "bánh mì",
+      "example": "パンを食べます。",
+      "example_meaning": "ăn bánh mì",
+      "word_type": "n"
+    },
+    {
+      "vocab": "たまご",
+      "Kanji": "卵",
+      "romaji": "tamago",
+      "meaning": "trứng",
+      "example": "卵を食べます。",
+      "example_meaning": "ăn trứng",
+      "word_type": "n"
+    },
+    {
+      "vocab": "にく",
+      "Kanji": "肉",
+      "romaji": "niku",
+      "meaning": "thịt",
+      "example": "肉を食べます。",
+      "example_meaning": "ăn thịt",
+      "word_type": "n"
+    },
+    {
+      "vocab": "さかな",
+      "Kanji": "魚",
+      "romaji": "sakana",
+      "meaning": "cá",
+      "example": "魚を食べます。",
+      "example_meaning": "ăn cá",
+      "word_type": "n"
+    },
+    {
+      "vocab": "やさい",
+      "Kanji": "野菜",
+      "romaji": "yasai",
+      "meaning": "rau",
+      "example": "野菜を食べます。",
+      "example_meaning": "ăn rau",
+      "word_type": "n"
+    },
+    {
+      "vocab": "くだもの",
+      "Kanji": "果物",
+      "romaji": "kudamono",
+      "meaning": "hoa quả",
+      "example": "果物を食べます。",
+      "example_meaning": "ăn hoa quả",
+      "word_type": "n"
+    },
+    {
+      "vocab": "たべもの",
+      "Kanji": "食べ物",
+      "romaji": "tabemono",
+      "meaning": "đồ ăn",
+      "example": "食べ物を食べます。",
+      "example_meaning": "ăn đồ ăn",
+      "word_type": "n"
+    },
+    {
+      "vocab": "のみもの",
+      "Kanji": "飲み物",
+      "romaji": "nomimono",
+      "meaning": "đồ uống",
+      "example": "飲み物を飲みます。",
+      "example_meaning": "uống đồ uống",
+      "word_type": "n"
+    },
+    {
+      "vocab": "みず",
+      "Kanji": "水",
+      "romaji": "mizu",
+      "meaning": "nước",
+      "example": "水を飲みます。",
+      "example_meaning": "uống nước",
+      "word_type": "n"
+    },
+    {
+      "vocab": "おちゃ",
+      "Kanji": "お茶",
+      "romaji": "ocha",
+      "meaning": "trà",
+      "example": "お茶を飲みます。",
+      "example_meaning": "uống trà",
+      "word_type": "n"
+    },
+    {
+      "vocab": "こうちゃ",
+      "Kanji": "紅茶",
+      "romaji": "koucha",
+      "meaning": "trà đen",
+      "example": "紅茶を飲みます。",
+      "example_meaning": "uống trà đen",
+      "word_type": "n"
+    },
+    {
+      "vocab": "ぎゅうにゅう",
+      "Kanji": "牛乳",
+      "romaji": "gyuunyuu",
+      "meaning": "sữa",
+      "example": "牛乳を飲みます。",
+      "example_meaning": "uống ữa",
+      "word_type": "n"
+    },
+    {
+      "vocab": "ミルク",
+      "Kanji": null,
+      "romaji": "miruku",
+      "meaning": "sữa",
+      "example": "ミルクを飲みます。",
+      "example_meaning": "ướng ữa",
+      "word_type": "n"
+    },
+    {
+      "vocab": "ジュース",
+      "Kanji": null,
+      "romaji": "ju-su",
+      "meaning": "nước hoa quả",
+      "example": "ジュースを飲みます。",
+      "example_meaning": "uống nước ép",
+      "word_type": "n"
+    },
+    {
+      "vocab": "ビール",
+      "Kanji": null,
+      "romaji": "bi-ru",
+      "meaning": "bia",
+      "example": "ビールを飲みます。",
+      "example_meaning": "uống bia",
+      "word_type": "n"
+    },
+    {
+      "vocab": "［お］さけ",
+      "Kanji": "［お］茶",
+      "romaji": "(o)sake",
+      "meaning": "rượu",
+      "example": "お茶を飲みます。",
+      "example_meaning": "uống rượu",
+      "word_type": "n"
+    },
+    {
+      "vocab": "たばこ",
+      "Kanji": null,
+      "romaji": "tabako",
+      "meaning": "thuốc lá",
+      "example": "タバコを吸います。",
+      "example_meaning": "hút thuốc",
+      "word_type": "n"
+    },
+    {
+      "vocab": "てがみ",
+      "Kanji": "手紙",
+      "romaji": "tegami",
+      "meaning": "thư tay",
+      "example": "手紙を書きます。",
+      "example_meaning": "viết thư",
+      "word_type": "n"
+    },
+    {
+      "vocab": "レポート",
+      "Kanji": null,
+      "romaji": "repo-to",
+      "meaning": "báo cáo",
+      "example": "レポートを書きます。",
+      "example_meaning": "viết báo cáo",
+      "word_type": "n"
+    },
+    {
+      "vocab": "しゃしん",
+      "Kanji": "写真",
+      "romaji": "shashin",
+      "meaning": "ảnh",
+      "example": "写真を撮ります。",
+      "example_meaning": "chụp ảnh",
+      "word_type": "n"
+    },
+    {
+      "vocab": "ビデオ",
+      "Kanji": null,
+      "romaji": "bideo",
+      "meaning": "video",
+      "example": "ビデオを見ます。",
+      "example_meaning": "xem video",
+      "word_type": "n"
+    },
+    {
+      "vocab": "サッカー",
+      "Kanji": null,
+      "romaji": "sakka-",
+      "meaning": "bóng đá",
+      "example": "サッカーをします。",
+      "example_meaning": "đá bóng",
+      "word_type": "n"
+    },
+    {
+      "vocab": "テニス",
+      "Kanji": null,
+      "romaji": "tenisu",
+      "meaning": "tennis",
+      "example": "テニスをします。",
+      "example_meaning": "chơi quần ợt",
+      "word_type": "n"
+    },
+    {
+      "vocab": "おはなみ",
+      "Kanji": "お花見",
+      "romaji": "ohanami",
+      "meaning": "ngắm hoa",
+      "example": "お花見をします。",
+      "example_meaning": "ngắn hoa anh đào",
+      "word_type": "n"
+    },
+    {
+      "vocab": "しゅくだい",
+      "Kanji": "宿題",
+      "romaji": "shukudai",
+      "meaning": "bài tập về nhà",
+      "example": "しゅくだいをします。",
+      "example_meaning": "làm bài tập về nhà",
+      "word_type": "n"
+    },
+    {
+      "vocab": "ちょっと",
+      "Kanji": null,
+      "romaji": "chotto",
+      "meaning": "một chút",
+      "example": null,
+      "example_meaning": null,
+      "word_type": null
+    },
+    {
+      "vocab": "いつも",
+      "Kanji": null,
+      "romaji": "itsumo",
+      "meaning": "luôn luôn",
+      "example": null,
+      "example_meaning": null,
+      "word_type": null
+    },
+    {
+      "vocab": "ときどき",
+      "Kanji": "時々",
+      "romaji": "tokidoki",
+      "meaning": "thỉnh thoảng",
+      "example": null,
+      "example_meaning": null,
+      "word_type": null
+    },
+    {
+      "vocab": "それから",
+      "Kanji": null,
+      "romaji": "sorekara",
+      "meaning": "sau đó",
+      "example": null,
+      "example_meaning": null,
+      "word_type": null
+    },
+    {
+      "vocab": "いっしょに",
+      "Kanji": null,
+      "romaji": "isshoni",
+      "meaning": "cùng nhau",
+      "example": null,
+      "example_meaning": null,
+      "word_type": null
+    }
+  ]
+}

@@ -1,0 +1,484 @@
+{
+  "lesson_id": 5,
+  "lesson_title": "Bài 5",
+  "vocabulary_count": 53,
+  "items": [
+    {
+      "vocab": "いきます",
+      "Kanji": "行きます",
+      "romaji": "ikimasu",
+      "meaning": "đi",
+      "example": "学校へ行きます。",
+      "example_meaning": "đi đến trường.",
+      "word_type": "v"
+    },
+    {
+      "vocab": "きます",
+      "Kanji": "来ます",
+      "romaji": "kimasu",
+      "meaning": "đến",
+      "example": "学校へ来ます。",
+      "example_meaning": "đến trường.",
+      "word_type": "v"
+    },
+    {
+      "vocab": "かえります",
+      "Kanji": "帰ります",
+      "romaji": "kaerimasu",
+      "meaning": "về",
+      "example": "うちへ帰ります。",
+      "example_meaning": "về nhà.",
+      "word_type": "v"
+    },
+    {
+      "vocab": "スーパー",
+      "Kanji": null,
+      "romaji": "su-pa-",
+      "meaning": "siêu thị",
+      "example": "スーパーへ行きます。",
+      "example_meaning": "đi đến siêu thị.",
+      "word_type": "n"
+    },
+    {
+      "vocab": "えき",
+      "Kanji": "駅",
+      "romaji": "eki",
+      "meaning": "ga",
+      "example": "駅へ行きます。",
+      "example_meaning": "đi đến ga.",
+      "word_type": "n"
+    },
+    {
+      "vocab": "ひこうき",
+      "Kanji": "飛行機",
+      "romaji": "hikouki",
+      "meaning": "máy bay",
+      "example": "飛行機でうちへ帰ります。",
+      "example_meaning": "về nhà bằng máy bay.",
+      "word_type": "n"
+    },
+    {
+      "vocab": "ふね",
+      "Kanji": "船",
+      "romaji": "fune",
+      "meaning": "tàu thủy, thuyền",
+      "example": "船でうちへ帰ります。",
+      "example_meaning": "về nhà bằng thuyền.",
+      "word_type": "n"
+    },
+    {
+      "vocab": "でんしゃ",
+      "Kanji": "電車",
+      "romaji": "densha",
+      "meaning": "tàu điện",
+      "example": "電車でうちへ帰ります。",
+      "example_meaning": "về nhà bằng tàu điện.",
+      "word_type": "n"
+    },
+    {
+      "vocab": "ちかてつ",
+      "Kanji": "地下鉄",
+      "romaji": "chikatetsu",
+      "meaning": "tàu điện ngầm",
+      "example": "地下鉄でうちへ帰ります。",
+      "example_meaning": "về nhà bằng tàu điện ngầm.",
+      "word_type": "n"
+    },
+    {
+      "vocab": "しんかんせん",
+      "Kanji": "新幹線",
+      "romaji": "shinkansen",
+      "meaning": "tàu shinkansen",
+      "example": "新幹線でうちへ帰ります。",
+      "example_meaning": "về nhà bằng tàu shinkansen.",
+      "word_type": "n"
+    },
+    {
+      "vocab": "バス",
+      "Kanji": null,
+      "romaji": "basu",
+      "meaning": "xe buýt",
+      "example": "バスでうちへ帰ります。",
+      "example_meaning": "về nhà bằng xe buýt.",
+      "word_type": "n"
+    },
+    {
+      "vocab": "タクシー",
+      "Kanji": null,
+      "romaji": "takushi-",
+      "meaning": "tác-xi",
+      "example": "タクシーでうちへ帰ります。",
+      "example_meaning": "về nhà bằng tác-xi.",
+      "word_type": "n"
+    },
+    {
+      "vocab": "じどうしゃ",
+      "Kanji": "自動車",
+      "romaji": "jidousha",
+      "meaning": "ô tô",
+      "example": "自動車でうちへ帰ります。",
+      "example_meaning": "về nhà bằng ô tô.",
+      "word_type": "n"
+    },
+    {
+      "vocab": "ふつう",
+      "Kanji": "普通",
+      "romaji": "futsuu",
+      "meaning": "tàu thường",
+      "example": "普通でうちへ帰ります。",
+      "example_meaning": "về nhà bằng tàu thường.",
+      "word_type": "n"
+    },
+    {
+      "vocab": "きゅうこう",
+      "Kanji": "急行",
+      "romaji": "kyuukou",
+      "meaning": "tàu tốc hành",
+      "example": "急行でうちへ帰ります。",
+      "example_meaning": "về nhà bằng tàu tốc hành.",
+      "word_type": "n"
+    },
+    {
+      "vocab": "とっきゅう",
+      "Kanji": "特急",
+      "romaji": "tokkyuu",
+      "meaning": "tàu tốc hành đặc biệt",
+      "example": "特急でうちへ帰ります。",
+      "example_meaning": "về nhà bằng tàu tốc hành đặc biệt.",
+      "word_type": "n"
+    },
+    {
+      "vocab": "あるきて",
+      "Kanji": "歩いて",
+      "romaji": "aruite",
+      "meaning": "đi bộ",
+      "example": "歩いてうちへ帰ります。",
+      "example_meaning": "đi bộ về nhà.",
+      "word_type": "n"
+    },
+    {
+      "vocab": "ひと",
+      "Kanji": "人",
+      "romaji": "hito",
+      "meaning": "người",
+      "example": "うちの中に人があります",
+      "example_meaning": null,
+      "word_type": "n"
+    },
+    {
+      "vocab": "ともだち",
+      "Kanji": "友達",
+      "romaji": "tomodachi",
+      "meaning": "bạn bè",
+      "example": "友達とうちへ帰ります",
+      "example_meaning": null,
+      "word_type": "n"
+    },
+    {
+      "vocab": "かれ",
+      "Kanji": "彼",
+      "romaji": "kare",
+      "meaning": "anh ấy, bạn trai",
+      "example": "彼とうちへ帰ります",
+      "example_meaning": null,
+      "word_type": "n"
+    },
+    {
+      "vocab": "かのじょう",
+      "Kanji": "彼女",
+      "romaji": "kanojou",
+      "meaning": "cô ấy, bạn gái",
+      "example": "彼女とうちへ帰ります",
+      "example_meaning": null,
+      "word_type": "n"
+    },
+    {
+      "vocab": "かぞく",
+      "Kanji": "家族",
+      "romaji": "kazoku",
+      "meaning": "gia đình",
+      "example": "家族とうちへ帰ります",
+      "example_meaning": null,
+      "word_type": "n"
+    },
+    {
+      "vocab": "ひとりで",
+      "Kanji": "一人で",
+      "romaji": "hitoride",
+      "meaning": "một mình",
+      "example": "一人でうちへ帰ります",
+      "example_meaning": null,
+      "word_type": "n"
+    },
+    {
+      "vocab": "せんしゅう",
+      "Kanji": "先週",
+      "romaji": "senshuu",
+      "meaning": "tuần trước",
+      "example": null,
+      "example_meaning": null,
+      "word_type": "n"
+    },
+    {
+      "vocab": "こんしゅう",
+      "Kanji": "今週",
+      "romaji": "konshuu",
+      "meaning": "tuần này",
+      "example": null,
+      "example_meaning": null,
+      "word_type": "n"
+    },
+    {
+      "vocab": "らいしゅう",
+      "Kanji": "来週",
+      "romaji": "raishuu",
+      "meaning": "tuần sau",
+      "example": null,
+      "example_meaning": null,
+      "word_type": "n"
+    },
+    {
+      "vocab": "せんげつ",
+      "Kanji": "先月",
+      "romaji": "sengetsu",
+      "meaning": "tháng trước",
+      "example": null,
+      "example_meaning": null,
+      "word_type": "n"
+    },
+    {
+      "vocab": "こんげつ",
+      "Kanji": "今月",
+      "romaji": "kongetsu",
+      "meaning": "tháng này",
+      "example": null,
+      "example_meaning": null,
+      "word_type": "n"
+    },
+    {
+      "vocab": "らいげつ",
+      "Kanji": "来月",
+      "romaji": "raigetsu",
+      "meaning": "tháng sau",
+      "example": null,
+      "example_meaning": null,
+      "word_type": "n"
+    },
+    {
+      "vocab": "きょねん",
+      "Kanji": "去年",
+      "romaji": "kyonen",
+      "meaning": "năm ngoái",
+      "example": null,
+      "example_meaning": null,
+      "word_type": "n"
+    },
+    {
+      "vocab": "こちし",
+      "Kanji": null,
+      "romaji": "kotoshi",
+      "meaning": "năm nay",
+      "example": null,
+      "example_meaning": null,
+      "word_type": "n"
+    },
+    {
+      "vocab": "らいねん",
+      "Kanji": "来年",
+      "romaji": "rainen",
+      "meaning": "năm sau",
+      "example": null,
+      "example_meaning": null,
+      "word_type": "n"
+    },
+    {
+      "vocab": "ーねん",
+      "Kanji": "ー年",
+      "romaji": "- nen",
+      "meaning": "- năm",
+      "example": null,
+      "example_meaning": null,
+      "word_type": "n"
+    },
+    {
+      "vocab": "ーがつ",
+      "Kanji": "ー月",
+      "romaji": "- gatsu",
+      "meaning": "- tháng",
+      "example": null,
+      "example_meaning": null,
+      "word_type": "n"
+    },
+    {
+      "vocab": "ついたち",
+      "Kanji": "1日",
+      "romaji": "tsuitachi",
+      "meaning": "ngày mồng 1",
+      "example": null,
+      "example_meaning": null,
+      "word_type": "n"
+    },
+    {
+      "vocab": "ふつか",
+      "Kanji": "2日",
+      "romaji": "futsuka",
+      "meaning": "ngày mồng 2",
+      "example": null,
+      "example_meaning": null,
+      "word_type": "n"
+    },
+    {
+      "vocab": "みっか",
+      "Kanji": "3日",
+      "romaji": "mikka",
+      "meaning": "ngày mồng 3",
+      "example": null,
+      "example_meaning": null,
+      "word_type": "n"
+    },
+    {
+      "vocab": "よっか",
+      "Kanji": "4日",
+      "romaji": "yokka",
+      "meaning": "ngày mồng 4",
+      "example": null,
+      "example_meaning": null,
+      "word_type": "n"
+    },
+    {
+      "vocab": "いつか",
+      "Kanji": "5日",
+      "romaji": "itsuka",
+      "meaning": "ngày mồng 5",
+      "example": null,
+      "example_meaning": null,
+      "word_type": "n"
+    },
+    {
+      "vocab": "むいか",
+      "Kanji": "6日",
+      "romaji": "muika",
+      "meaning": "ngày mồng 6",
+      "example": null,
+      "example_meaning": null,
+      "word_type": "n"
+    },
+    {
+      "vocab": "なのか",
+      "Kanji": "7日",
+      "romaji": "nanoka",
+      "meaning": "ngày mồng 7",
+      "example": null,
+      "example_meaning": null,
+      "word_type": "n"
+    },
+    {
+      "vocab": "ようか",
+      "Kanji": "8日",
+      "romaji": "youka",
+      "meaning": "ngày mồng 8",
+      "example": null,
+      "example_meaning": null,
+      "word_type": "n"
+    },
+    {
+      "vocab": "ここのか",
+      "Kanji": "9日",
+      "romaji": "kokonoka",
+      "meaning": "ngày mồng 9",
+      "example": null,
+      "example_meaning": null,
+      "word_type": "n"
+    },
+    {
+      "vocab": "とおか",
+      "Kanji": "10日",
+      "romaji": "tooka",
+      "meaning": "ngày 10",
+      "example": null,
+      "example_meaning": null,
+      "word_type": "n"
+    },
+    {
+      "vocab": "じゅうよっか",
+      "Kanji": "14日",
+      "romaji": "juuyokka",
+      "meaning": "ngày 14",
+      "example": null,
+      "example_meaning": null,
+      "word_type": "n"
+    },
+    {
+      "vocab": "はつか",
+      "Kanji": "20日",
+      "romaji": "hatsuka",
+      "meaning": "ngày 20",
+      "example": null,
+      "example_meaning": null,
+      "word_type": "n"
+    },
+    {
+      "vocab": "にじゅうよっか",
+      "Kanji": "24日",
+      "romaji": "nijuuyokka",
+      "meaning": "ngày 24",
+      "example": null,
+      "example_meaning": null,
+      "word_type": "n"
+    },
+    {
+      "vocab": "ーにち",
+      "Kanji": "ー日",
+      "romaji": "- nichi",
+      "meaning": "- ngày",
+      "example": null,
+      "example_meaning": null,
+      "word_type": "n"
+    },
+    {
+      "vocab": "いつ",
+      "Kanji": null,
+      "romaji": "itsu",
+      "meaning": "khi nào",
+      "example": null,
+      "example_meaning": null,
+      "word_type": "n"
+    },
+    {
+      "vocab": "たんじょうび",
+      "Kanji": "誕生日",
+      "romaji": "tanjoubi",
+      "meaning": "sinh nhật",
+      "example": null,
+      "example_meaning": null,
+      "word_type": "n"
+    },
+    {
+      "vocab": "そうですね",
+      "Kanji": null,
+      "romaji": "soudesuka",
+      "meaning": "ừ, nhỉ",
+      "example": null,
+      "example_meaning": null,
+      "word_type": null
+    },
+    {
+      "vocab": "どうも ありがとうございます",
+      "Kanji": null,
+      "romaji": "doumo arigatougozaimasu",
+      "meaning": "xin cảm ơn anh/chị nhiều",
+      "example": null,
+      "example_meaning": null,
+      "word_type": null
+    },
+    {
+      "vocab": "どう いたしまして",
+      "Kanji": null,
+      "romaji": "dou itashimashite",
+      "meaning": "không có gì đâu ( anh/chị đừng bận tậm )",
+      "example": null,
+      "example_meaning": null,
+      "word_type": null
+    }
+  ]
+}

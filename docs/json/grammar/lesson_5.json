@@ -1,0 +1,169 @@
+{
+  "lesson_id": 5,
+  "lesson_title": "Bài 5",
+  "grammar_points": [
+    {
+      "id": 1,
+      "grammar": "N (địa điểm) へ いきます・きます・かえります",
+      "meaning": "Đi / đến / về địa điểm N",
+      "explanation": [
+        "へ là trợ từ chỉ hướng di chuyển.",
+        "いきます: đi.",
+        "きます: đến.",
+        "かえります: về.",
+        "どこへいきますか: Đi đâu?",
+        "どこ(へ)もいきませんでした: Không đi đâu cả."
+      ],
+      "examples": [
+        {
+          "japanese": "としょかんへいきます。",
+          "vietnamese": "Đi thư viện."
+        },
+        {
+          "japanese": "ゆうびんきょくへきます。",
+          "vietnamese": "Đến bưu điện."
+        },
+        {
+          "japanese": "うちへかえります。",
+          "vietnamese": "Về nhà."
+        },
+        {
+          "japanese": "あしたとうきょうへいきます。",
+          "vietnamese": "Ngày mai tôi đi Tokyo."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "grammar": "N (phương tiện) で いきます・きます・かえります",
+      "meaning": "Đi / đến / về bằng gì",
+      "explanation": [
+        "で dùng để chỉ phương tiện giao thông.",
+        "なんでいきますか: Đi bằng gì?",
+        "Đi bộ thì không dùng で mà dùng あるいて."
+      ],
+      "examples": [
+        {
+          "japanese": "くるまでがっこうへいきます。",
+          "vietnamese": "Đi đến trường bằng ô tô."
+        },
+        {
+          "japanese": "でんしゃでかいしゃへいきます。",
+          "vietnamese": "Đi công ty bằng tàu điện."
+        },
+        {
+          "japanese": "あるいてうちへかえります。",
+          "vietnamese": "Tôi đi bộ về nhà."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "grammar": "N (người) と Vます",
+      "meaning": "Làm V cùng với N",
+      "explanation": [
+        "と mang nghĩa 'cùng với'.",
+        "だれとVますか: Làm V cùng với ai?",
+        "Khi làm một mình thường dùng ひとりで."
+      ],
+      "examples": [
+        {
+          "japanese": "ともだちとうちへかえります。",
+          "vietnamese": "Tôi về nhà cùng với bạn."
+        },
+        {
+          "japanese": "かぞくとりょこうします。",
+          "vietnamese": "Tôi đi du lịch cùng gia đình."
+        },
+        {
+          "japanese": "ひとりでとしょかんへいきます。",
+          "vietnamese": "Tôi đi thư viện một mình."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "grammar": "Một số từ để hỏi",
+      "meaning": "Từ nghi vấn cơ bản",
+      "explanation": [
+        "いつ: Khi nào",
+        "だれ: Ai",
+        "どこ: Ở đâu",
+        "なん / なに: Cái gì"
+      ],
+      "examples": [
+        {
+          "word": "いつ",
+          "meaning": "Khi nào",
+          "japanese_example": "いつとうきょうへいきますか。",
+          "vietnamese_example": "Khi nào bạn đi Tokyo?"
+        },
+        {
+          "word": "だれ",
+          "meaning": "Ai",
+          "japanese_example": "だれとがっこうへいきますか。",
+          "vietnamese_example": "Bạn đi học cùng ai?"
+        },
+        {
+          "word": "どこ",
+          "meaning": "Ở đâu",
+          "japanese_example": "どこへいきますか。",
+          "vietnamese_example": "Bạn đi đâu?"
+        },
+        {
+          "word": "なん / なに",
+          "meaning": "Cái gì",
+          "japanese_example": "なにをかいますか。",
+          "vietnamese_example": "Bạn mua cái gì?"
+        }
+      ]
+    }
+  ],
+  "dialogues": [
+    {
+      "title": "Mẫu hội thoại hỏi về kế hoạch cuối tuần",
+      "conversation": [
+        {
+          "speaker": "A",
+          "japanese": "しゅうまつどこへいきますか。",
+          "vietnamese": "Cuối tuần bạn đi đâu?"
+        },
+        {
+          "speaker": "B",
+          "japanese": "きょうとへいきます。",
+          "vietnamese": "Tôi đi Kyoto."
+        },
+        {
+          "speaker": "A",
+          "japanese": "なにでいきますか。",
+          "vietnamese": "Bạn đi bằng gì?"
+        },
+        {
+          "speaker": "B",
+          "japanese": "しんかんせんでいきます。",
+          "vietnamese": "Tôi đi bằng tàu Shinkansen."
+        },
+        {
+          "speaker": "A",
+          "japanese": "だれといきますか。",
+          "vietnamese": "Bạn đi cùng ai?"
+        },
+        {
+          "speaker": "B",
+          "japanese": "ともだちといきます。",
+          "vietnamese": "Tôi đi cùng bạn."
+        },
+        {
+          "speaker": "A",
+          "japanese": "いいですね。",
+          "vietnamese": "Hay nhỉ."
+        },
+        {
+          "speaker": "B",
+          "japanese": "はい、たのしみです。",
+          "vietnamese": "Vâng, tôi rất mong chờ."
+        }
+      ]
+    }
+  ]
+}

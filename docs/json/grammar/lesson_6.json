@@ -1,0 +1,156 @@
+{
+  "lesson_id": 6,
+  "lesson_title": "Bài 6",
+  "grammar_points": [
+    {
+      "id": 1,
+      "grammar": "N を Vます",
+      "meaning": "Làm V",
+      "explanation": [
+        "N là đối tượng của hành động.",
+        "を chỉ đối tượng tác động của hành động.",
+        "Vます là động từ.",
+        "N を します cũng là một dạng động từ.",
+        "Đây là mẫu câu cơ bản để diễn tả hành động tác động lên một đối tượng."
+      ],
+      "examples": [
+        {
+          "japanese": "にほんごをべんきょうします。",
+          "vietnamese": "Học tiếng Nhật."
+        },
+        {
+          "japanese": "ごはんをたべます。",
+          "vietnamese": "Ăn cơm."
+        },
+        {
+          "japanese": "おんがくをききます。",
+          "vietnamese": "Nghe nhạc."
+        },
+        {
+          "japanese": "なにもVません。",
+          "vietnamese": "Không làm gì cả."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "grammar": "N (địa điểm) で Vます",
+      "meaning": "Thực hiện V ở địa điểm N",
+      "explanation": [
+        "で dùng để chỉ nơi diễn ra hành động.",
+        "Khác với に và へ dùng để chỉ điểm đến.",
+        "Dùng để nói làm gì ở đâu."
+      ],
+      "examples": [
+        {
+          "japanese": "うちでたべます。",
+          "vietnamese": "Ăn ở nhà."
+        },
+        {
+          "japanese": "こうえんでしゃしんをとります。",
+          "vietnamese": "Chụp ảnh ở công viên."
+        },
+        {
+          "japanese": "としょかんでべんきょうします。",
+          "vietnamese": "Học ở thư viện."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "grammar": "いっしょに Vませんか",
+      "meaning": "Cùng làm V với mình chứ?",
+      "explanation": [
+        "Dùng để rủ rê hoặc mời ai đó cùng làm việc gì.",
+        "Lịch sự và thường dùng trong giao tiếp hằng ngày.",
+        "Trả lời tích cực: ええ、いいですね。Vましょう！",
+        "Trả lời từ chối nhẹ: すみません。ちょっと..."
+      ],
+      "examples": [
+        {
+          "japanese": "８じにいっしょにばんごはんをたべませんか。",
+          "vietnamese": "8 giờ cùng nhau ăn tối chứ?"
+        },
+        {
+          "japanese": "いっしょにえいがをみませんか。",
+          "vietnamese": "Cùng xem phim nhé?"
+        },
+        {
+          "japanese": "ええ、いいですね。たべましょう。",
+          "vietnamese": "Ừ hay đấy. Cùng ăn thôi nào."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "grammar": "Vましょう",
+      "meaning": "Cùng làm thôi nào",
+      "explanation": [
+        "Dùng để đề nghị hoặc khuyến khích cùng thực hiện một hành động.",
+        "Thường được dùng sau khi mọi người đã đồng ý với lời mời.",
+        "Mang tính cổ động, hô hào."
+      ],
+      "examples": [
+        {
+          "japanese": "みなさん、たべましょう！",
+          "vietnamese": "Mọi người, ăn thôi nào!"
+        },
+        {
+          "japanese": "いっしょにかえりましょう。",
+          "vietnamese": "Chúng ta cùng về nhé."
+        },
+        {
+          "japanese": "べんきょうしましょう。",
+          "vietnamese": "Cùng học nào."
+        }
+      ]
+    }
+  ],
+  "dialogues": [
+    {
+      "title": "Mẫu hội thoại rủ bạn đi ăn",
+      "conversation": [
+        {
+          "speaker": "A",
+          "japanese": "きょうのばん、いっしょにばんごはんをたべませんか。",
+          "vietnamese": "Tối nay cùng đi ăn tối nhé?"
+        },
+        {
+          "speaker": "B",
+          "japanese": "ええ、いいですね。",
+          "vietnamese": "Ừ, hay đấy."
+        },
+        {
+          "speaker": "A",
+          "japanese": "どこでたべますか。",
+          "vietnamese": "Chúng ta ăn ở đâu?"
+        },
+        {
+          "speaker": "B",
+          "japanese": "レストランでたべましょう。",
+          "vietnamese": "Hãy ăn ở nhà hàng đi."
+        },
+        {
+          "speaker": "A",
+          "japanese": "なんじにいきますか。",
+          "vietnamese": "Mấy giờ chúng ta đi?"
+        },
+        {
+          "speaker": "B",
+          "japanese": "７じにいきましょう。",
+          "vietnamese": "Hãy đi lúc 7 giờ."
+        },
+        {
+          "speaker": "A",
+          "japanese": "わかりました。",
+          "vietnamese": "Tôi hiểu rồi."
+        },
+        {
+          "speaker": "B",
+          "japanese": "じゃ、またあとで。",
+          "vietnamese": "Vậy lát gặp lại nhé."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,367 @@
+{
+  "lesson_id": 1,
+  "lesson_title": "Bài 1",
+  "vocabulary_count": 40,
+  "items": [
+    {
+      "vocab": "わたし",
+      "Kanji": "私",
+      "romaji": "watashi",
+      "meaning": "tôi",
+      "example": "わたしは ニ です。(Watashi wa Ni desu.)",
+      "example_meaning": "Tôi là Nhi .",
+      "word_type": "N"
+    },
+    {
+      "vocab": "あなた",
+      "Kanji": null,
+      "romaji": "anata",
+      "meaning": "anh/chị,ông /bà,bạn (ngôi thứ II số ít )",
+      "example": "あなたは ニ-さん ですか。(Anata wa Ni-san desu ka.)",
+      "example_meaning": "Bạn là Nhi à ?",
+      "word_type": "N"
+    },
+    {
+      "vocab": "です",
+      "Kanji": null,
+      "romaji": "desu",
+      "meaning": "là / thì / (trợ động từ lịch sự, thường không dịch rõ)",
+      "example": "わたしはげんきです。(Watashi wa genki desu.)",
+      "example_meaning": "Tôi khỏe .",
+      "word_type": "V"
+    },
+    {
+      "vocab": "こんにちは",
+      "Kanji": null,
+      "romaji": "konnichiwa",
+      "meaning": "Xin chào / Chào buổi chiều",
+      "example": "こんにちは。げんきですか。",
+      "example_meaning": "Xin chào.Bạn khỏe không ?",
+      "word_type": "N"
+    },
+    {
+      "vocab": "こんばんは",
+      "Kanji": null,
+      "romaji": "konbanwa",
+      "meaning": "Chào buổi tối",
+      "example": "こんばんは。わたしはニです。(Konbanwa. Watashi wa Ni desu.)",
+      "example_meaning": "Chào buổi tối.Tôi là Nhi .",
+      "word_type": "N"
+    },
+    {
+      "vocab": "じゃあね",
+      "Kanji": null,
+      "romaji": "jaane",
+      "meaning": "Tạm biệt nhé/hẹn gặp lại nha",
+      "example": "じゃあね、ニ-さん！",
+      "example_meaning": "Hẹn gặp lại Nhi",
+      "word_type": "N"
+    },
+    {
+      "vocab": "がくせい",
+      "Kanji": "学生",
+      "romaji": "gakusei",
+      "meaning": "học sinh/sinh viên",
+      "example": "リンさんは 学生です。",
+      "example_meaning": "Bạn Nhi là học sinh/sinh viên .",
+      "word_type": "N"
+    },
+    {
+      "vocab": "せんせい",
+      "Kanji": "先生",
+      "romaji": "sensei",
+      "meaning": "thầy /cô (không dùng khi giới thiệu về nghề giáo viên của mình)",
+      "example": "ナム先生(せんせい)は日本語(にほんご)の先生(せんせい)です。",
+      "example_meaning": "Thầy Nam là thầy dạy tiếng Nhật .",
+      "word_type": "N"
+    },
+    {
+      "vocab": "かいしゃ",
+      "Kanji": "会社",
+      "romaji": "kaisha",
+      "meaning": "công ty",
+      "example": "マイさんの会社(かいしゃ)はファッション会社(かいしゃ)です。",
+      "example_meaning": "Công ty của bạn Mai là công ty Fashion.",
+      "word_type": "N"
+    },
+    {
+      "vocab": "～しゃいん",
+      "Kanji": "～社員",
+      "romaji": "~shain",
+      "meaning": "nhân viên công ty ~(dùng kèm theo tên công ty)",
+      "example": "あの人は  LSP の社員(しゃいん)です。",
+      "example_meaning": "Người kia là nhân viên của LSP.",
+      "word_type": "N"
+    },
+    {
+      "vocab": "かいしゃいん",
+      "Kanji": "かいしゃいん",
+      "romaji": "kaishain",
+      "meaning": "nhân viên công ty",
+      "example": "ナムさんは かいしゃいんです。",
+      "example_meaning": "Anh Nam là nhân viên công ty.",
+      "word_type": "N"
+    },
+    {
+      "vocab": "にほんじん",
+      "Kanji": "日本人",
+      "romaji": "nihonjin",
+      "meaning": "người Nhật Bản",
+      "example": "わたしは 日本人(にほんじん)です。",
+      "example_meaning": "Tôi là người Nhật Bản.",
+      "word_type": "N"
+    },
+    {
+      "vocab": "にほん",
+      "Kanji": "にほん",
+      "romaji": "nihon",
+      "meaning": "Nhật Bản",
+      "example": "わたしは 日本(にほん)に 行きます。",
+      "example_meaning": "Tôi sẽ đi Nhật Bản.",
+      "word_type": "N"
+    },
+    {
+      "vocab": "ベトナム",
+      "Kanji": null,
+      "romaji": "betonamu",
+      "meaning": "Việt Nam",
+      "example": "ベトナムは とても きれいな 国(くに)です。",
+      "example_meaning": "Việt Nam là một đất nước rất đẹp.",
+      "word_type": "N"
+    },
+    {
+      "vocab": "いしゃ",
+      "Kanji": "医者",
+      "romaji": "isha",
+      "meaning": "bác sĩ",
+      "example": "かれは 医者(いしゃ)です。",
+      "example_meaning": "Anh ấy là bác sĩ.",
+      "word_type": "N"
+    },
+    {
+      "vocab": "あのひと",
+      "Kanji": "あの人",
+      "romaji": "anohito",
+      "meaning": "người kia ,người đó ,anh kia ,chị kia ,...",
+      "example": "あの人(ひと）は 先生(せんせい)です。",
+      "example_meaning": "Người kia là giáo viên.",
+      "word_type": "N"
+    },
+    {
+      "vocab": "～さん",
+      "Kanji": null,
+      "romaji": "~san",
+      "meaning": "anh,chị ,ông ,bà (hậu tố thêm phía sau tên của người khác khi gọi thể hiện sự lịch sự",
+      "example": "ランさんは コックです。",
+      "example_meaning": "Chị Lan là đầu bếp.",
+      "word_type": null
+    },
+    {
+      "vocab": "～ちゃん",
+      "Kanji": null,
+      "romaji": "~chan",
+      "meaning": "gọi trẻ em nhỏ ,người thân ,thú cưng (hậu tố thân mật ,dễ thương )",
+      "example": "リンちゃんは 小学生（しょうがくせい）です。",
+      "example_meaning": "Bé Linh là học sinh tiểu học.",
+      "word_type": null
+    },
+    {
+      "vocab": "～じん",
+      "Kanji": "～人",
+      "romaji": "~jin",
+      "meaning": "~người (thuộc quốc gia nào đó)",
+      "example": "あの人（ひと）は 中国人（ちゅうごくじん）です。",
+      "example_meaning": "Người kia là người Trung Quốc.",
+      "word_type": null
+    },
+    {
+      "vocab": "きょうし",
+      "Kanji": "教師",
+      "romaji": "kyoushi",
+      "meaning": "giáo viên (cách nói chung )",
+      "example": "彼（かれ）は 教師（きょうし）です。",
+      "example_meaning": "Anh ấy là giáo viên.",
+      "word_type": "N"
+    },
+    {
+      "vocab": "ぎんこいん",
+      "Kanji": "銀行員",
+      "romaji": "ginkoin",
+      "meaning": "nhân viên ngân hàng",
+      "example": "姉（あね）は 銀行員（ぎんこういん）です。",
+      "example_meaning": "Chị tôi là nhân viên ngân hàng.",
+      "word_type": "N"
+    },
+    {
+      "vocab": "ぎんこう",
+      "Kanji": "銀行",
+      "romaji": "ginkou",
+      "meaning": "ngân hàng",
+      "example": "この 銀行（ぎんこう）は 大（おお）きいです。",
+      "example_meaning": "Ngân hàng này lớn.",
+      "word_type": "N"
+    },
+    {
+      "vocab": "だいがく",
+      "Kanji": "大学",
+      "romaji": "daigaku",
+      "meaning": "đại học ,trường đại học",
+      "example": "あれは ハノイ工業大学（こうぎょうだいがく）です。",
+      "example_meaning": "Đó là Trường Đại học Công nghiệp Hà Nội.",
+      "word_type": "N"
+    },
+    {
+      "vocab": "びょういん",
+      "Kanji": "病院",
+      "romaji": "byouin",
+      "meaning": "bệnh viện",
+      "example": "病院（びょういん）に 行（い）きます。",
+      "example_meaning": "Tôi đi bệnh viện.",
+      "word_type": "N"
+    },
+    {
+      "vocab": "だれ（どなた）",
+      "Kanji": null,
+      "romaji": "dare (donata)",
+      "meaning": "ai (vị nào,donata là cách nói lịch sự của dare)",
+      "example": "あの人（ひと）は 誰（だれ）ですか/あの方（かた）は どなたですか。",
+      "example_meaning": "Người kia là ai? /Vị kia là ai?",
+      "word_type": "N"
+    },
+    {
+      "vocab": "～さい（おいくつ）",
+      "Kanji": "～歳（おいくつ）",
+      "romaji": "~sai",
+      "meaning": "~tuổi",
+      "example": "私（わたし）は 18歳（さい）です。",
+      "example_meaning": "Tôi 18 tuổi.",
+      "word_type": null
+    },
+    {
+      "vocab": "けんきゅうしゃ",
+      "Kanji": "研究者",
+      "romaji": "kenkyuusha",
+      "meaning": "nhà nghiên cứu",
+      "example": "彼（かれ）は 研究者（けんきゅうしゃ）です。",
+      "example_meaning": "Anh ấy là kĩ sư .",
+      "word_type": "N"
+    },
+    {
+      "vocab": "はい",
+      "Kanji": null,
+      "romaji": "hai",
+      "meaning": "dạ,vâng",
+      "example": "はい、わかりました。",
+      "example_meaning": "vâng ,tôi hiểu rồi ạ",
+      "word_type": null
+    },
+    {
+      "vocab": "いいえ",
+      "Kanji": null,
+      "romaji": "iie",
+      "meaning": "không",
+      "example": "いいえ、ちがいます",
+      "example_meaning": "Không , không đúng.",
+      "word_type": null
+    },
+    {
+      "vocab": "はじめまして。",
+      "Kanji": null,
+      "romaji": "hajimemashite",
+      "meaning": "Rất hân hạnh được gặp anh chị",
+      "example": null,
+      "example_meaning": null,
+      "word_type": null
+    },
+    {
+      "vocab": "なまえ",
+      "Kanji": "名前",
+      "romaji": "namae",
+      "meaning": "tên",
+      "example": "私（わたし）の 名前（なまえ）は リンです。",
+      "example_meaning": "Tên của tôi là Linh.",
+      "word_type": "N"
+    },
+    {
+      "vocab": "～からきました。",
+      "Kanji": "～から来ました",
+      "romaji": "~karakimashita",
+      "meaning": "(tôi) đến từ ~",
+      "example": "私（わたし）は ダナンから 来（き）ました。",
+      "example_meaning": "Tôi đến từ Đà Nẵng .",
+      "word_type": null
+    },
+    {
+      "vocab": "どうぞよろしくおねがいします",
+      "Kanji": "どうぞよろしくお願いします。",
+      "romaji": "douzo yoroshikuonegaishimasu",
+      "meaning": "Rất mong được giúp đỡ/rất mong được hợp tác / làm quen",
+      "example": null,
+      "example_meaning": null,
+      "word_type": null
+    },
+    {
+      "vocab": "タイ",
+      "Kanji": null,
+      "romaji": "tai",
+      "meaning": "Thái Lan",
+      "example": "私（わたし）は タイへ 行（い）きます。",
+      "example_meaning": "Tôi sẽ đi Thái Lan.",
+      "word_type": "N"
+    },
+    {
+      "vocab": "イギリス",
+      "Kanji": null,
+      "romaji": "igirisu",
+      "meaning": "Anh",
+      "example": "イギリスは 古（ふる）い 国（くに）です。",
+      "example_meaning": "Anh là một đất nước lâu đời.",
+      "word_type": "N"
+    },
+    {
+      "vocab": "ブラジル",
+      "Kanji": null,
+      "romaji": "burajiru",
+      "meaning": "Braxin",
+      "example": "ブラジルは 大（おお）きい 国（くに）です。",
+      "example_meaning": "Brazil là một đất nước lớn.",
+      "word_type": "N"
+    },
+    {
+      "vocab": "インド",
+      "Kanji": null,
+      "romaji": "indo",
+      "meaning": "Ấn Độ",
+      "example": "彼（かれ）は インド人（じん）です。",
+      "example_meaning": "Anh ấy là người Ấn Độ.",
+      "word_type": "N"
+    },
+    {
+      "vocab": "かんこく",
+      "Kanji": null,
+      "romaji": "kankoku",
+      "meaning": "Hàn Quốc",
+      "example": "彼女（かのじょ）は 韓国人（かんこくじん）です。",
+      "example_meaning": "Cô ấy là người Hàn Quốc.",
+      "word_type": "N"
+    },
+    {
+      "vocab": "インドネシア",
+      "Kanji": null,
+      "romaji": "indoneshia",
+      "meaning": "In-đô-nê-xi-a",
+      "example": "友達（ともだち）は インドネシアから 来（き）ました。",
+      "example_meaning": "Bạn tôi đến từ Indonesia.",
+      "word_type": "N"
+    },
+    {
+      "vocab": "ちゅうごく",
+      "Kanji": "中国",
+      "romaji": "chuugoku",
+      "meaning": "Trung Quốc",
+      "example": "私（わたし）は 中国（ちゅうごく）へ 行（い）きます。",
+      "example_meaning": "Tôi sẽ đi Trung Quốc.",
+      "word_type": "N"
+    }
+  ]
+}

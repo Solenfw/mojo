@@ -1,0 +1,214 @@
+{
+  "lesson_id": 3,
+  "title": "いくらですか",
+  "dialogues": [
+    {
+      "title": "Bài 1",
+      "conversation": [
+        {
+          "speaker": "店員",
+          "japanese": "いらっしゃいませ。",
+          "romaji": "Irasshaimase.",
+          "vietnamese": "Xin kính chào quý khách."
+        },
+        {
+          "speaker": "ラン",
+          "japanese": "すみません。",
+          "romaji": "Sumimasen.",
+          "vietnamese": "Xin lỗi..."
+        },
+        {
+          "speaker": "店員",
+          "japanese": "はい。",
+          "romaji": "Hai.",
+          "vietnamese": "Vâng."
+        },
+        {
+          "speaker": "ラン",
+          "japanese": "このかばんを みせてください。",
+          "romaji": "Kono kaban o misete kudasai.",
+          "vietnamese": "Cho tôi xem chiếc túi xách này với."
+        },
+        {
+          "speaker": "店員",
+          "japanese": "はい。どれですか。",
+          "romaji": "Hai. Dore desu ka?",
+          "vietnamese": "Vâng. Là cái nào ạ?"
+        },
+        {
+          "speaker": "ラン",
+          "japanese": "これです。",
+          "romaji": "Kore desu.",
+          "vietnamese": "Cái này."
+        },
+        {
+          "speaker": "店員",
+          "japanese": "はい、どうぞ。",
+          "romaji": "Hai, dōzo.",
+          "vietnamese": "Vâng, xin mời ạ."
+        },
+        {
+          "speaker": "ラン",
+          "japanese": "これは いくらですか。",
+          "romaji": "Kore wa ikura desu ka?",
+          "vietnamese": "Cái này giá bao nhiêu vậy?"
+        },
+        {
+          "speaker": "店員",
+          "japanese": "1まん5せんえんです。",
+          "romaji": "Ichi-man go-sen en desu.",
+          "vietnamese": "Cái này là 15.000 Yên ạ."
+        },
+        {
+          "speaker": "ラン",
+          "japanese": "これは どこの かばんですか。",
+          "romaji": "Kore wa doko no kaban desu ka?",
+          "vietnamese": "Đây là túi của nước nào vậy?"
+        },
+        {
+          "speaker": "店員",
+          "japanese": "イタリアの かばんです。",
+          "romaji": "Itaria no kaban desu.",
+          "vietnamese": "Cái này của Ý ạ."
+        },
+        {
+          "speaker": "ラン",
+          "japanese": "そうですか。じゃ、これも みせてください。",
+          "romaji": "Sou desu ka. Ja, kore mo misete kudasai.",
+          "vietnamese": "À, vậy sao. À, thêm nữa, cho tôi xem cả cái này nữa nhé."
+        },
+        {
+          "speaker": "店員",
+          "japanese": "はい、どうぞ。",
+          "romaji": "Hai, dōzo.",
+          "vietnamese": "À, vâng, mời bạn."
+        },
+        {
+          "speaker": "ラン",
+          "japanese": "これは いくらですか。",
+          "romaji": "Kore wa ikura desu ka?",
+          "vietnamese": "Cái này giá bao nhiêu?"
+        },
+        {
+          "speaker": "店員",
+          "japanese": "3まんえんです。",
+          "romaji": "San-man en desu.",
+          "vietnamese": "Dạ, cái này là 30.000 Yên ạ."
+        },
+        {
+          "speaker": "ラン",
+          "japanese": "これは どこの かばんですか。",
+          "romaji": "Kore wa doko no kaban desu ka?",
+          "vietnamese": "Cái này cũng là túi của nước nào?"
+        },
+        {
+          "speaker": "店員",
+          "japanese": "これも イタリアの かばんです。",
+          "romaji": "Kore mo Itaria no kaban desu.",
+          "vietnamese": "Cái này cũng của Ý ạ."
+        },
+        {
+          "speaker": "ラン",
+          "japanese": "やすいですか。",
+          "romaji": "Yasui desu ka?",
+          "vietnamese": "Cái này cũng của Ý sao. Có thể giảm giá được không?"
+        },
+        {
+          "speaker": "店員",
+          "japanese": "いいえ、やすくないです。",
+          "romaji": "Iie, yasukunai desu.",
+          "vietnamese": "Giảm giá hả? Ừm... Không được rồi ạ."
+        },
+        {
+          "speaker": "ラン",
+          "japanese": "そうですか。じゃ、これを ください。",
+          "romaji": "Sou desu ka. Ja, kore o kudasai.",
+          "vietnamese": "Vậy à. Ừm... Thế thì, cho tôi lấy cái này (cái giá 15.000 Yên)."
+        },
+        {
+          "speaker": "店員",
+          "japanese": "はい、ありがとうございます。1まん5せんえんです。",
+          "romaji": "Hai, arigatō gozaimasu. Ichi-man go-sen en desu.",
+          "vietnamese": "Vâng, xin cảm ơn bạn. Cái này của bạn là 15.000 Yên ạ."
+        }
+      ]
+    },
+    {
+      "title": "Bài 2",
+      "conversation": [
+        {
+          "speaker": "もみじ",
+          "japanese": "もしもし、ちそらさん？ ショッピングセンターに つきました。いま、どこに いますか。",
+          "romaji": "Moshi moshi, Chisora-san? Shoppingu sentaa ni tsukimashita. Ima, doko ni imasu ka?",
+          "vietnamese": "Alo, Chisora-san? Tớ đến trung tâm mua sắm rồi. Bây giờ cậu đang ở đâu vậy?"
+        },
+        {
+          "speaker": "ちそら",
+          "japanese": "いっかい の ほんや の まえ に います。",
+          "romaji": "Ikkai no honya no mae ni imasu.",
+          "vietnamese": "Tớ đang ở trước hiệu sách tầng 1."
+        },
+        {
+          "speaker": "もみじ",
+          "japanese": "あ、みつけました！ ひと が おおいですね。",
+          "romaji": "A, mitsukemashita! Hito ga ooi desu ne.",
+          "vietnamese": "À, tớ thấy cậu rồi! Đông người thật nhỉ."
+        },
+        {
+          "speaker": "ちそら",
+          "japanese": "はい。きょう は しゅうまつ ですからね。",
+          "romaji": "Hai. Kyou wa shuumatsu desu kara ne.",
+          "vietnamese": "Ừm. Vì hôm nay là cuối tuần mà."
+        },
+        {
+          "speaker": "もみじ",
+          "japanese": "まず、どこへ いきますか。",
+          "romaji": "Mazu, doko e ikimasu ka?",
+          "vietnamese": "Trước tiên chúng ta đi đâu đây?"
+        },
+        {
+          "speaker": "ちそら",
+          "japanese": "さんがい の ぶんぼうぐ コーナーへ いきたいです。ノートを かいたいです。",
+          "romaji": "Sangai no bunbougu koonaa e ikitai desu. Nooto o kaitai desu.",
+          "vietnamese": "Tớ muốn đến khu văn phòng phẩm ở tầng 3. Tớ muốn mua vở."
+        },
+        {
+          "speaker": "もみじ",
+          "japanese": "じゃあ、エスカレーターで いきましょう。",
+          "romaji": "Jaa, esukareetaa de ikimashou.",
+          "vietnamese": "Vậy thì đi bằng thang cuốn nhé."
+        },
+        {
+          "speaker": "ちそら",
+          "japanese": "はい。それから、よる は えいが を みましょう。",
+          "romaji": "Hai. Sorekara, yoru wa eiga o mimashou.",
+          "vietnamese": "Vâng. Sau đó buổi tối chúng ta xem phim nhé."
+        },
+        {
+          "speaker": "もみじ",
+          "japanese": "いいですね！",
+          "romaji": "Ii desu ne!",
+          "vietnamese": "Hay đó nhỉ!"
+        },
+        {
+          "speaker": "ちそら",
+          "japanese": "この ステッカー、かわいいですね。",
+          "romaji": "Kono sutekkaa, kawaii desu ne.",
+          "vietnamese": "Mấy sticker này dễ thương thật."
+        },
+        {
+          "speaker": "もみじ",
+          "japanese": "ほんとうですね。おなか が すきました。",
+          "romaji": "Hontou desu ne. Onaka ga sukimashita.",
+          "vietnamese": "Đúng thật nhỉ. Tớ đói rồi."
+        },
+        {
+          "speaker": "ちそら",
+          "japanese": "じゃあ、あとで フードコートへ いきましょう。",
+          "romaji": "Jaa, ato de fuudo kooto e ikimashou.",
+          "vietnamese": "Vậy lát nữa cùng đi food court nhé."
+        }
+      ]
+    }
+  ]
+}
