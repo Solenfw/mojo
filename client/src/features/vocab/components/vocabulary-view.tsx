@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import {
   ArrowLeft,
@@ -9,62 +9,108 @@ import {
   Library
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { getToken } from '@/lib/auth';
+import { Card } from '@/types';
 
-interface Card {
-  id: string;
-  kanji: string;
-  furigana: string;
-  meaning: string;
-  example: string;
-  exampleEnglish: string;
-  level: string;
-}
+const API_BASE_URL = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000').replace(/\/$/, '');
 
-const MOCK_CARDS: Card[] = [
-  {
-    id: '1',
-    kanji: '経験',
-    furigana: 'けいけん',
-    meaning: 'Experience',
-    example: '日本での経験は私にとって貴重です。',
-    exampleEnglish: 'My experience in Japan is precious to me.',
-    level: 'JLPT N3'
-  },
-  {
-    id: '2',
-    kanji: '準備',
-    furigana: 'じゅんび',
-    meaning: 'Preparation',
-    example: '会議の準備をしています。',
-    exampleEnglish: 'I am preparing for the meeting.',
-    level: 'JLPT N4'
-  },
-  {
-    id: '3',
-    kanji: '連絡',
-    furigana: 'れんらく',
-    meaning: 'Contact / Communication',
-    example: '後で連絡します。',
-    exampleEnglish: 'I will contact you later.',
-    level: 'JLPT N5'
-  }
-];
 
 export const Vocabulary = ({ onBack }: { onBack: () => void }) => {
-  const [cards, setCards] = useState<Card[]>(MOCK_CARDS);
+  const [cards, setCards] = useState<Card[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
   const [direction, setDirection] = useState(0);
+  const [loading, setLoading] = useState(true);
 
-  const currentCard = cards[currentIndex];
+  // Fetch real cards from due SRS endpoint
+  useEffect(() => {
+    const fetchCards = async () => {
+      try {
+        const token = getToken();
+        const res = await fetch(`${API_BASE_URL}/api/v1/srs/due`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        if (res.ok) {
+          const data = await res.json();
+          const parsedCards = data.map((item: any) => ({
+            id: item.vocab_id.toString(),
+            kanji: item.kanji,
+            furigana: item.furigana,
+            meaning: item.meaning,
+            example: item.example,
+            exampleEnglish: item.exampleEnglish,
+            level: item.level
+          }));
+          setCards(parsedCards);
+        }
+      } catch (err) {
+        console.error("Failed to load vocab card queue:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchCards();
+  }, []);
 
-  const handleNext = (dir: number) => {
+  const handleNext = async (qualityScore: number, dir: number) => {
+    if (cards.length === 0) return;
+    const currentCard = cards[currentIndex];
+
+    // Post review metadata to SM-2 scheduler backend
+    try {
+      const token = getToken();
+      await fetch(`${API_BASE_URL}/api/v1/srs/review`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          vocab_id: parseInt(currentCard.id, 10),
+          quality_score: qualityScore
+        })
+      });
+    } catch (err) {
+      console.error("Failed to record review session:", err);
+    }
+
     setDirection(dir);
     setIsFlipped(false);
+    
     setTimeout(() => {
-      setCurrentIndex((prev) => (prev + 1) % cards.length);
+      if (cards.length > 1) {
+        setCurrentIndex((prev) => (prev + 1) % cards.length);
+      } else {
+        // Complete current set
+        setCards([]);
+      }
     }, 100);
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#f7f9fb] flex items-center justify-center font-sans">
+        <p className="text-sm font-bold text-muted-foreground animate-pulse">Loading Vocabulary Session...</p>
+      </div>
+    );
+  }
+
+  if (cards.length === 0) {
+    return (
+      <div className="min-h-screen bg-[#f7f9fb] flex flex-col items-center justify-center font-sans p-6 text-center">
+        <div className="w-16 h-16 bg-emerald-50 rounded-full flex items-center justify-center mb-4">
+          <Check className="w-8 h-8 text-emerald-500" />
+        </div>
+        <h2 className="text-2xl font-bold text-primary mb-2">Queue Clear!</h2>
+        <p className="text-sm text-muted-foreground max-w-sm mb-6">Excellent job. All of your scheduled flashcards have been successfully reviewed.</p>
+        <Button onClick={onBack} className="bg-primary">Back to Dashboard</Button>
+      </div>
+    );
+  }
+
+  const currentCard = cards[currentIndex];
 
   return (
     <div className="min-h-screen bg-[#f7f9fb] flex flex-col font-sans">
@@ -139,7 +185,7 @@ export const Vocabulary = ({ onBack }: { onBack: () => void }) => {
       <footer className="w-full max-w-2xl mx-auto p-8 mb-12">
         <div className="flex justify-center gap-6">
           <Button
-            onClick={(e: React.MouseEvent<HTMLButtonElement>) => { e.stopPropagation(); handleNext(-1); }}
+            onClick={(e: React.MouseEvent<HTMLButtonElement>) => { e.stopPropagation(); handleNext(2, -1); }}
             variant="outline"
             className="h-16 px-10 rounded-2xl border-2 border-red-500 text-red-500 hover:bg-red-50 font-black uppercase tracking-widest text-xs gap-2 group"
           >
@@ -147,7 +193,7 @@ export const Vocabulary = ({ onBack }: { onBack: () => void }) => {
             Hard
           </Button>
           <Button
-            onClick={(e: React.MouseEvent<HTMLButtonElement>) => { e.stopPropagation(); handleNext(0); }}
+            onClick={(e: React.MouseEvent<HTMLButtonElement>) => { e.stopPropagation(); handleNext(4, 0); }}
             variant="outline"
             className="h-16 px-10 rounded-2xl border-2 font-black uppercase tracking-widest text-xs gap-2 group"
           >
@@ -155,7 +201,7 @@ export const Vocabulary = ({ onBack }: { onBack: () => void }) => {
             Good
           </Button>
           <Button
-            onClick={(e: React.MouseEvent<HTMLButtonElement>) => { e.stopPropagation(); handleNext(1); }}
+            onClick={(e: React.MouseEvent<HTMLButtonElement>) => { e.stopPropagation(); handleNext(5, 1); }}
             className="h-16 px-10 rounded-2xl bg-primary hover:bg-primary/90 shadow-xl shadow-primary/20 font-black uppercase tracking-widest text-xs gap-2 group"
           >
             <Check className="w-4 h-4 group-hover:scale-125 transition-transform" />

@@ -6,19 +6,23 @@ import {
   CheckCircle,
   ChevronLeft,
   Sparkles,
-  Info
+  Info,
+  AlertCircle
 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { N5_VOCABULARY } from '@/utils/constants';
+import { getToken } from '@/lib/auth';
+
+const API_BASE_URL = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000').replace(/\/$/, '');
 
 export const KanjiCanvas = ({ onBack }: { onBack: () => void }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [targetKanji, setTargetKanji] = useState(N5_VOCABULARY[0]);
-  const [feedback, setFeedback] = useState<string | null>(null);
+  const [feedback, setFeedback] = useState<{ text: string; score: number; xp: number } | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
 
   useEffect(() => {
@@ -26,13 +30,17 @@ export const KanjiCanvas = ({ onBack }: { onBack: () => void }) => {
     if (canvas) {
       const ctx = canvas.getContext('2d');
       if (ctx) {
+        // Setup canvas with white background so the saved image isn't transparent
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
         ctx.strokeStyle = '#00236f';
-        ctx.lineWidth = 6;
+        ctx.lineWidth = 8;
         ctx.lineCap = 'round';
         ctx.lineJoin = 'round';
       }
     }
-  }, []);
+  }, [targetKanji]);
 
   const startDrawing = (e: React.MouseEvent | React.TouchEvent) => {
     setIsDrawing(true);
@@ -68,18 +76,51 @@ export const KanjiCanvas = ({ onBack }: { onBack: () => void }) => {
     const canvas = canvasRef.current;
     const ctx = canvas?.getContext('2d');
     if (canvas && ctx) {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
       setFeedback(null);
     }
   };
 
-  const handleAnalyze = () => {
+  const handleAnalyze = async () => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
     setIsAnalyzing(true);
-    // Simulate AI analysis
-    setTimeout(() => {
-      setFeedback("Excellent balance. Your stroke order for the left radical is correct. Try to make the right hook slightly sharper.");
+    setFeedback(null);
+
+    const base64Image = canvas.toDataURL('image/png');
+    const token = getToken();
+
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/v1/writing/evaluate`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          image_base64: base64Image,
+          target_kanji: targetKanji.kanji
+        })
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        setFeedback({
+          text: data.feedback,
+          score: data.score,
+          xp: data.xp_awarded
+        });
+      } else {
+        setFeedback({ text: 'Failed to evaluate. Please try again.', score: 0, xp: 0 });
+      }
+    } catch (err) {
+      console.error(err);
+      setFeedback({ text: 'Network error. Could not connect to AI.', score: 0, xp: 0 });
+    } finally {
       setIsAnalyzing(false);
-    }, 1500);
+    }
   };
 
   return (
@@ -103,12 +144,12 @@ export const KanjiCanvas = ({ onBack }: { onBack: () => void }) => {
                 </div>
               </div>
             </CardHeader>
-            <CardContent className="p-0 flex items-center justify-center bg-white">
+            <CardContent className="p-0 flex items-center justify-center bg-gray-100 border-x">
               <canvas
                 ref={canvasRef}
                 width={400}
                 height={400}
-                className="cursor-crosshair touch-none"
+                className="cursor-crosshair touch-none bg-white w-full max-w-100"
                 onMouseDown={startDrawing}
                 onMouseUp={stopDrawing}
                 onMouseMove={draw}
@@ -117,14 +158,14 @@ export const KanjiCanvas = ({ onBack }: { onBack: () => void }) => {
                 onTouchMove={draw}
               />
             </CardContent>
-            <div className="p-4 border-t bg-gray-50 flex justify-between">
+            <div className="p-4 border border-t-0 bg-white flex justify-between rounded-b-xl">
               <Button variant="outline" size="sm" onClick={clearCanvas} className="gap-2">
                 <Trash2 className="w-4 h-4" />
-                Clear
+                Clear Canvas
               </Button>
-              <Button variant="outline" size="sm" className="gap-2">
+              <Button variant="outline" size="sm" className="gap-2" onClick={clearCanvas}>
                 <Undo className="w-4 h-4" />
-                Undo
+                Restart
               </Button>
             </div>
           </Card>
@@ -138,19 +179,19 @@ export const KanjiCanvas = ({ onBack }: { onBack: () => void }) => {
                 Writing Guide
               </h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Focus on the "tome" (stop) at the end of the vertical stroke. The horizontal stroke should slightly tilt upwards for a natural calligraphic feel.
+                Try to draw the Kanji character as accurately as possible. The AI will evaluate your stroke proportions, readability, and structural balance.
               </p>
             </div>
 
             <Button
-              className="w-full h-14 text-lg bg-primary hover:bg-primary/90"
+              className="w-full h-14 text-lg bg-primary hover:bg-primary/90 shadow-lg shadow-primary/20"
               onClick={handleAnalyze}
               disabled={isAnalyzing}
             >
               {isAnalyzing ? (
                  <span className="flex items-center gap-2">
                    <Sparkles className="w-5 h-5 animate-spin" />
-                   AI Analyzing...
+                   Analyzing Strokes...
                  </span>
               ) : 'Submit for Feedback'}
             </Button>
@@ -158,27 +199,41 @@ export const KanjiCanvas = ({ onBack }: { onBack: () => void }) => {
             <AnimatePresence>
               {feedback && (
                 <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: 'auto' }}
+                  initial={{ opacity: 0, height: 0, y: -10 }}
+                  animate={{ opacity: 1, height: 'auto', y: 0 }}
                   exit={{ opacity: 0, height: 0 }}
-                  className="p-4 bg-secondary/30 rounded-xl border border-primary/10 text-sm text-primary"
+                  className={`p-5 rounded-2xl border text-sm ${feedback.score >= 60 ? 'bg-emerald-50 border-emerald-100 text-emerald-800' : 'bg-red-50 border-red-100 text-red-800'}`}
                 >
-                  <div className="font-bold mb-2 flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-emerald-500" />
-                    AI Critique
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="font-bold flex items-center gap-2">
+                      {feedback.score >= 60 ? <CheckCircle className="w-5 h-5 text-emerald-500" /> : <AlertCircle className="w-5 h-5 text-red-500" />}
+                      Sensei's Feedback
+                    </div>
+                    <span className={`font-black text-lg ${feedback.score >= 60 ? 'text-emerald-600' : 'text-red-600'}`}>
+                      {feedback.score}/100
+                    </span>
                   </div>
-                  {feedback}
+                  <p className="leading-relaxed font-medium">{feedback.text}</p>
+                  
+                  {feedback.xp > 0 && (
+                     <div className="mt-3 pt-3 border-t border-current/10 font-bold text-emerald-600 flex justify-between items-center">
+                        <span>XP Awarded</span>
+                        <span className="bg-emerald-500 text-white px-2 py-0.5 rounded text-xs">+{feedback.xp} XP</span>
+                     </div>
+                  )}
                 </motion.div>
               )}
             </AnimatePresence>
 
-            <div className="pt-4 border-t">
-              <p className="text-[10px] uppercase font-bold text-muted-foreground mb-4 tracking-widest text-center">Upcoming Kanji</p>
+            <div className="pt-6 border-t border-gray-100">
+              <p className="text-[10px] uppercase font-bold text-muted-foreground mb-4 tracking-widest text-center">Practice Queue</p>
               <div className="flex justify-center gap-4">
-                {N5_VOCABULARY.slice(1, 4).map(v => (
+                {N5_VOCABULARY.slice(1, 5).map(v => (
                   <button
                     key={v.id}
-                    className="w-12 h-12 rounded-xl border hover:border-primary hover:bg-secondary/20 transition-all font-jp text-xl"
+                    className={`w-12 h-12 rounded-xl border-2 transition-all font-jp text-xl flex items-center justify-center ${
+                      targetKanji.id === v.id ? 'border-primary bg-primary/5 text-primary shadow-sm' : 'border-gray-100 hover:border-primary/40 text-gray-500'
+                    }`}
                     onClick={() => {
                         setTargetKanji(v);
                         clearCanvas();

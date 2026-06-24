@@ -13,21 +13,10 @@ import {
 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
-import { GoogleGenAI } from "@google/genai";
+import { getToken } from '@/lib/auth';
+import { Message } from '@/types';
 
-// Ensure the API key is handled correctly
-const API_KEY = process.env.GEMINI_API_KEY || "";
-const genAI = new GoogleGenAI({ apiKey: API_KEY });
-
-interface Message {
-  id: string;
-  role: 'user' | 'assistant';
-  content: string;
-  translation?: string;
-  romaji?: string;
-  score?: number;
-  feedback?: string;
-}
+const API_BASE_URL = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000').replace(/\/$/, '');
 
 export const KaiwaPractice = ({ onBack }: { onBack: () => void }) => {
   const [messages, setMessages] = useState<Message[]>([
@@ -39,7 +28,6 @@ export const KaiwaPractice = ({ onBack }: { onBack: () => void }) => {
       romaji: 'Irasshaimase. Go-chuumon wa okimari desu ka?'
     }
   ]);
-  const [activeMessageId, setActiveMessageId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const [lastAnalysis, setLastAnalysis] = useState<{ score: number; text: string; feedback: string } | null>(null);
@@ -60,39 +48,64 @@ export const KaiwaPractice = ({ onBack }: { onBack: () => void }) => {
       content: text
     };
 
-    setMessages(prev => [...prev, userMessage]);
+    const updatedMessages = [...messages, userMessage];
+    setMessages(updatedMessages);
     setIsLoading(true);
 
     try {
-      // Simulate real-time pronunciation analysis for the user message
-      const score = Math.floor(Math.random() * 20) + 80;
-      setLastAnalysis({
-        score,
-        text,
-        feedback: "Great job! Your pronunciation is clear and natural. Pay attention to the long vowel sounds in 'coffee' for near-perfect results."
+      const token = getToken();
+      
+      // 1. Analyze pronunciation via speaking evaluate endpoint
+      const expectedText = messages[messages.length - 1]?.content || "ご注文はお決まりですか？";
+      const evalRes = await fetch(`${API_BASE_URL}/api/v1/speaking/evaluate`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          transcript: text,
+          expected_text: expectedText
+        })
       });
 
-      const chat = genAI.models.generateContent({
-        model: "gemini-2.5-flash",
-        contents: text
+      if (evalRes.ok) {
+        const evalData = await evalRes.json();
+        setLastAnalysis({
+          score: Math.round((evalData.accuracy_score + evalData.fluency_score) / 2),
+          text: text,
+          feedback: evalData.feedback || "Good pronounciation attempt."
+        });
+      }
+
+      // 2. Generate next context-aware Japanese conversation turn
+      const chatRes = await fetch(`${API_BASE_URL}/api/v1/speaking/chat`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          history: updatedMessages.map(m => ({
+            role: m.role,
+            content: m.content
+          }))
+        })
       });
 
-      const result = (await chat).text;
-      const responseText = result || "申し訳ありませんが、応答を生成できませんでした。";
-
-      const parts = responseText.split('|').map((p: string) => p.trim());
-
-      const assistantMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        role: 'assistant',
-        content: parts[0] || responseText,
-        romaji: parts[1],
-        translation: parts[2]
-      };
-
-      setMessages(prev => [...prev, assistantMessage]);
+      if (chatRes.ok) {
+        const chatData = await chatRes.json();
+        const assistantMessage: Message = {
+          id: (Date.now() + 1).toString(),
+          role: 'assistant',
+          content: chatData.content,
+          romaji: chatData.romaji,
+          translation: chatData.translation
+        };
+        setMessages(prev => [...prev, assistantMessage]);
+      }
     } catch (error) {
-      console.error("AI Error:", error);
+      console.error("AI Speaking Error:", error);
     } finally {
       setIsLoading(false);
     }
@@ -157,7 +170,7 @@ export const KaiwaPractice = ({ onBack }: { onBack: () => void }) => {
                   <div className={`flex-1 rounded-2xl p-5 border transition-all ${
                     m.role === 'assistant'
                     ? 'bg-gray-50 border-gray-100'
-                    : 'bg-primary-fixed border-primary/20 ring-2 ring-primary shadow-sm'
+                    : 'bg-[#eef2ff] border-primary/20 ring-2 ring-primary shadow-sm'
                   }`}>
                     <div className="flex items-center gap-2 mb-3">
                       {m.role === 'assistant' ? (
@@ -170,8 +183,8 @@ export const KaiwaPractice = ({ onBack }: { onBack: () => void }) => {
                       </span>
                     </div>
                     <p className="text-3xl font-jp mb-3 leading-tight text-primary">{m.content}</p>
-                    <p className="text-sm font-medium text-primary/70 italic">{m.romaji || m.content}</p>
-                    <p className="text-xs text-muted-foreground mt-2">{m.translation}</p>
+                    {m.romaji && <p className="text-sm font-medium text-primary/70 italic">{m.romaji}</p>}
+                    {m.translation && <p className="text-xs text-muted-foreground mt-2">{m.translation}</p>}
                   </div>
                 </motion.div>
               ))}
@@ -210,7 +223,7 @@ export const KaiwaPractice = ({ onBack }: { onBack: () => void }) => {
                   <circle cx="50" cy="50" r="45" fill="none" stroke="#E2E8F0" strokeWidth="8" />
                   <motion.circle
                     cx="50" cy="50" r="45" fill="none"
-                    stroke="#b52330" strokeWidth="8"
+                    stroke="#ff5a5f" strokeWidth="8"
                     strokeLinecap="round"
                     initial={{ strokeDasharray: "282.7", strokeDashoffset: "282.7" }}
                     animate={{ strokeDashoffset: lastAnalysis ? (282.7 - (282.7 * lastAnalysis.score) / 100) : "282.7" }}
@@ -218,7 +231,7 @@ export const KaiwaPractice = ({ onBack }: { onBack: () => void }) => {
                   />
                 </svg>
                 <div className="flex flex-col items-center justify-center bg-white w-36 h-36 rounded-full shadow-lg border border-gray-100">
-                  <span className="text-5xl font-black text-[#b52330]">{lastAnalysis?.score || '--'}</span>
+                  <span className="text-5xl font-black text-[#ff5a5f]">{lastAnalysis?.score || '--'}</span>
                   <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mt-1">SCORE</span>
                 </div>
               </div>
@@ -279,7 +292,7 @@ export const KaiwaPractice = ({ onBack }: { onBack: () => void }) => {
           <div className="bg-white border-t p-8 flex flex-col items-center justify-center shrink-0">
              <div className="flex items-center gap-12 w-full max-w-md justify-center">
                 <button className="flex flex-col items-center gap-2 group">
-                  <div className="w-12 h-12 rounded-full border border-gray-200 group-hover:bg-primary-fixed group-hover:border-primary flex items-center justify-center transition-all bg-white">
+                  <div className="w-12 h-12 rounded-full border border-gray-200 group-hover:bg-primary/5 group-hover:border-primary flex items-center justify-center transition-all bg-white">
                     <RotateCcw className="w-5 h-5 text-gray-400 group-hover:text-primary" />
                   </div>
                   <span className="text-[8px] font-black uppercase tracking-widest text-muted-foreground group-hover:text-primary">Listen Again</span>
@@ -298,7 +311,7 @@ export const KaiwaPractice = ({ onBack }: { onBack: () => void }) => {
                 </button>
 
                 <button className="flex flex-col items-center gap-2 group">
-                  <div className="w-12 h-12 rounded-full border border-gray-200 group-hover:bg-primary-fixed group-hover:border-primary flex items-center justify-center transition-all bg-white">
+                  <div className="w-12 h-12 rounded-full border border-gray-200 group-hover:bg-primary/5 group-hover:border-primary flex items-center justify-center transition-all bg-white">
                     <Volume2 className="w-5 h-5 text-gray-400 group-hover:text-primary" />
                   </div>
                   <span className="text-[8px] font-black uppercase tracking-widest text-muted-foreground group-hover:text-primary">Check Example</span>

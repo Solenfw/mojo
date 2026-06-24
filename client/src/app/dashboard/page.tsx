@@ -1,25 +1,15 @@
 'use client';
 
-import React from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
 import { useRouter } from 'next/navigation';
 import { 
-  MessageSquare, 
-  ChevronRight, 
-  TrendingUp, 
-  BookMarked,
-  Library,
-  Video,
-  Book
+  MessageSquare, ChevronRight, TrendingUp, BookMarked,
+  Library, Book
 } from 'lucide-react';
 import { 
-  AreaChart,
-  Area,
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip, 
-  ResponsiveContainer
+  AreaChart, Area, XAxis, YAxis, CartesianGrid, 
+  Tooltip, ResponsiveContainer
 } from 'recharts';
 
 import { Button } from '@/components/ui/button';
@@ -27,55 +17,51 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { N5_LESSONS } from '@/utils/constants';
-import { User as UserType, Lesson } from '@/types';
+import { Lesson } from '@/types';
+import { getToken } from '@/lib/auth';
 
-const MOCK_USER: UserType = {
-  id: 'u1',
-  name: 'Alex Johnson',
-  email: 'alex@linguasphere.io',
-  proficiency: 'N5',
-  streak: 12,
-  xp: 1250,
-  avatarUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Alex'
-};
-
-const ACTIVITY_DATA = [
-  { day: 'Mon', xp: 120 },
-  { day: 'Tue', xp: 450 },
-  { day: 'Wed', xp: 300 },
-  { day: 'Thu', xp: 550 },
-  { day: 'Fri', xp: 400 },
-  { day: 'Sat', xp: 150 },
-  { day: 'Sun', xp: 200 },
-];
-
-const MASTERY_DATA = [
-  { module: 'Hiragana', score: 100 },
-  { module: 'Katakana', score: 95 },
-  { module: 'Kanji N5', score: 45 },
-  { module: 'Grammar N5', score: 60 },
-  { module: 'Listening', score: 72 },
-];
+const API_BASE_URL = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000').replace(/\/$/, '');
 
 const DashboardContent = () => {
   const router = useRouter();
-  const [selectedLesson, setSelectedLesson] = React.useState<Lesson | null>(null);
-  const [user, setUser] = React.useState<UserType>(MOCK_USER);
+  const [dashboardData, setDashboardData] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchDashboard = async () => {
+      try {
+        const token = getToken();
+        const res = await fetch(`${API_BASE_URL}/api/v1/users/me/dashboard`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (res.ok) {
+          const data = await res.json();
+          setDashboardData(data);
+        }
+      } catch (err) {
+        console.error("Failed to fetch dashboard data:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchDashboard();
+  }, []);
 
   const handleLessonStart = (lesson: Lesson) => {
-    setSelectedLesson(lesson);
+    // Navigate to actual module dynamically. For now, route to reading or vocab
+    if (lesson.type === 'reading') router.push('/dashboard/reading');
+    else router.push('/dashboard/vocabulary');
   };
 
-  const handleLessonComplete = () => {
-    if (selectedLesson) {
-      setUser(prev => ({
-        ...prev,
-        xp: prev.xp + selectedLesson.xpReward,
-        streak: prev.streak + 1
-      }));
-      setSelectedLesson(null);
-    }
-  };
+  if (loading || !dashboardData) {
+    return (
+      <div className="flex h-[60vh] items-center justify-center">
+        <p className="text-muted-foreground font-bold animate-pulse">Loading your learning path...</p>
+      </div>
+    );
+  }
+
+  const { user, activity, mastery } = dashboardData;
 
   return (
     <div className="space-y-6">
@@ -100,7 +86,7 @@ const DashboardContent = () => {
           </CardHeader>
           <CardContent className="w-full">
             <ResponsiveContainer width="100%" height={300}>
-              <AreaChart data={ACTIVITY_DATA}>
+              <AreaChart data={activity}>
                 <defs>
                   <linearGradient id="colorXp" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="5%" stopColor="#00236f" stopOpacity={0.3}/>
@@ -115,14 +101,7 @@ const DashboardContent = () => {
                   labelStyle={{ fontWeight: 'bold', color: '#00236f' }}
                   cursor={{ stroke: '#00236f', strokeWidth: 1 }}
                 />
-                <Area 
-                  type="monotone" 
-                  dataKey="xp" 
-                  stroke="#00236f" 
-                  strokeWidth={2}
-                  fillOpacity={1} 
-                  fill="url(#colorXp)" 
-                />
+                <Area type="monotone" dataKey="xp" stroke="#00236f" strokeWidth={2} fillOpacity={1} fill="url(#colorXp)" />
               </AreaChart>
             </ResponsiveContainer>
           </CardContent>
@@ -133,7 +112,7 @@ const DashboardContent = () => {
             <CardTitle className="text-lg font-bold">Skills Mastery</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
-            {MASTERY_DATA.map((item) => (
+            {mastery.map((item: any) => (
               <div key={item.module} className="space-y-2">
                 <div className="flex justify-between text-xs font-medium">
                   <span className="font-jp">{item.module}</span>
@@ -151,7 +130,7 @@ const DashboardContent = () => {
           <CardHeader>
             <div className="flex justify-between items-center">
               <CardTitle className="text-lg font-bold">Recommended Lessons</CardTitle>
-              <Badge variant="secondary" className="font-bold">N5 Foundation</Badge>
+              <Badge variant="secondary" className="font-bold">{user.level} Path</Badge>
             </div>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -166,16 +145,6 @@ const DashboardContent = () => {
                   <span className="text-[10px] font-bold bg-secondary px-2 py-0.5 rounded text-primary">+{lesson.xpReward} XP</span>
                 </div>
                 <p className="text-xs text-muted-foreground line-clamp-1">{lesson.description}</p>
-                <div className="mt-3 flex items-center gap-2">
-                  <div className="flex -space-x-1">
-                    {[1, 2, 3].map(i => (
-                      <div key={i} className="w-5 h-5 rounded-full border border-white bg-muted flex items-center justify-center text-[8px] font-bold">
-                        {i}
-                      </div>
-                    ))}
-                  </div>
-                  <span className="text-[10px] font-medium text-muted-foreground italic">{lesson.items.length} items</span>
-                </div>
               </div>
             ))}
           </CardContent>
@@ -194,14 +163,11 @@ const DashboardContent = () => {
                   <Library className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <p className="text-sm font-bold">Today's Goal: 20 Cards</p>
-                  <p className="text-[11px] opacity-70 italic">Focus: JLPT N5 Daily Life</p>
+                  <p className="text-sm font-bold">Today's SRS Queue</p>
+                  <p className="text-[11px] opacity-70 italic">Cards waiting for review</p>
                 </div>
               </div>
-              <Button 
-                className="w-full bg-white text-primary hover:bg-white/90 font-bold"
-                onClick={() => router.push('/dashboard/vocabulary')}
-              >
+              <Button className="w-full bg-white text-primary hover:bg-white/90 font-bold" onClick={() => router.push('/dashboard/vocabulary')}>
                 Study Now
               </Button>
             </div>
@@ -222,19 +188,15 @@ const DashboardContent = () => {
                 </div>
                 <div>
                   <p className="text-sm font-bold">New Session: Dining Out</p>
-                  <p className="text-[11px] opacity-70 italic">Focus: Ordering food (N5)</p>
+                  <p className="text-[11px] opacity-70 italic">Focus: Ordering food</p>
                 </div>
               </div>
-              <Button 
-                className="w-full bg-white text-primary hover:bg-white/90 font-bold"
-                onClick={() => router.push('/dashboard/practice')}
-              >
+              <Button className="w-full bg-white text-primary hover:bg-white/90 font-bold" onClick={() => router.push('/dashboard/practice')}>
                 Start Practice
               </Button>
             </div>
             <div className="flex items-center gap-2 text-[10px] opacity-60">
-              <BookMarked className="w-3 h-3" />
-              Requires Microphone
+              <BookMarked className="w-3 h-3" /> Requires Microphone
             </div>
           </CardContent>
         </Card>
@@ -251,43 +213,12 @@ const DashboardContent = () => {
                   <Book className="w-6 h-6 text-primary" />
                 </div>
                 <div>
-                  <p className="text-sm font-bold text-gray-800">New Article: Transportation</p>
-                  <p className="text-[11px] text-muted-foreground uppercase font-black tracking-widest">JLPT N4 • 5 min read</p>
+                  <p className="text-sm font-bold text-gray-800">The Shinkansen</p>
+                  <p className="text-[11px] text-muted-foreground uppercase font-black tracking-widest">Culture • 5 min read</p>
                 </div>
               </div>
-              <Button 
-                variant="outline"
-                className="w-full border-2 hover:bg-primary hover:text-white font-bold transition-all"
-                onClick={() => router.push('/dashboard/reading')}
-              >
+              <Button variant="outline" className="w-full border-2 hover:bg-primary hover:text-white font-bold transition-all" onClick={() => router.push('/dashboard/reading')}>
                 Read Article
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-accent text-white overflow-hidden relative group">
-           <div className="absolute -top-2.5 -right-2.5 w-24 h-24 bg-white/10 rounded-full blur-xl group-hover:scale-125 transition-transform" />
-          <CardHeader>
-            <CardTitle className="text-lg font-bold">VIP Live Session</CardTitle>
-            <CardDescription className="text-white/70">1-on-1 with a Native Sensei</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="bg-white/10 rounded-xl p-6 backdrop-blur-md border border-white/10 mb-4">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-lg">
-                  <Video className="w-6 h-6 text-accent" />
-                </div>
-                <div>
-                  <p className="text-sm font-bold">Next Slot: 4:00 PM</p>
-                  <p className="text-[11px] opacity-70 italic">Sensei Tanaka (Advanced)</p>
-                </div>
-              </div>
-              <Button 
-                className="w-full bg-white text-accent hover:bg-white/90 font-bold"
-                onClick={() => router.push('/dashboard/live')}
-              >
-                Join Room
               </Button>
             </div>
           </CardContent>

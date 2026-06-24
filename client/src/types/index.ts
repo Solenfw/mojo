@@ -38,3 +38,41 @@ export interface MasteryRecord {
   lastReviewed: Date;
   nextReview: Date;
 }
+
+export interface Card {
+  id: string;
+  kanji: string;
+  furigana: string;
+  meaning: string;
+  example: string;
+  exampleEnglish: string;
+  level: string;
+}
+
+export interface Option {
+  id: number;
+  text: string;
+}
+
+export interface Question {
+  id: number;
+  prompt: string;
+  options: Option[];
+}
+
+export interface ReadingData {
+  id: number;
+  title: string;
+  content: string;
+  difficulty: string;
+  questions: Question[];
+  words: Record<string, { kana: string; meaning: string; level: string }>;
+} 
+
+export interface Message {
+  id: string;
+  role: 'user' | 'assistant';
+  content: string;
+  translation?: string;
+  romaji?: string;
+}
