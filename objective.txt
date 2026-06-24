@@ -1,0 +1,12 @@
+Summary : the repomix_summary.xml contains the configuration for the server application, including the database models, security settings, and API routes. 
+It defines the structure of the database tables using SQLAlchemy ORM, sets up JWT-based authentication, and configures the FastAPI application with CORS middleware and various API endpoints. 
+
+Inspect the file closely to see what's been archived, and whats to implement next to complete this goal: implement all core features and ensure the project is enough for a live demo (production stage).
+Important notes: 
+These below are the core features that should be prioritized, everything else can be ignore (Admin/Business/etc):
+- User profile & Dashboard (Authentication, User info, Progress tracking, etc.)
+- Onboarding. (User skill assessment, Goal setting, etc.)
+- Reading. (Passages, Vocabulary, Comprehension, etc.)
+- Kanji. (Learning, Recognition, Writing, etc.)
+- Speaking. (Pronunciation, Fluency, Conversation practice, etc.)
+- Vocabulary. (Learning, SRS, Review, etc.)
