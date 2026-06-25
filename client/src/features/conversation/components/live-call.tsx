@@ -36,7 +36,7 @@ export const LiveCall = ({ onBack }: { onBack: () => void }) => {
                 <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />
                 Live
               </div>
-              <h2 className="text-3xl font-black tracking-tight drop-shadow-2xl">Advanced Business Japanese</h2>
+              <h2 className="text-3xl font-black tracking-tight drop-shadow-2xl">Live Call with a professional instructor</h2>
            </div>
 
            <div className="hidden md:flex gap-4">
@@ -57,7 +57,7 @@ export const LiveCall = ({ onBack }: { onBack: () => void }) => {
               <Construction className="w-10 h-10 text-white" />
            </div>
            <div className="space-y-2">
-              <h3 className="text-3xl font-black tracking-tight">VIP Infrastructure</h3>
+              <h3 className="text-3xl font-black tracking-tight">VIP Infrastructure <br></br> (Coming Soon!🔔)</h3>
               <p className="text-white/60 font-medium">Real-time video streaming is currently being provisioned for your region.</p>
            </div>
            <div className="pt-4 flex items-center justify-center gap-3 text-white/40 text-[10px] uppercase font-black tracking-widest">
