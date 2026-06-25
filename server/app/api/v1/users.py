@@ -144,6 +144,36 @@ async def mark_user_onboarded(
     current_user.is_onboarded = True
     current_user.onboarded_at = now
     current_user.updated_at = now.replace(tzinfo=None)
+    profile = await db.scalar(
+        select(models.LearnerProfiles).where(models.LearnerProfiles.user_id == current_user.id)
+    )
+    level = profile.current_level if profile else "N5"
+
+    # Lấy 20 vocab theo level, seed vào user_vocabulary
+    vocabs = (await db.scalars(
+        select(models.Vocabularies)
+        .where(models.Vocabularies.level == level)
+        .limit(20)
+    )).all()
+
+    for vocab in vocabs:
+        exists = await db.scalar(
+            select(models.UserVocabulary).where(
+                models.UserVocabulary.user_id == current_user.id,
+                models.UserVocabulary.vocab_id == vocab.id,
+            )
+        )
+        if not exists:
+            db.add(models.UserVocabulary(
+                user_id=current_user.id,
+                vocab_id=vocab.id,
+                ease_factor=2.5,
+                interval=1,
+                repetitions=0,
+                next_review_date=datetime.today(),
+            ))
+
+    # existing commit
     await db.commit()
     await db.refresh(current_user)
 

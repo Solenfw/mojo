@@ -13,24 +13,41 @@ export const Reading = ({ onBack }: { onBack: () => void }) => {
   const [answers, setAnswers] = useState<Record<number, number>>({});
   const [result, setResult] = useState<{ score: number; xp_gained: number; is_passed: boolean, max_score: number } | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  // For this demo, we assume we are fetching Lesson ID 3 (The Shinkansen lesson from seeder)
-  const LESSON_ID = 3;
+  const [lessonId, setLessonId] = useState<number | null>(null);
 
   useEffect(() => {
     const fetchReadingData = async () => {
       try {
+        // fetch course → fetch lessons → filter reading → setLessonId
         const token = getToken();
-        const res = await fetch(`${API_BASE_URL}/api/v1/lessons/${LESSON_ID}/reading`, {
+
+        const courseRes = await fetch(`${API_BASE_URL}/api/v1/courses/by-level?targetLevel=N5`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        }).then(r => r.json());
+        const courseId = courseRes.data?.[0]?.courseId;
+        if (!courseId) return;
+
+        const lessonsRes = await fetch(`${API_BASE_URL}/api/v1/courses/lessons?recommendedCourseId=${courseId}`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        }).then(r => r.json());
+        const readingLessons = (lessonsRes.data || []).filter((l: any) => l.lessonType === 'reading');
+        if (readingLessons.length === 0) return;
+
+
+        const targetLessonId = readingLessons[0].lessonId;
+        setLessonId(targetLessonId);
+
+        const res = await fetch(`${API_BASE_URL}/api/v1/lessons/${targetLessonId}/reading`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         if (res.ok) {
+          console.log("Data : ", res);
           const json = await res.json();
           setData(json);
         }
       } catch (err) {
-        console.error("Failed to fetch reading lesson:", err);
-      }
+        console.error("Failed to fetch reading data:", err);
+      };
     };
     fetchReadingData();
   }, []);
@@ -44,7 +61,7 @@ export const Reading = ({ onBack }: { onBack: () => void }) => {
     setIsSubmitting(true);
     try {
       const token = getToken();
-      const res = await fetch(`${API_BASE_URL}/api/v1/lessons/${LESSON_ID}/reading/submit`, {
+      const res = await fetch(`${API_BASE_URL}/api/v1/lessons/${lessonId}/reading/submit`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

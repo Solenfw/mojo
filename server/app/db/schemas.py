@@ -541,6 +541,7 @@ class CourseLessonItem(BaseModel):
     lessonOrder: int
     estimatedDuration: int
     isPreviewAvailable: bool
+    lessonType: str | None = None
 
 
 class CourseLessonResponse(BaseModel):

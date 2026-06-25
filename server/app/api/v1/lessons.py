@@ -185,6 +185,7 @@ async def get_lessons_by_course_id(
                 lessonOrder=index,
                 estimatedDuration=lesson.estimated_minutes or 0,
                 isPreviewAvailable=has_preview,
+                lessonType=lesson.lesson_type,
             ).model_dump(mode="json")
         )
     return _response(data=items)
@@ -213,9 +214,9 @@ async def get_reading_lesson(
             models.Exercises.lesson_id == lesson_id,
             models.Exercises.exercise_type.in_(
                 [
-                    "reading_comprehension",
                     "reading_multiple_choice",
                     "reading_true_false",
+                    "reading_short_answer",
                 ]
             ),
         )
