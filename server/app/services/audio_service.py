@@ -9,10 +9,10 @@ class AudioService:
         "accuracy_score": 75,
         "fluency_score": 75,
         "score": 75,
-        "feedback": "Không thể phân tích phát âm.",
+        "feedback": "Can't analyze pronunciation.",
         "tips": [
-            "Hãy thử đọc lại chậm và rõ ràng hơn",
-            "Đảm bảo micro được đặt gần miệng",
+            "Try to speak more clearly",
+            "Make sure your microphone is positioned close to your mouth",
         ],
         "is_correct": True,
     }
@@ -83,10 +83,10 @@ class AudioService:
                 "accuracy_score": 85,
                 "fluency_score": 80,
                 "score": 83,
-                "feedback": "Phát âm khá rõ ràng. Hãy chú ý các trường âm dài.",
+                "feedback": "Pronunciation is quite clear. Pay attention to long vowel sounds.",
                 "tips": [
-                    "Kéo dài nguyên âm đúng nhịp",
-                    "Giữ nhịp điệu tự nhiên",
+                    "Extend vowels at the right pace",
+                    "Maintain a natural rhythm in your speech",
                 ],
                 "is_correct": True,
             }
@@ -109,7 +109,7 @@ class AudioService:
                 "accuracy_score": 0-100,
                 "fluency_score": 0-100,
                 "score": 0-100,
-                "feedback": "Vietnamese feedback",
+                "feedback": "English feedback",
                 "tips": ["tip1", "tip2"],
                 "is_correct": true
             }}
@@ -121,7 +121,7 @@ class AudioService:
 
         except Exception as e:
             result = self.DEFAULT_PRONUNCIATION_RESULT.copy()
-            result["feedback"] = f"Lỗi phân tích: {str(e)[:100]}"
+            result["feedback"] = f"Error analyzing pronunciation: {str(e)[:100]}"
             return result
 
     # ==========================================================
