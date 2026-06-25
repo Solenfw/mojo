@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { 
@@ -24,17 +24,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import { AuthGuard } from '@/features/auth/components/auth-guard';
-import { clearToken } from '@/lib/auth';
-
-const MOCK_USER = {
-  id: 'u1',
-  name: 'Alex Johnson',
-  email: 'alex@linguasphere.io',
-  proficiency: 'N5',
-  streak: 12,
-  xp: 1250,
-  avatarUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Alex'
-};
+import { clearToken, getCurrentUser } from '@/lib/auth';
 
 const Sidebar = ({ onSignOut }: { onSignOut: () => void }) => {
   const pathname = usePathname();
@@ -83,10 +73,10 @@ const Sidebar = ({ onSignOut }: { onSignOut: () => void }) => {
 
         <div className="space-y-1 py-4">
           <p className="px-3 text-[10px] uppercase tracking-widest font-bold text-muted-foreground mb-2">Support</p>
-          <button className="w-full flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium text-muted-foreground hover:bg-secondary hover:text-primary transition-all cursor-pointer">
+          <Link href="/dashboard/settings" className="w-full flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium text-muted-foreground hover:bg-secondary hover:text-primary transition-all cursor-pointer">
             <Settings className="w-4 h-4" />
             Settings
-          </button>
+          </Link>
           <button 
             onClick={onSignOut}
             className="w-full flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium text-destructive hover:bg-destructive/10 transition-all cursor-pointer"
@@ -108,7 +98,9 @@ const Sidebar = ({ onSignOut }: { onSignOut: () => void }) => {
   );
 };
 
-const Header = ({ user }: { user: typeof MOCK_USER }) => {
+const Header = ({ user }: { user: any }) => {
+  const avatarUrl = `https://api.dicebear.com/7.x/avataaars/svg?seed=${user?.username || 'user'}`;
+  
   return (
     <header className="h-16 border-b bg-white flex items-center justify-between px-8 sticky top-0 z-10 w-full">
       <div className="flex items-center gap-4 bg-muted/50 px-3 py-1 rounded-full border">
@@ -123,11 +115,11 @@ const Header = ({ user }: { user: typeof MOCK_USER }) => {
       <div className="flex items-center gap-6">
         <div className="flex items-center gap-2">
           <Zap className="w-5 h-5 text-orange-500 fill-orange-500" />
-          <span className="font-bold text-sm tracking-tight">{user.streak} Days</span>
+          <span className="font-bold text-sm tracking-tight">{user?.streak || 0} Days</span>
         </div>
         <div className="flex items-center gap-2">
           <Award className="w-5 h-5 text-primary fill-primary/10" />
-          <span className="font-bold text-sm tracking-tight">{user.xp.toLocaleString()} XP</span>
+          <span className="font-bold text-sm tracking-tight">{(user?.xp || 0).toLocaleString()} XP</span>
         </div>
         <Separator orientation="vertical" className="h-6" />
         <Button variant="ghost" size="icon" className="relative">
@@ -136,8 +128,8 @@ const Header = ({ user }: { user: typeof MOCK_USER }) => {
         </Button>
         <Link href="/dashboard/profile" aria-label="Open profile">
           <Avatar className="w-8 h-8 cursor-pointer ring-2 ring-transparent hover:ring-primary transition-all">
-            <AvatarImage src={user.avatarUrl} />
-            <AvatarFallback>{user.name[0]}</AvatarFallback>
+            <AvatarImage src={avatarUrl} />
+            <AvatarFallback>{(user?.username || 'U')[0].toUpperCase()}</AvatarFallback>
           </Avatar>
         </Link>
       </div>
@@ -175,19 +167,26 @@ export default function DashboardLayout({
   children: React.ReactNode
 }) {
   const router = useRouter();
+  const [user, setUser] = useState<any>(null);
+
+  useEffect(() => {
+    getCurrentUser().then(setUser);
+  }, []);
 
   const handleSignOut = () => {
     clearToken();
     router.push('/login');
   };
 
+  if (!user) return <div className="flex h-screen items-center justify-center font-bold text-muted-foreground animate-pulse">Loading Environment...</div>;
+
   return (
     <AuthGuard>
       <div className="flex min-h-screen bg-background font-sans">
-        <Mask />
+        {/* <Mask /> */}
         <Sidebar onSignOut={handleSignOut} />
         <main className="flex-1 flex flex-col">
-          <Header user={MOCK_USER} />
+          <Header user={user} />
           <div className="flex-1 p-8 overflow-y-auto">
             <div className="max-w-6xl mx-auto">
               {children}

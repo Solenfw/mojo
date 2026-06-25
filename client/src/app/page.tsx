@@ -21,21 +21,23 @@ export default function LandingPage() {
 
   const handleStart = () => router.push('/signup');
   const handleLogin = () => router.push('/login');
-  const handleViewCurriculum = () => router.push('/dashboard/curriculum');
 
   return (
     <div className="min-h-screen bg-background flex flex-col font-sans">
       {/* Navigation */}
       <nav className="h-20 flex items-center justify-between px-8 md:px-16 sticky top-0 bg-white/80 backdrop-blur-md z-50 border-b border-primary/5">
         <div className="flex items-center gap-2">
-          <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center shadow-lg shadow-primary/20">
-            <span className="text-white font-black text-lg">LS</span>
+          <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-md shadow-primary/10 border border-primary/10 overflow-hidden">
+            <img 
+              src="/logo.png" 
+              alt="LinguaSphere Logo" 
+              className="w-8 h-8 object-contain scale-110" 
+            />
           </div>
           <span className="text-2xl font-bold tracking-tighter text-primary">LinguaSphere</span>
         </div>
         <div className="hidden md:flex items-center gap-8">
           <a href="#features" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">Features</a>
-          <button type="button" onClick={handleViewCurriculum} className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">Curriculum</button>
           <Button variant="ghost" onClick={handleLogin} className="text-sm font-bold text-primary">Sign In</Button>
           <Button onClick={handleStart} className="bg-primary text-white hover:bg-primary/90 px-6 font-bold shadow-lg shadow-primary/20">Get Started</Button>
         </div>
@@ -64,11 +66,8 @@ export default function LandingPage() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
               <Button onClick={handleStart} className="h-14 px-8 text-lg bg-primary hover:bg-primary/90 rounded-2xl group shadow-2xl shadow-primary/30">
-                Start Learning Free
+                Start Learning for Free
                 <ChevronRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </Button>
-              <Button variant="outline" onClick={handleViewCurriculum} className="h-14 px-8 text-lg rounded-2xl border-2 hover:bg-secondary/50">
-                View Curriculum
               </Button>
             </div>
             <div className="flex items-center gap-6 justify-center lg:justify-start pt-4">
@@ -83,10 +82,10 @@ export default function LandingPage() {
                 ))}
               </div>
               <p className="text-sm font-medium text-muted-foreground">
-                <span className="text-primary font-bold">1,200+</span> professionals already learning
+                <span className="text-primary font-light">constantly pushing for a larger community of learners and professionals.</span> 
               </p>
             </div>
-          </motion.div>
+          </motion.div> 
 
           {/* Visual Element */}
           <motion.div
@@ -143,7 +142,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Trust Bar */}
+      {/* Trust Bar
       <div className="border-y bg-secondary/20 py-8">
         <div className="max-w-7xl mx-auto px-8 flex flex-wrap justify-center gap-x-16 gap-y-8 items-center grayscale opacity-50">
           <div className="font-black text-xl tracking-tighter">TECHLEARN</div>
@@ -151,7 +150,9 @@ export default function LandingPage() {
           <div className="font-black text-xl tracking-tighter">TOKYO HUB</div>
           <div className="font-black text-xl tracking-tighter">SENSEI NET</div>
         </div>
-      </div>
+      </div> */}
+      {/* devide line */}
+      <div className="border-t border-primary/8"></div>
 
       {/* Features */}
       <section id="features" className="py-32">
@@ -203,19 +204,22 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-8 md:px-16 grid grid-cols-1 md:grid-cols-4 gap-12 border-b border-white/10 pb-16">
           <div className="space-y-6">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center">
-                <span className="text-primary font-black text-xs">LS</span>
+              <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-md shadow-primary/10 border border-primary/10 overflow-hidden">
+                <img 
+                  src="/logo.png" 
+                  alt="LinguaSphere Logo" 
+                  className="w-8 h-8 object-contain scale-110" 
+                />
               </div>
-              <span className="text-xl font-bold tracking-tighter">LinguaSphere</span>
+              <span className="text-2xl font-bold tracking-tighter text-white">LinguaSphere</span>
             </div>
             <p className="text-sm text-primary-foreground/60 leading-relaxed">
               Elevating language education for the next generation of global leaders.
-            </p>
+            </p>  
           </div>
           <div>
             <h4 className="font-bold mb-6 uppercase text-xs tracking-widest text-accent">Platform</h4>
             <ul className="space-y-4 text-sm text-primary-foreground/60">
-              <li className="hover:text-white cursor-pointer transition-colors">Curriculum</li>
               <li className="hover:text-white cursor-pointer transition-colors">Gemini AI</li>
               <li className="hover:text-white cursor-pointer transition-colors">Enterprise</li>
             </ul>

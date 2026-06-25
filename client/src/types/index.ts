@@ -76,3 +76,39 @@ export interface Message {
   translation?: string;
   romaji?: string;
 }
+
+
+export interface AuthToken {
+  access_token: string;
+  token_type: string;
+  refresh_token?: string;
+}
+
+export interface CheckUserPayload {
+  email?: string;
+  phone?: string;
+}
+
+export interface CurrentUser {
+  id: number;
+  username: string;
+  email: string;
+  phone: string;
+  is_onboarded: boolean;
+}
+
+export interface AuthPayload {
+  emailOrPhone?: string;
+  passwordHash: string;
+  fullName?: string;
+  email?: string;
+  phone?: string;
+  deviceId?: string;
+  platform?: 'mobile' | 'web';
+}
+
+export type ErrorBag = {
+  message?: string;
+  detail?: string;
+  errors?: Array<{ message?: string }>;
+};

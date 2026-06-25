@@ -1,9 +1,10 @@
+// client/src/app/(auth)/login/page.tsx
 'use client';
 
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import { AuthLayout, LoginForm } from '@/features/auth/components/auth-pages';
-import { login, saveToken } from '@/lib/auth';
+import { login, saveToken, getCurrentUser } from '@/lib/auth';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -22,7 +23,15 @@ export default function LoginPage() {
     try {
       const token = await login(email, password);
       saveToken(token.access_token);
-      router.push('/onboarding');
+      
+      // Fetch the user to check if they have completed onboarding
+      const user = await getCurrentUser();
+      
+      if (user?.is_onboarded) {
+        router.push('/dashboard');
+      } else {
+        router.push('/onboarding');
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unable to sign in');
     } finally {

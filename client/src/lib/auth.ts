@@ -1,36 +1,8 @@
+import type { AuthPayload, AuthToken, CheckUserPayload, CurrentUser, ErrorBag } from '@/types';
+
 const API_BASE_URL = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000').replace(/\/$/, '');
 const TOKEN_KEY = 'linguasphere_access_token';
 
-export interface AuthToken {
-  access_token: string;
-  token_type: string;
-  refresh_token?: string;
-}
-
-export interface CheckUserPayload {
-  email?: string;
-  phone?: string;
-}
-
-interface CurrentUser {
-  id: number;
-}
-
-interface AuthPayload {
-  emailOrPhone?: string;
-  passwordHash: string;
-  fullName?: string;
-  email?: string;
-  phone?: string;
-  deviceId?: string;
-  platform?: 'mobile' | 'web';
-}
-
-type ErrorBag = {
-  message?: string;
-  detail?: string;
-  errors?: Array<{ message?: string }>;
-};
 
 const asErrorBag = (value: unknown): ErrorBag => {
   if (!value || typeof value !== 'object') {
