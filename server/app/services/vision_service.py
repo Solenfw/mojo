@@ -3,6 +3,8 @@ import os
 import json
 import urllib.request
 import urllib.error
+from dotenv import load_dotenv
+load_dotenv()  # Load environment variables from .env file
 
 class VisionService:
     def __init__(self):

@@ -37,9 +37,8 @@ async def evaluate_writing(
         if score >= 90:
             xp_awarded += 10  # Bonus for high accuracy
             
-        async with db.begin():
-            await GamificationEngine.add_xp(current_user, xp_awarded, db)
-            await GamificationEngine.update_streak(current_user, db)
+        await GamificationEngine.add_xp(current_user, xp_awarded, db)
+        await GamificationEngine.update_streak(current_user, db)
 
     return EvaluateWritingResponse(
         score=score,
