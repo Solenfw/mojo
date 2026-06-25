@@ -3,10 +3,10 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy import select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.api.deps import get_current_user, get_db
-from app.db import models
-from app.db.schemas import ReviewRequest
-from app.services.srs_engine import process_srs_review
+from server.app.api.deps import get_current_user, get_db
+from server.app.db import models
+from server.app.db.schemas import ReviewRequest
+from server.app.services.srs_engine import process_srs_review
 
 router = APIRouter(prefix="/srs", tags=["srs"])
 

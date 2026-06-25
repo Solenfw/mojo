@@ -3,10 +3,10 @@ from jose import JWTError, jwt
 from sqlalchemy import or_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.db.database import SessionLocal
-from app.db import models
-from app.core.security import oauth2_scheme, verify_password
-from app.core.config import settings
+from server.app.db.database import SessionLocal
+from server.app.db import models
+from server.app.core.security import oauth2_scheme, verify_password
+from server.app.core.config import settings
 
 SECRET_KEY = settings.secret_key
 if not SECRET_KEY:

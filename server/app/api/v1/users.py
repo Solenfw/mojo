@@ -5,10 +5,10 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy import select, func
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.db.schemas import MarkUserOnboardedRequest, MarkUserOnboardedResponse, UserRead
-from app.db import models
-from app.api.deps import get_current_user, get_db
-from app.core.security import oauth2_scheme
+from server.app.db.schemas import MarkUserOnboardedRequest, MarkUserOnboardedResponse, UserRead
+from server.app.db import models
+from server.app.api.deps import get_current_user, get_db
+from server.app.core.security import oauth2_scheme
 
 router = APIRouter(prefix="/users", tags=["users"])
 

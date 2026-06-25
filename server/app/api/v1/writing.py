@@ -3,10 +3,10 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from pydantic import BaseModel
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.api.deps import get_current_user, get_db
-from app.db import models
-from app.services.vision_service import VisionService
-from app.services.gamification_engine import GamificationEngine
+from server.app.api.deps import get_current_user, get_db
+from server.app.db import models
+from server.app.services.vision_service import VisionService
+from server.app.services.gamification_engine import GamificationEngine
 from server.app.db.schemas import EvaluateWritingRequest, EvaluateWritingResponse
 
 router = APIRouter(prefix="/writing", tags=["writing"])

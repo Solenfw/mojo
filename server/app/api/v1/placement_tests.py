@@ -7,9 +7,9 @@ from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.api.deps import get_current_user, get_db
-from app.db import models
-from app.db.schemas import (
+from server.app.api.deps import get_current_user, get_db
+from server.app.db import models
+from server.app.db.schemas import (
     CreateTestAttemptData,
     CreateTestAttemptRequest,
     CreateTestAttemptResponse,

@@ -2,9 +2,9 @@ from fastapi import APIRouter, Depends, status
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.api.deps import get_current_user, get_db
-from app.db import models
-from app.services.audio_service import AudioService
+from server.app.api.deps import get_current_user, get_db
+from server.app.db import models
+from server.app.services.audio_service import AudioService
 from server.app.db.schemas import (
     GetExercisesResponse,
     SpeakingExerciseItem,

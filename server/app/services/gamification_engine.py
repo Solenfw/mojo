@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.db import models
+from server.app.db import models
 
 
 class GamificationEngine:

@@ -5,11 +5,11 @@ from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy import or_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.api.deps import authenticate_user, get_current_user, get_db
-from app.core.security import oauth2_scheme
-from app.core.security import create_access_token, get_password_hash
-from app.db import models
-from app.db.schemas import (
+from server.app.api.deps import authenticate_user, get_current_user, get_db
+from server.app.core.security import oauth2_scheme
+from server.app.core.security import create_access_token, get_password_hash
+from server.app.db import models
+from server.app.db.schemas import (
     CheckLoginStateRequest,
     CheckLoginStateResponse,
     CheckUserByEmailOrPhoneRequest,

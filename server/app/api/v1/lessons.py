@@ -7,9 +7,9 @@ from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
-from app.api.deps import get_current_user, get_db
-from app.db import models
-from app.db.schemas import (
+from server.app.api.deps import get_current_user, get_db
+from server.app.db import models
+from server.app.db.schemas import (
     CourseLessonItem,
     CourseLessonResponse,
     CourseRecommendationItem,
@@ -20,7 +20,7 @@ from app.db.schemas import (
     ReadingLessonResponse,
     SessionTokenPayload,
 )
-from app.services.gamification_engine import GamificationEngine
+from server.app.services.gamification_engine import GamificationEngine
 
 router = APIRouter()
 courses_router = APIRouter(prefix="/courses", tags=["courses"])

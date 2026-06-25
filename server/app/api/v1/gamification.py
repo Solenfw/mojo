@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.api.deps import get_db
-from app.api.v1.users import get_current_user
-from app.db import models
-from app.services.gamification_engine import GamificationEngine
+from server.app.api.deps import get_db
+from server.app.api.v1.users import get_current_user
+from server.app.db import models
+from server.app.services.gamification_engine import GamificationEngine
 
 router = APIRouter()
 

@@ -7,10 +7,10 @@ from pydantic import BaseModel, Field
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.api.deps import get_current_user, get_db
-from app.core.security import oauth2_scheme
-from app.db import models
-from app.db.schemas import (
+from server.app.api.deps import get_current_user, get_db
+from server.app.core.security import oauth2_scheme
+from server.app.db import models
+from server.app.db.schemas import (
     AnalyzeOnboardingDataRequest,
     AnalyzeOnboardingDataResponse,
     AnalyzeOnboardingDataResult,

@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from pydantic import BaseModel, Field
 
-from app.api.deps import get_current_user
-from app.db import models
-from app.services.mecab_service import MeCabService
+from server.app.api.deps import get_current_user
+from server.app.db import models
+from server.app.services.mecab_service import MeCabService
 from server.app.db.schemas import TokenizeRequest, TokenizeResponse, TokenizeItem
 
 router = APIRouter(prefix="/nlp", tags=["nlp"])
