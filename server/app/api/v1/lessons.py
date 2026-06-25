@@ -190,6 +190,7 @@ async def get_lessons_by_course_id(
         )
     return _response(data=items)
 
+# Reading endpoints
 
 @lessons_router.get("/{lesson_id}/reading", response_model=ReadingLessonResponse)
 async def get_reading_lesson(
@@ -370,6 +371,77 @@ async def complete_lesson(
     return {
         "xp_gained": result.xp_gained,
         "streak": getattr(current_user, "streak", 0),
+    }
+    
+# Speaking endpoints
+
+@lessons_router.get("/speaking", response_model=dict)
+async def get_speaking_lessons(
+    course_id: int = Query(default=1, gt=0),
+    current_user: models.User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+):
+    lessons = (
+        await db.scalars(
+            select(models.Lessons)
+            .where(
+                models.Lessons.course_id == course_id,
+                models.Lessons.lesson_type == "speaking",
+                func.lower(func.coalesce(models.Lessons.status, "")).in_(VISIBLE_STATUSES),
+            )
+            .order_by(models.Lessons.id.asc())
+        )
+    ).all()
+
+    if not lessons:
+        _raise_error(status.HTTP_404_NOT_FOUND, BUSINESS_NOT_FOUND, "No speaking lessons found.")
+
+    items = [
+        {
+            "lessonId": lesson.id,
+            "lessonTitle": lesson.title,
+            "lessonOrder": idx,
+            "estimatedDuration": lesson.estimated_minutes or 20,
+        }
+        for idx, lesson in enumerate(lessons, start=1)
+    ]
+    return _response(data=items)
+
+
+@lessons_router.get("/{lesson_id}/speaking", response_model=dict)
+async def get_speaking_lesson(
+    lesson_id: int,
+    current_user: models.User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+):
+    import json as _json
+
+    lesson = await db.scalar(
+        select(models.Lessons).where(
+            models.Lessons.id == lesson_id,
+            models.Lessons.lesson_type == "speaking",
+        )
+    )
+    if not lesson:
+        _raise_error(status.HTTP_404_NOT_FOUND, BUSINESS_NOT_FOUND, "Speaking lesson not found.")
+
+    try:
+        content = _json.loads(lesson.content or "{}")
+    except Exception:
+        content = {}
+
+    dialogues = content.get("dialogues", [])
+
+    return {
+        "success": True,
+        "businessCode": BUSINESS_SUCCESS,
+        "message": "Request completed successfully.",
+        "data": {
+            "lessonId": lesson.id,
+            "lessonTitle": lesson.title,
+            "dialogues": dialogues,
+        },
+        "timestamp": _isoformat(None),
     }
 
 

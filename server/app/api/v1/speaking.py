@@ -5,7 +5,16 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.api.deps import get_current_user, get_db
 from app.db import models
 from app.services.audio_service import AudioService
-from server.app.db.schemas import GetExercisesResponse, SpeakingExerciseItem, EvaluateSpeakingRequest, EvaluateSpeakingResponse, GenerateKaiwaRequest, GenerateKaiwaResponse, SaveSpeakingAttemptRequest, SaveSpeakingAttemptResponse  
+from server.app.db.schemas import (
+    GetExercisesResponse,
+    SpeakingExerciseItem,
+    EvaluateSpeakingRequest,
+    EvaluateSpeakingResponse,
+    GenerateKaiwaRequest,
+    GenerateKaiwaResponse,
+    SaveSpeakingAttemptRequest,
+    SaveSpeakingAttemptResponse,
+)
 
 router = APIRouter(prefix="/speaking", tags=["speaking"])
 audio_service = AudioService()
@@ -42,14 +51,20 @@ async def evaluate_speaking_submission(
     payload: EvaluateSpeakingRequest,
     current_user: models.User = Depends(get_current_user)
 ):
-    """Pass user transcript to AI speech analyzer for scoring."""
+    """Pass user transcript to AI speech analyzer for scoring and feedback."""
     del current_user
-    evaluation = audio_service.evaluate_pronunciation(payload.transcript, payload.expected_text)
+    evaluation = audio_service.evaluate_pronunciation(
+        transcript=payload.transcript, 
+        expected_text=payload.expected_text,
+        romaji=payload.romaji or ""
+    )
     return EvaluateSpeakingResponse(
         accuracy_score=evaluation.get("accuracy_score", 80),
         fluency_score=evaluation.get("fluency_score", 80),
+        score=evaluation.get("score", 80),
         feedback=evaluation.get("feedback", ""),
-        tips=evaluation.get("tips", [])
+        tips=evaluation.get("tips", []),
+        is_correct=evaluation.get("is_correct", True)
     )
 
 
@@ -60,7 +75,6 @@ async def generate_kaiwa_turn(
 ):
     """Submit dialogue history to receive the next conversational turn."""
     del current_user
-    # Convert Pydantic objects to native dictionary
     history_list = [{"role": m.role, "content": m.content} for m in payload.history]
     reply = audio_service.generate_kaiwa_response(history_list)
     return GenerateKaiwaResponse(

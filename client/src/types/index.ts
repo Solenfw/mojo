@@ -112,3 +112,34 @@ export type ErrorBag = {
   detail?: string;
   errors?: Array<{ message?: string }>;
 };
+
+export interface SpeakingLesson {
+  lessonId: number;
+  lessonTitle: string;
+  lessonOrder: number;
+  estimatedDuration: number;
+}
+
+export interface DialogueTurn {
+  speaker: string;
+  japanese: string;
+  romaji: string;
+  vietnamese: string;
+}
+
+export interface Dialogue {
+  title: string;
+  conversation: DialogueTurn[];
+}
+
+export interface ChatMessage {
+  id: string;
+  speaker: string;
+  role: 'assistant' | 'user';
+  japanese: string;
+  romaji?: string;
+  vietnamese?: string;
+  userTranscript?: string;
+  score?: number;
+  feedback?: string;
+}

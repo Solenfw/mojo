@@ -153,12 +153,15 @@ class CheckUserByEmailOrPhoneResponse(BaseModel):
 class EvaluateSpeakingRequest(BaseModel):
     transcript: str
     expected_text: str
+    romaji: Optional[str] = None  # Cho phép truyền romaji hoặc không
 
 class EvaluateSpeakingResponse(BaseModel):
     accuracy_score: int
     fluency_score: int
-    feedback: str
-    tips: List[str]
+    score: int                     # Điểm tổng quát (tương đương với 'score' cũ)
+    feedback: str                  # Nhận xét bằng tiếng Việt
+    tips: List[str] = []           # Lời khuyên cải thiện
+    is_correct: bool               # Đạt hay không đạt (score >= 60)
 
 class KaiwaHistoryItem(BaseModel):
     role: str
@@ -594,3 +597,13 @@ class QuizSubmitResponse(BaseModel):
     max_score: int
     xp_gained: int
     is_passed: bool
+
+class RatePronunciationRequest(BaseModel):
+    expected_text: str      # câu Japanese gốc
+    user_transcript: str    # STT output từ browser
+    romaji: str = ""
+
+class RatePronunciationResponse(BaseModel):
+    score: int
+    feedback: str
+    is_correct: bool

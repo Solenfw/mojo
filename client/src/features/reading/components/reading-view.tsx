@@ -4,6 +4,7 @@ import { ChevronRight, Book, Star as StarIcon, CheckCircle2 } from 'lucide-react
 import { Button } from '@/components/ui/button';
 import { getToken } from '@/lib/auth';
 import { ReadingData } from '@/types';
+import Link from 'next/link';
 
 const API_BASE_URL = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000').replace(/\/$/, '');
 
@@ -244,10 +245,10 @@ export const Reading = ({ onBack }: { onBack: () => void }) => {
 
                <div className="bg-primary rounded-3xl p-8 text-white space-y-4 shadow-2xl shadow-primary/30 relative overflow-hidden group">
                   <StarIcon className="absolute -top-2.5 -right-2.5 w-32 h-32 text-white/5 rotate-12 group-hover:scale-110 transition-transform" />
-                  <h4 className="font-black text-lg leading-tight uppercase tracking-tight">VIP Coaching</h4>
+                  <h4 className="font-black text-lg leading-tight uppercase tracking-tight">VIP Coaching <br /> (Premium)</h4>
                   <p className="text-xs font-medium text-white/70 leading-relaxed">Struggling with this text? Get a 1-on-1 session with a Sensei now.</p>
                   <Button className="w-full bg-white text-primary hover:bg-white/90 rounded-xl font-black uppercase text-[10px] tracking-widest h-12 mt-4">
-                    Book Sensei
+                    <Link href="/dashboard/live">Book sensei</Link>
                   </Button>
                </div>
             </aside>
