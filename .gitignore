@@ -57,9 +57,6 @@ __pycache__/
 *.pyd
 .Python
 
-# uv
-.uv/
-uv.lock
 
 # Byte-compiled / dist
 *.egg-info/
