@@ -159,3 +159,22 @@ export interface ChatMessage {
   score?: number;
   feedback?: string;
 }
+
+
+export interface NormalizedCard {
+  id: number;
+  vocab: string;
+  kanji?: string;
+  romaji: string;
+  meaning: string;
+  example?: string;
+  exampleMeaning?: string;
+}
+
+export interface VocabularyDeck {
+  id: string; // 'srs_due' or standard numeric lesson id
+  title: string;
+  description: string;
+  totalItems: number;
+  type: 'srs' | 'lesson';
+}

@@ -444,6 +444,35 @@ async def get_speaking_lesson(
         "timestamp": _isoformat(None),
     }
 
+@lessons_router.get("/{lesson_id}/vocabulary", response_model=dict)
+async def get_vocabulary_lesson(
+    lesson_id: int,
+    current_user: models.User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+):
+    """Retrieves vocabulary items belonging to a structured lesson."""
+    lesson = await db.scalar(
+        select(models.Lessons).where(
+            models.Lessons.id == lesson_id,
+            models.Lessons.lesson_type == "vocabulary",
+        )
+    )
+    if not lesson:
+        raise HTTPException(status_code=404, detail="Vocabulary lesson not found")
+
+    import json as _json
+    try:
+        content = _json.loads(lesson.content or "{}")
+    except Exception:
+        content = {}
+
+    return {
+        "id": lesson.id,
+        "title": lesson.title,
+        "description": content.get("description", "Learn essential vocabulary terms."),
+        "items": content.get("items", []),
+    }
+
 
 router.include_router(courses_router)
 router.include_router(lessons_router)

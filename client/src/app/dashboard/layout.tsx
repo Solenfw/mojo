@@ -41,11 +41,18 @@ const Sidebar = ({ onSignOut }: { onSignOut: () => void }) => {
 
   return (
     <div className="w-64 h-screen border-r bg-white flex flex-col sticky top-0">
-      <div className="p-6 flex items-center gap-3">
-        <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-          <span className="text-white font-bold text-xs">LS</span>
+      <div className="px-6 py-5 border-b">
+        <div className="flex items-center gap-3">
+          <img
+            src="/logo.png"
+            alt="LinguaSphere Logo"
+            className="w-10 h-10 object-contain"
+          />
+
+          <span className="text-xl font-bold tracking-tight text-primary">
+            LinguaSphere
+          </span>
         </div>
-        <h1 className="text-xl font-bold tracking-tighter text-primary">LinguaSphere</h1>
       </div>
       
       <ScrollArea className="flex-1 px-4">

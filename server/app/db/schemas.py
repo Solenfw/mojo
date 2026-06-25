@@ -607,3 +607,13 @@ class RatePronunciationResponse(BaseModel):
     score: int
     feedback: str
     is_correct: bool
+
+class SRSUpdatePayload(BaseModel):
+    item_id: str
+    score: int  # User Response Rating: 1 (Forgot), 3 (Hard), 5 (Easy)
+
+class SRSReviewResult(BaseModel):
+    repetitions: int
+    easiness_factor: float
+    interval_days: int
+    next_review: datetime

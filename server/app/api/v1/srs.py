@@ -1,13 +1,12 @@
-from datetime import datetime, date
+from datetime import datetime, timezone
 from fastapi import APIRouter, Depends, HTTPException, status
-from pydantic import BaseModel
 from sqlalchemy import select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.api.deps import get_current_user, get_db
 from app.db import models
-from app.services.srs_engine import calculate_next_review
 from app.db.schemas import ReviewRequest
+from app.services.srs_engine import process_srs_review
 
 router = APIRouter(prefix="/srs", tags=["srs"])
 
@@ -83,27 +82,19 @@ async def review_vocab(
         )
 
     # Invoke SM-2 scheduler algorithm
-    updates = calculate_next_review(
+    updates = process_srs_review(
         review.quality_score,
         user_vocab.repetitions,
         float(user_vocab.ease_factor),
         user_vocab.interval,
     )
 
-    # Update state
-    await db.execute(
-        update(models.UserVocabulary)
-        .where(
-            models.UserVocabulary.user_id == current_user.id,
-            models.UserVocabulary.vocab_id == review.vocab_id,
-        )
-        .values(
-            ease_factor=updates["ease_factor"],
-            interval=updates["interval"],
-            repetitions=updates["repetitions"],
-            next_review_date=updates["next_review_date"]
-        )
-    )
+    # Fixed: Update attributes using object properties instead of dictionaries
+    user_vocab.ease_factor = updates.easiness_factor
+    user_vocab.interval = updates.interval_days
+    user_vocab.repetitions = updates.repetitions
+    user_vocab.next_review_date = updates.next_review.date()
+
     await db.commit()
 
-    return {"next_review_date": str(updates["next_review_date"])}
+    return {"next_review_date": str(user_vocab.next_review_date)}

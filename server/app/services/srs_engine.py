@@ -1,39 +1,39 @@
-from datetime import datetime, timedelta
+import math
+from datetime import datetime, timedelta, timezone
+from server.app.db.schemas import SRSReviewResult
 
-
-def calculate_next_review(
-    quality_score: int, repetitions: int, ease_factor: float, interval: int
-) -> dict:
+def process_srs_review(score: int, current_rep: int, current_ef: float, current_interval: int) -> SRSReviewResult:
     """
-    Implements SuperMemo-2 algorithm.
-    Returns dict with updated: ease_factor, interval, repetitions, next_review_date
+    Refactored SM-2 Spaced Repetition Algorithm.
+    Fixes the 'hell-loop' flaw by guarding the EF minimum floor at 1.3
+    and scaling intervals conditionally based on quality scores.
     """
-    if quality_score < 0 or quality_score > 5:
-        raise ValueError("Quality score must be between 0 and 5")
-
-    if quality_score >= 3:
-        # Correct response
-        if repetitions == 0:
-            new_interval = 1
-        elif repetitions == 1:
-            new_interval = 6
-        else:
-            new_interval = round(interval * ease_factor)
-
-        new_repetitions = repetitions + 1
-        new_ease_factor = ease_factor + (0.1 - (5 - quality_score) * (0.08 + (5 - quality_score) * 0.02))
-        new_ease_factor = max(1.3, new_ease_factor)
-    else:
-        # Incorrect response
-        new_repetitions = 0
+    # If the user failed to recall the word or found it completely unfamiliar (Score < 3)
+    if score < 3:
+        # Instead of resetting completely, reduce EF slightly and set interval back to 1 day
+        new_ef = max(1.3, current_ef - 0.2)
+        return SRSReviewResult(
+            repetitions=0,
+            easiness_factor=round(new_ef, 2),
+            interval_days=1,
+            next_review=datetime.now(timezone.utc) + timedelta(days=1)
+        )
+    
+    # If the card was correctly recalled (Score >= 3)
+    if current_rep == 0:
         new_interval = 1
-        new_ease_factor = ease_factor  # Unchanged
-
-    next_review_date = datetime.utcnow().date() + timedelta(days=new_interval)
-
-    return {
-        "ease_factor": new_ease_factor,
-        "interval": new_interval,
-        "repetitions": new_repetitions,
-        "next_review_date": next_review_date,
-    }
+    elif current_rep == 1:
+        new_interval = 6
+    else:
+        new_interval = math.ceil(current_interval * current_ef)
+        
+    # Standard SuperMemo SM-2 formula for EF adjustment
+    new_ef = current_ef + (0.1 - (5 - score) * (0.08 + (5 - score) * 0.02))
+    new_ef = max(1.3, new_ef)  # Hard structural floor guard
+    
+    return SRSReviewResult(
+        repetitions=current_rep + 1,
+        easiness_factor=round(new_ef, 2),
+        interval_days=new_interval,
+        next_review=datetime.now(timezone.utc) + timedelta(days=new_interval)
+    )
