@@ -65,8 +65,24 @@ export interface ReadingData {
   title: string;
   content: string;
   difficulty: string;
+  passages: Array<{
+    id: number;
+    title: string;
+    japanese: string;
+    vietnamese?: string | null;
+  }>;
   questions: Question[];
-  words: Record<string, { kana: string; meaning: string; level: string }>;
+  words: Record<
+    string,
+    {
+      kana: string;
+      meaning: string;
+      level: string;
+      kanji: string;
+      romaji: string;
+      type: string;
+    }
+  >;
 } 
 
 export interface Message {
