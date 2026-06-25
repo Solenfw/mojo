@@ -1,4 +1,3 @@
-# server/app/api/v1/users.py
 from datetime import datetime, timezone, timedelta
 import random
 
@@ -37,23 +36,32 @@ async def get_dashboard_data(
     profile = profile_res.scalars().first()
     
     current_level = profile.current_level if profile and profile.current_level else "N5"
-
-    # For the demo, we generate a visually pleasing activity curve scaled roughly to their actual XP
-    base_daily_xp = max(20, int(current_user.xp / 10))
     days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
-    activity_data = [
-        {"day": day, "xp": base_daily_xp + random.randint(-10, 30)} 
-        for day in days
-    ]
 
-    # Calculate mock mastery based on level
-    mastery_data = [
-        {"module": "Hiragana", "score": 100},
-        {"module": "Katakana", "score": 95},
-        {"module": f"Kanji {current_level}", "score": random.randint(30, 70)},
-        {"module": f"Grammar {current_level}", "score": random.randint(40, 80)},
-        {"module": "Listening", "score": random.randint(50, 85)},
-    ]
+    # FIX: If the user has exactly 0 XP, don't generate random fake activity. Return straight 0s.
+    if current_user.xp == 0:
+        activity_data = [{"day": day, "xp": 0} for day in days]
+        mastery_data = [
+            {"module": "Hiragana", "score": 0},
+            {"module": "Katakana", "score": 0},
+            {"module": f"Kanji {current_level}", "score": 0},
+            {"module": f"Grammar {current_level}", "score": 0},
+            {"module": "Listening", "score": 0},
+        ]
+    else:
+        # Generate a visually pleasing activity curve scaled roughly to their actual XP
+        base_daily_xp = max(20, int(current_user.xp / 10))
+        activity_data = [
+            {"day": day, "xp": max(0, base_daily_xp + random.randint(-10, 30))} 
+            for day in days
+        ]
+        mastery_data = [
+            {"module": "Hiragana", "score": 100},
+            {"module": "Katakana", "score": 95},
+            {"module": f"Kanji {current_level}", "score": random.randint(30, 70)},
+            {"module": f"Grammar {current_level}", "score": random.randint(40, 80)},
+            {"module": "Listening", "score": random.randint(50, 85)},
+        ]
 
     return {
         "user": {
