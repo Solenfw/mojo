@@ -20,7 +20,7 @@ class GamificationEngine:
 
     @staticmethod
     async def update_streak(user: models.User, db: AsyncSession):
-        today = datetime.utcnow().date()
+        today = datetime.now().date()
         if user.last_activity_date:
             if user.last_activity_date == today - timedelta(days=1):
                 user.streak += 1
@@ -46,7 +46,7 @@ class GamificationEngine:
         if GamificationEngine._has_role(user, "B2B"):
             user.hearts = GamificationEngine.MAX_HEARTS
         else:
-            now = datetime.utcnow()
+            now = datetime.now()
             if user.hearts_last_updated:
                 elapsed = now - user.hearts_last_updated
                 hearts_to_add = elapsed // GamificationEngine.HEART_REGENERATION_RATE

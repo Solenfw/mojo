@@ -1,60 +1,78 @@
+from __future__ import annotations
+
 from datetime import date, datetime
-from typing import Dict, List, Optional
-from pydantic import BaseModel, ConfigDict, EmailStr, Field, model_validator
+
+from pydantic import BaseModel, ConfigDict, EmailStr, Field
 
 
-class UserCreate(BaseModel):
+# ─────────────────────────────────────────────────────────────
+# Lookup
+# ─────────────────────────────────────────────────────────────
+
+class ProficiencyLevelRead(BaseModel):
+    id: int
+    name: str
+    sort_order: int
+    model_config = ConfigDict(from_attributes=True)
+
+
+# ─────────────────────────────────────────────────────────────
+# Auth & User
+# ─────────────────────────────────────────────────────────────
+
+class RegisterRequest(BaseModel):
+    username: str = Field(min_length=2, max_length=50)
     fullName: str = Field(min_length=2, max_length=100)
     email: EmailStr
-    phone: str = Field(pattern=r"^\d{10,15}$")
-    passwordHash: str = Field(min_length=1, max_length=255)
+    password: str = Field(min_length=8, max_length=255)
 
 
-class UserCreateData(BaseModel):
+class RegisterData(BaseModel):
     userId: int
-    accountStatus: str
-    isLoggedIn: bool
+    isOnboarded: bool
 
 
-class UserCreateResponse(BaseModel):
+class RegisterResponse(BaseModel):
     success: bool
     businessCode: str
     message: str
-    data: UserCreateData
+    data: RegisterData
     timestamp: str
 
 
 class UserRead(BaseModel):
     id: int
-    email: EmailStr
-    username: str | None = None
+    username: str
+    email: str
     full_name: str | None = None
-    phone: str | None = None
-    is_logged_in: bool | None = None
+    is_logged_in: bool
+    is_onboarded: bool
+    current_level_id: int | None = None
     last_login_at: datetime | None = None
-    is_onboarded: bool | None = None
     onboarded_at: datetime | None = None
-    xp: int | None = None
-    streak: int | None = None
-    gems: int | None = None
-    hearts: int | None = None
+    xp: int
+    streak: int
+    gems: int
+    hearts: int
     hearts_last_updated: datetime | None = None
     last_activity_date: date | None = None
-    created_at: datetime | None = None
-    updated_at: datetime | None = None
-
+    created_at: datetime
+    updated_at: datetime
     model_config = ConfigDict(from_attributes=True)
 
 
 class LoginRequest(BaseModel):
-    emailOrPhone: str = Field(min_length=1, max_length=255)
-    passwordHash: str = Field(min_length=1, max_length=255)
-    deviceId: str | None = Field(default=None, max_length=255)
-    platform: str | None = Field(default="mobile", pattern=r"^(mobile|web)$")
+    email: EmailStr
+    password: str = Field(min_length=1, max_length=255)
+
 
 class Token(BaseModel):
     access_token: str
     token_type: str
+
+
+class TokenData(BaseModel):
+    id: int | None = None
 
 
 class LoginData(BaseModel):
@@ -69,34 +87,6 @@ class LoginResponse(BaseModel):
     message: str
     data: LoginData
     timestamp: str
-
-
-class TokenData(BaseModel):
-    id: int | None = None
-
-
-class TokenizeRequest(BaseModel):
-    text: str = Field(default="", max_length=5000)
-
-class TokenizeItem(BaseModel):
-    word: str
-    reading: str
-    pos: str
-
-class TokenizeResponse(BaseModel):
-    tokens: list[TokenizeItem]
-
-
-class CheckUserByEmailOrPhoneRequest(BaseModel):
-    email: EmailStr | None = None
-    phone: str | None = Field(default=None, pattern=r"^\d{10,15}$")
-    sessionToken: str | None = None
-
-    @model_validator(mode="after")
-    def validate_contact(self):
-        if not self.email and not self.phone:
-            raise ValueError("email or phone is required")
-        return self
 
 
 class CheckLoginStateRequest(BaseModel):
@@ -137,79 +127,12 @@ class MarkUserLoggedInResponse(BaseModel):
     timestamp: str
 
 
-class CheckUserByEmailOrPhoneData(BaseModel):
-    existsFlag: bool
-    userId: int | None = None
-
-
-class CheckUserByEmailOrPhoneResponse(BaseModel):
-    success: bool
-    businessCode: str
-    message: str
-    data: CheckUserByEmailOrPhoneData
-    timestamp: str
-
-
-class EvaluateSpeakingRequest(BaseModel):
-    transcript: str
-    expected_text: str
-    romaji: Optional[str] = None  # Cho phép truyền romaji hoặc không
-
-class EvaluateSpeakingResponse(BaseModel):
-    accuracy_score: int
-    fluency_score: int
-    score: int                     # Điểm tổng quát (tương đương với 'score' cũ)
-    feedback: str                  # Nhận xét bằng tiếng Việt
-    tips: List[str] = []           # Lời khuyên cải thiện
-    is_correct: bool               # Đạt hay không đạt (score >= 60)
-
-class KaiwaHistoryItem(BaseModel):
-    role: str
-    content: str
-
-class GenerateKaiwaRequest(BaseModel):
-    history: List[KaiwaHistoryItem]
-
-class GenerateKaiwaResponse(BaseModel):
-    content: str
-    romaji: str
-    translation: str
-
-class SaveSpeakingAttemptRequest(BaseModel):
-    exercise_id: int
-    answer_text: str
-    score: float
-    feedback: str
-    duration_seconds: int
-
-class SaveSpeakingAttemptResponse(BaseModel):
-    attempt_id: int
-    success: bool
-
-class SpeakingExerciseItem(BaseModel):
-    id: int
-    prompt: str
-    correct_answer: str
-    explanation: Optional[str]
-
-class GetExercisesResponse(BaseModel):
-    exercises: List[SpeakingExerciseItem]
-    
-    
-class EvaluateWritingRequest(BaseModel):
-    image_base64: str
-    target_kanji: str
-
-class EvaluateWritingResponse(BaseModel):
-    score: int
-    feedback: str
-    xp_awarded: int
-    
-
+# ─────────────────────────────────────────────────────────────
+# Onboarding
+# ─────────────────────────────────────────────────────────────
 
 class CreateOnboardingSessionRequest(BaseModel):
     userId: int = Field(gt=0)
-    sessionToken: str | None = Field(default=None, min_length=1)
 
 
 class CreateOnboardingSessionData(BaseModel):
@@ -226,169 +149,66 @@ class CreateOnboardingSessionResponse(BaseModel):
     timestamp: str
 
 
-class SaveOnboardingAnswerRequest(BaseModel):
+class SaveOnboardingDetailsRequest(BaseModel):
+    """
+    Captures the three structured onboarding inputs.
+    Called after the user picks level, intention, and daily time.
+    If chosenLevelId > beginner, backend should then prompt a placement test.
+    """
     sessionId: int = Field(gt=0)
-    questionCode: str = Field(min_length=1, max_length=100)
-    answerValue: str = Field(min_length=1, max_length=500)
+    chosenLevelId: int = Field(gt=0)
+    studyIntention: str = Field(min_length=1, max_length=255)
+    dailyStudyMinutes: int = Field(gt=0)
 
 
-class SaveOnboardingAnswerData(BaseModel):
-    answerId: int
+class SaveOnboardingDetailsData(BaseModel):
     sessionId: int
-    questionCode: str
-    savedAt: str
+    chosenLevelId: int
+    requiresPlacementTest: bool  # backend sets this based on chosen level
 
 
-class SaveOnboardingAnswerResponse(BaseModel):
+class SaveOnboardingDetailsResponse(BaseModel):
     success: bool = True
     businessCode: str
     message: str
-    data: SaveOnboardingAnswerData
+    data: SaveOnboardingDetailsData
     timestamp: str
 
 
-class OnboardingAnswerItem(BaseModel):
-    answerId: int
-    questionCode: str
-    answerValue: str
-    updatedAt: str
-
-
-class LoadOnboardingAnswersData(BaseModel):
-    sessionId: int
-    answers: list[OnboardingAnswerItem]
-
-
-class LoadOnboardingAnswersResponse(BaseModel):
-    success: bool = True
-    businessCode: str
-    message: str
-    data: LoadOnboardingAnswersData
-    timestamp: str
-
-
-class AnalyzeOnboardingAnswerItem(BaseModel):
-    questionCode: str = Field(min_length=1, max_length=100)
-    answerValue: str = Field(min_length=1, max_length=500)
-
-
-class AnalyzePlacementAttemptPayload(BaseModel):
-    attemptId: int = Field(gt=0)
-    score: float = Field(ge=0, le=100)
-
-
-class AnalyzeOnboardingDataRequest(BaseModel):
-    answerList: list[AnalyzeOnboardingAnswerItem] = Field(min_length=1)
-    placementAttempt: AnalyzePlacementAttemptPayload
-
-
-class AnalyzeOnboardingDataResult(BaseModel):
-    currentLevel: str
-    recommendedLevel: str
-    learningStyle: str
-    studyIntensity: str
-    analysisVersion: str
-
-
-class AnalyzeOnboardingDataResponse(BaseModel):
-    success: bool
-    businessCode: str
-    message: str
-    data: AnalyzeOnboardingDataResult
-    timestamp: str
-
-
-class FinalizeOnboardingSessionRequest(BaseModel):
+class FinalizeOnboardingRequest(BaseModel):
+    """
+    Called after the optional placement test is done (or skipped for Beginner).
+    resultLevelId is the final assigned level: either chosen level (if passed/Beginner)
+    or Beginner (if failed).
+    """
     sessionId: int = Field(gt=0)
-    sessionToken: str | None = Field(default=None, min_length=1)
+    resultLevelId: int = Field(gt=0)
+    testAttemptId: int | None = None  # null if Beginner, no test taken
 
 
-class FinalizeOnboardingSessionData(BaseModel):
+class FinalizeOnboardingData(BaseModel):
     sessionId: int
     status: str
+    resultLevelId: int
     completedAt: str
 
 
-class FinalizeOnboardingSessionResponse(BaseModel):
+class FinalizeOnboardingResponse(BaseModel):
     success: bool = True
     businessCode: str
     message: str
-    data: FinalizeOnboardingSessionData
+    data: FinalizeOnboardingData
     timestamp: str
-
-
-class SubmitOnboardingRequest(BaseModel):
-    level: str = Field(min_length=1, max_length=50)
-    goal: str = Field(min_length=1, max_length=255)
-    time: str = Field(min_length=1, max_length=50)
-
-
-class SubmitOnboardingData(BaseModel):
-    sessionId: int
-    status: str
-    level: str
-    goal: str
-    time: str
-    completedAt: str
-
-
-class SubmitOnboardingResponse(BaseModel):
-    success: bool = True
-    businessCode: str
-    message: str
-    data: SubmitOnboardingData
-    timestamp: str
-
-
-class UpsertLearnerProfileRequest(BaseModel):
-    userId: int = Field(gt=0)
-    targetLevel: str = Field(min_length=1, max_length=50)
-    targetGoal: str = Field(min_length=1, max_length=255)
-    experience: str = Field(min_length=1, max_length=50)
-    testResult: float = Field(ge=0, le=100)
-
-
-class UpsertLearnerProfileData(BaseModel):
-    profileId: int
-    userId: int
-    currentLevel: str
-    targetLevel: str
-    updatedAt: str
-
-
-class UpsertLearnerProfileResponse(BaseModel):
-    success: bool = True
-    businessCode: str
-    message: str
-    data: UpsertLearnerProfileData
-    timestamp: str
-
-
-class ConfirmCommitmentRequest(BaseModel):
-    sessionToken: str = Field(min_length=1)
-
-
-class ConfirmCommitmentData(BaseModel):
-    loginState: bool
-    userId: int | None = None
-    redirectScreen: str
-
-
-class ConfirmCommitmentResponse(BaseModel):
-    businessCode: str
-    message: str
-    timestamp: str
-    data: ConfirmCommitmentData
 
 
 class MarkUserOnboardedRequest(BaseModel):
     userId: int = Field(gt=0)
-    sessionToken: str | None = Field(default=None, min_length=1)
 
 
 class MarkUserOnboardedData(BaseModel):
     userId: int
     isOnboarded: bool
+    currentLevelId: int
     updatedAt: str
 
 
@@ -400,37 +220,81 @@ class MarkUserOnboardedResponse(BaseModel):
     timestamp: str
 
 
-class PlacementTestItem(BaseModel):
-    testId: int
-    testCode: str | None = None
-    title: str
-    testType: str | None = None
-    totalScore: float | None = None
-    durationMinutes: int | None = None
-    status: str | None = None
+class LearnerProfileRead(BaseModel):
+    id: int
+    user_id: int
+    target_level_id: int | None = None
+    study_intention: str | None = None
+    daily_study_minutes: int | None = None
+    experience: str | None = None
+    created_at: datetime
+    updated_at: datetime | None = None
+    model_config = ConfigDict(from_attributes=True)
 
 
-class PlacementTestResponse(BaseModel):
-    success: bool
+class UpsertLearnerProfileRequest(BaseModel):
+    userId: int = Field(gt=0)
+    targetLevelId: int = Field(gt=0)
+    studyIntention: str = Field(min_length=1, max_length=255)
+    dailyStudyMinutes: int = Field(gt=0)
+    experience: str = Field(min_length=1, max_length=50)
+
+
+class UpsertLearnerProfileData(BaseModel):
+    profileId: int
+    userId: int
+    targetLevelId: int
+    updatedAt: str
+
+
+class UpsertLearnerProfileResponse(BaseModel):
+    success: bool = True
     businessCode: str
     message: str
-    data: PlacementTestItem
+    data: UpsertLearnerProfileData
     timestamp: str
 
 
-class TestQuestionItem(BaseModel):
-    questionId: int
-    questionText: str
-    questionType: str | None = None
-    scoreWeight: float | None = None
-    sortOrder: int | None = None
+# ─────────────────────────────────────────────────────────────
+# Tests  (shared: placement + level-up)
+# ─────────────────────────────────────────────────────────────
+
+class TestRead(BaseModel):
+    id: int
+    code: str | None = None
+    title: str
+    test_type: str
+    target_level_id: int
+    total_score: float | None = None
+    passing_score: float | None = None
+    duration_minutes: int | None = None
+    status: str | None = None
+    model_config = ConfigDict(from_attributes=True)
+
+
+class TestResponse(BaseModel):
+    success: bool
+    businessCode: str
+    message: str
+    data: TestRead
+    timestamp: str
+
+
+class TestQuestionRead(BaseModel):
+    id: int
+    test_id: int
+    question_text: str
+    question_type: str | None = None
+    score_weight: float | None = None
+    sort_order: int | None = None
+    model_config = ConfigDict(from_attributes=True)
 
 
 class TestQuestionListResponse(BaseModel):
     success: bool
     businessCode: str
     message: str
-    data: list[TestQuestionItem]
+    data: list[TestQuestionRead]
     timestamp: str
 
 
@@ -438,17 +302,18 @@ class GetQuestionOptionsRequest(BaseModel):
     questionIds: list[int] = Field(min_length=1)
 
 
-class TestQuestionOptionItem(BaseModel):
-    optionId: int
-    questionId: int
-    optionText: str
+class TestQuestionOptionRead(BaseModel):
+    id: int
+    question_id: int
+    option_text: str
+    model_config = ConfigDict(from_attributes=True)
 
 
 class TestQuestionOptionsResponse(BaseModel):
     success: bool
     businessCode: str
     message: str
-    data: list[TestQuestionOptionItem]
+    data: list[TestQuestionOptionRead]
     timestamp: str
 
 
@@ -473,147 +338,412 @@ class CreateTestAttemptResponse(BaseModel):
     timestamp: str
 
 
-class TestAttemptAnswerSubmission(BaseModel):
+class TestAnswerSubmission(BaseModel):
     questionId: int = Field(gt=0)
     answerText: str = Field(min_length=1)
 
 
-class SaveTestAttemptAnswersRequest(BaseModel):
+class SubmitTestAttemptRequest(BaseModel):
     attemptId: int = Field(gt=0)
-    answers: list[TestAttemptAnswerSubmission] = Field(min_length=1)
+    answers: list[TestAnswerSubmission] = Field(min_length=1)
 
 
-class SaveTestAttemptAnswersData(BaseModel):
+class SubmitTestAttemptData(BaseModel):
     attemptId: int
-    status: str
-    submittedAt: str
     score: float
-    levelEstimate: str
+    passed: bool
+    submittedAt: str
 
 
-class SaveTestAttemptAnswersResponse(BaseModel):
+class SubmitTestAttemptResponse(BaseModel):
     success: bool
     businessCode: str
     message: str
-    data: SaveTestAttemptAnswersData
+    data: SubmitTestAttemptData
     timestamp: str
 
 
-class LatestTestAttemptData(BaseModel):
-    attemptId: int
-    testId: int
-    userId: int
-    status: str | None = None
-    startedAt: str | None = None
-    submittedAt: str | None = None
+class TestAttemptRead(BaseModel):
+    id: int
+    test_id: int
+    user_id: int
     score: float | None = None
-    levelEstimate: str | None = None
+    passed: bool | None = None
+    status: str | None = None
+    started_at: datetime | None = None
+    submitted_at: datetime | None = None
+    model_config = ConfigDict(from_attributes=True)
 
 
-class LatestTestAttemptResponse(BaseModel):
+class TestAttemptResponse(BaseModel):
     success: bool
     businessCode: str
     message: str
-    data: LatestTestAttemptData
+    data: TestAttemptRead
     timestamp: str
 
 
-class SessionTokenPayload(BaseModel):
-    sessionToken: str | None = Field(default=None, min_length=1)
+# ─────────────────────────────────────────────────────────────
+# Courses & Lessons
+# ─────────────────────────────────────────────────────────────
 
-
-class CourseRecommendationItem(BaseModel):
-    courseId: int
-    courseName: str
-    targetLevel: str
-    thumbnailUrl: str | None = None
-    estimatedDuration: int
-
-
-class CourseRecommendationResponse(BaseModel):
-    success: bool
-    businessCode: str
-    message: str
-    data: list[CourseRecommendationItem]
-    timestamp: str
-
-
-class CourseLessonItem(BaseModel):
-    lessonId: int
-    lessonTitle: str
-    lessonOrder: int
-    estimatedDuration: int
-    isPreviewAvailable: bool
-    lessonType: str | None = None
-
-
-class CourseLessonResponse(BaseModel):
-    success: bool
-    businessCode: str
-    message: str
-    data: list[CourseLessonItem]
-    timestamp: str
-
-
-class ReviewRequest(BaseModel):
-    vocab_id: int
-    quality_score: int
-
-
-
-class LessonResult(BaseModel):
-    xp_gained: int
-    vocab_learned: list[int]
-
-class OptionResponse(BaseModel):
+class CourseRead(BaseModel):
     id: int
-    text: str
+    title: str
+    status: str | None = None
+    level_id: int
+    sort_order: int | None = None
+    model_config = ConfigDict(from_attributes=True)
 
-class QuestionResponse(BaseModel):
+
+class CourseListResponse(BaseModel):
+    success: bool
+    businessCode: str
+    message: str
+    data: list[CourseRead]
+    timestamp: str
+
+
+class LessonRead(BaseModel):
     id: int
-    prompt: str
-    options: List[OptionResponse]
+    course_id: int
+    title: str
+    content: str | None = None
+    difficulty: str | None = None
+    estimated_minutes: int | None = None
+    status: str | None = None
+    sort_order: int | None = None
+    model_config = ConfigDict(from_attributes=True)
+
+
+class LessonListResponse(BaseModel):
+    success: bool
+    businessCode: str
+    message: str
+    data: list[LessonRead]
+    timestamp: str
+
+
+# ─────────────────────────────────────────────────────────────
+# Vocab skill  (flashcard + SRS)
+# ─────────────────────────────────────────────────────────────
+
+class VocabularyRead(BaseModel):
+    id: int
+    lesson_id: int
+    kanji: str | None = None
+    kana: str
+    romaji: str
+    meaning: str
+    example_sentence: str | None = None
+    example_translation: str | None = None
+    xp_reward: int
+    model_config = ConfigDict(from_attributes=True)
+
+
+class VocabularyListResponse(BaseModel):
+    success: bool
+    businessCode: str
+    message: str
+    data: list[VocabularyRead]
+    timestamp: str
+
+
+class VocabQueueResponse(BaseModel):
+    """Due cards for today's SRS review session."""
+    success: bool
+    businessCode: str
+    message: str
+    data: list[VocabularyRead]
+    timestamp: str
+
+
+class SRSReviewRequest(BaseModel):
+    vocabId: int = Field(gt=0)
+    result: str = Field(pattern=r"^(again|hard|good|easy)$")
+
+
+class SRSReviewData(BaseModel):
+    repetitions: int
+    easeFactor: float
+    intervalDays: int
+    nextReviewAt: datetime
+    xpEarned: int
+
+
+class SRSReviewResponse(BaseModel):
+    success: bool
+    businessCode: str
+    message: str
+    data: SRSReviewData
+    timestamp: str
+
+
+# ─────────────────────────────────────────────────────────────
+# Reading skill
+# ─────────────────────────────────────────────────────────────
+
+class ReadingOptionRead(BaseModel):
+    id: int
+    option_text: str
+    model_config = ConfigDict(from_attributes=True)
+
+
+class ReadingQuestionRead(BaseModel):
+    id: int
+    question_text: str
+    sort_order: int | None = None
+    options: list[ReadingOptionRead] = []
+    model_config = ConfigDict(from_attributes=True)
+
+
+class ReadingPassageRead(BaseModel):
+    id: int
+    title: str | None = None
+    content_japanese: str
+    content_vietnamese: str | None = None
+    xp_reward: int
+    questions: list[ReadingQuestionRead] = []
+    model_config = ConfigDict(from_attributes=True)
+
 
 class ReadingPassageResponse(BaseModel):
-    id: int
-    title: str
-    japanese: str
-    vietnamese: Optional[str] = None
+    success: bool
+    businessCode: str
+    message: str
+    data: ReadingPassageRead
+    timestamp: str
 
-class ReadingLessonResponse(BaseModel):
+
+class ReadingAnswerSubmission(BaseModel):
+    questionId: int = Field(gt=0)
+    selectedOptionId: int = Field(gt=0)
+
+
+class SubmitReadingAttemptRequest(BaseModel):
+    passageId: int = Field(gt=0)
+    userId: int = Field(gt=0)
+    answers: list[ReadingAnswerSubmission] = Field(min_length=1)
+
+
+class SubmitReadingAttemptData(BaseModel):
+    attemptId: int
+    score: float
+    passed: bool
+    xpEarned: int
+    completedAt: str
+
+
+class SubmitReadingAttemptResponse(BaseModel):
+    success: bool
+    businessCode: str
+    message: str
+    data: SubmitReadingAttemptData
+    timestamp: str
+
+
+# ─────────────────────────────────────────────────────────────
+# Speaking skill  (scripted dialogue + free Kaiwa + pronunciation)
+# ─────────────────────────────────────────────────────────────
+
+class DialogueExchangeRead(BaseModel):
+    id: int
+    order_index: int
+    speaker: str
+    ja_text: str
+    ja_romaji: str
+    vi_text: str
+    model_config = ConfigDict(from_attributes=True)
+
+
+class DialogueRead(BaseModel):
     id: int
     title: str
+    description: str | None = None
+    xp_reward: int
+    exchanges: list[DialogueExchangeRead] = []
+    model_config = ConfigDict(from_attributes=True)
+
+
+class DialogueResponse(BaseModel):
+    success: bool
+    businessCode: str
+    message: str
+    data: DialogueRead
+    timestamp: str
+
+
+class SubmitDialogueAttemptRequest(BaseModel):
+    userId: int = Field(gt=0)
+    dialogueId: int = Field(gt=0)
+    aiScore: float = Field(ge=0, le=100)
+    aiFeedback: str
+
+
+class SubmitDialogueAttemptData(BaseModel):
+    attemptId: int
+    xpEarned: int
+    completedAt: str
+
+
+class SubmitDialogueAttemptResponse(BaseModel):
+    success: bool
+    businessCode: str
+    message: str
+    data: SubmitDialogueAttemptData
+    timestamp: str
+
+
+# Free AI conversation (Kaiwa)
+class KaiwaHistoryItem(BaseModel):
+    role: str
     content: str
-    difficulty: str
-    passages: List[ReadingPassageResponse] = Field(default_factory=list)
-    questions: List[QuestionResponse]
-    words: Dict[str, Dict[str, str]]
 
-class QuizSubmitRequest(BaseModel):
-    answers: Dict[int, int]  # exercise_id -> option_id
 
-class QuizSubmitResponse(BaseModel):
-    score: int
-    max_score: int
-    xp_gained: int
-    is_passed: bool
+class GenerateKaiwaRequest(BaseModel):
+    history: list[KaiwaHistoryItem]
 
+
+class GenerateKaiwaResponse(BaseModel):
+    content: str
+    romaji: str
+    translation: str
+
+
+# Pronunciation rating
 class RatePronunciationRequest(BaseModel):
-    expected_text: str      # câu Japanese gốc
-    user_transcript: str    # STT output từ browser
+    expectedText: str
+    userTranscript: str
     romaji: str = ""
+
 
 class RatePronunciationResponse(BaseModel):
     score: int
     feedback: str
-    is_correct: bool
+    isCorrect: bool
 
-class SRSUpdatePayload(BaseModel):
-    item_id: str
-    score: int  # User Response Rating: 1 (Forgot), 3 (Hard), 5 (Easy)
 
-class SRSReviewResult(BaseModel):
-    repetitions: int
-    easiness_factor: float
-    interval_days: int
-    next_review: datetime
+# ─────────────────────────────────────────────────────────────
+# Writing skill  (kanji canvas + AI rating)
+# ─────────────────────────────────────────────────────────────
+
+class KanjiPracticeRead(BaseModel):
+    id: int
+    title: str
+    kanji: str
+    difficulty: str | None = None
+    xp_reward: int
+    model_config = ConfigDict(from_attributes=True)
+
+
+class KanjiPracticeResponse(BaseModel):
+    success: bool
+    businessCode: str
+    message: str
+    data: KanjiPracticeRead
+    timestamp: str
+
+
+class EvaluateWritingRequest(BaseModel):
+    kanjiPracticeId: int = Field(gt=0)
+    userId: int = Field(gt=0)
+    imageBase64: str
+    targetKanji: str
+
+
+class EvaluateWritingData(BaseModel):
+    attemptId: int
+    score: int
+    feedback: str
+    xpEarned: int
+
+
+class EvaluateWritingResponse(BaseModel):
+    success: bool
+    businessCode: str
+    message: str
+    data: EvaluateWritingData
+    timestamp: str
+
+
+# ─────────────────────────────────────────────────────────────
+# Listening skill
+# ─────────────────────────────────────────────────────────────
+
+class ListeningOptionRead(BaseModel):
+    id: int
+    option_text: str
+    model_config = ConfigDict(from_attributes=True)
+
+
+class ListeningQuestionRead(BaseModel):
+    id: int
+    question_text: str
+    sort_order: int | None = None
+    options: list[ListeningOptionRead] = []
+    model_config = ConfigDict(from_attributes=True)
+
+
+class ListeningPracticeRead(BaseModel):
+    id: int
+    title: str
+    source_type: str  # dialogue | song | sentences
+    audio_url: str | None = None
+    transcript_japanese: str | None = None
+    transcript_vietnamese: str | None = None
+    xp_reward: int
+    questions: list[ListeningQuestionRead] = []
+    model_config = ConfigDict(from_attributes=True)
+
+
+class ListeningPracticeResponse(BaseModel):
+    success: bool
+    businessCode: str
+    message: str
+    data: ListeningPracticeRead
+    timestamp: str
+
+
+class ListeningAnswerSubmission(BaseModel):
+    questionId: int = Field(gt=0)
+    selectedOptionId: int = Field(gt=0)
+
+
+class SubmitListeningAttemptRequest(BaseModel):
+    practiceId: int = Field(gt=0)
+    userId: int = Field(gt=0)
+    answers: list[ListeningAnswerSubmission] = Field(min_length=1)
+
+
+class SubmitListeningAttemptData(BaseModel):
+    attemptId: int
+    score: float
+    passed: bool
+    xpEarned: int
+    completedAt: str
+
+
+class SubmitListeningAttemptResponse(BaseModel):
+    success: bool
+    businessCode: str
+    message: str
+    data: SubmitListeningAttemptData
+    timestamp: str
+
+
+# ─────────────────────────────────────────────────────────────
+# NLP utility  (MeCab tokenizer)
+# ─────────────────────────────────────────────────────────────
+
+class TokenizeRequest(BaseModel):
+    text: str = Field(default="", max_length=5000)
+
+
+class TokenizeItem(BaseModel):
+    word: str
+    reading: str
+    pos: str
+
+
+class TokenizeResponse(BaseModel):
+    tokens: list[TokenizeItem]
