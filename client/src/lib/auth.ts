@@ -1,7 +1,7 @@
 import type { AuthPayload, AuthToken, CheckUserPayload, CurrentUser, ErrorBag } from '@/types';
 
 const API_BASE_URL = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000').replace(/\/$/, '');
-const TOKEN_KEY = 'linguasphere_access_token';
+const TOKEN_KEY = 'mojo_access_token';
 
 
 const asErrorBag = (value: unknown): ErrorBag => {

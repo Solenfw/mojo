@@ -1,13 +1,13 @@
 # Alembic Migrations Guide
 
-This guide explains the essential Alembic commands for managing database migrations in the LinguaSphere project. Alembic is a database migration tool for SQLAlchemy.
+This guide explains the essential Alembic commands for managing database migrations in the Mojo project. Alembic is a database migration tool for SQLAlchemy.
 
 ## Setup
 
 Before running any Alembic commands, ensure you are in the project root directory and have activated the virtual environment:
 
 ```bash
-cd /home/solenfw/projects/LinguaSphere
+cd /home/solenfw/projects/Mojo
 source server/.venv/bin/activate
 ```
 

@@ -30,11 +30,11 @@ export default function LandingPage() {
           <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-md shadow-primary/10 border border-primary/10 overflow-hidden">
             <img 
               src="/logo.png" 
-              alt="LinguaSphere Logo" 
+              alt="Mojo Logo" 
               className="w-8 h-8 object-contain scale-110" 
             />
           </div>
-          <span className="text-2xl font-bold tracking-tighter text-primary">LinguaSphere</span>
+          <span className="text-2xl font-bold tracking-tighter text-primary">Mojo</span>
         </div>
         <div className="hidden md:flex items-center gap-8">
           <a href="#features" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">Features</a>
@@ -207,11 +207,11 @@ export default function LandingPage() {
               <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-md shadow-primary/10 border border-primary/10 overflow-hidden">
                 <img 
                   src="/logo.png" 
-                  alt="LinguaSphere Logo" 
+                  alt="Mojo Logo" 
                   className="w-8 h-8 object-contain scale-110" 
                 />
               </div>
-              <span className="text-2xl font-bold tracking-tighter text-white">LinguaSphere</span>
+              <span className="text-2xl font-bold tracking-tighter text-white">Mojo</span>
             </div>
             <p className="text-sm text-primary-foreground/60 leading-relaxed">
               Elevating language education for the next generation of global leaders.
@@ -242,7 +242,7 @@ export default function LandingPage() {
           </div>
         </div>
         <div className="max-w-7xl mx-auto px-8 mt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] uppercase font-bold tracking-widest text-primary-foreground/40">
-          <p>© 2026 LinguaSphere. Crafted for Excellence.</p>
+          <p>© 2026 Mojo. Crafted for Excellence.</p>
           <div className="flex items-center gap-6">
             <span>Twitter</span>
             <span>LinkedIn</span>

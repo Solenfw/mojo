@@ -321,7 +321,7 @@ export const KaiwaPractice = ({ onBack }: { onBack: () => void }) => {
             <X className="w-5 h-5" />
           </button>
           <div className="h-6 w-px bg-gray-200 mx-2"></div>
-          <h1 className="text-lg font-bold text-primary tracking-tight">LinguaSphere</h1>
+          <h1 className="text-lg font-bold text-primary tracking-tight">Mojo</h1>
           <Badge className="bg-accent/15 text-accent border-none font-bold text-[10px] tracking-widest px-3 py-1 uppercase">
             Kaiwa Partner
           </Badge>

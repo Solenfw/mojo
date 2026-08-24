@@ -1,13 +1,13 @@
-# LinguaSphere
+# Mojo
 
-LinguaSphere is an AI-assisted Japanese language learning platform designed for professionals looking to build JLPT N5 proficiency. It features a FastAPI backend and a Next.js frontend, integrating Google Gemini for real-time conversation (Kaiwa) and writing feedback.
+Mojo is an AI-assisted Japanese language learning platform designed for professionals looking to build JLPT N5 proficiency. It features a FastAPI backend and a Next.js frontend, integrating Google Gemini for real-time conversation (Kaiwa) and writing feedback.
 
 ## Architecture & Layout
 
 The project is structured as a monorepo, keeping the backend and frontend code bases isolated while sharing a unified migration and deployment workflow:
 
 ```text
-LinguaSphere/
+Mojo/
 ├── client/              # Next.js frontend (React 19, Tailwind CSS v4, npm)
 ├── server/              # FastAPI backend (Python 3.12, managed by uv)
 │   └── app/

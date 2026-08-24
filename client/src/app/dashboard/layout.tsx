@@ -45,12 +45,12 @@ const Sidebar = ({ onSignOut }: { onSignOut: () => void }) => {
         <div className="flex items-center gap-3">
           <img
             src="/logo.png"
-            alt="LinguaSphere Logo"
+            alt="Mojo Logo"
             className="w-10 h-10 object-contain"
           />
 
           <span className="text-xl font-bold tracking-tight text-primary">
-            LinguaSphere
+            Mojo
           </span>
         </div>
       </div>

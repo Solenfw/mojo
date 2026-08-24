@@ -53,7 +53,7 @@ export const AuthLayout = ({ children, title, subtitle, onBack, isLoading }: Aut
         {children}
 
         <p className="text-[10px] text-center uppercase tracking-widest font-bold text-muted-foreground pt-4">
-          © 2026 LinguaSphere. Secure Environment.
+          © 2026 Mojo. Secure Environment.
         </p>
       </motion.div>
     </div>

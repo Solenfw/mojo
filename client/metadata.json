@@ -1,5 +1,5 @@
 {
-  "name": "LinguaSphere",
+  "name": "Mojo",
   "description": "Premium Japanese learning platform for professionals, focusing on N5 proficiency with AI-powered conversation and writing tools.",
   "requestFramePermissions": ["camera", "microphone"],
   "majorCapabilities": []

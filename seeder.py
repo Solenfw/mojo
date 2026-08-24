@@ -403,14 +403,14 @@ async def seed_data():
         users_to_seed = [
             {
                 "username": "admin",
-                "email": "admin@linguasphere.io",
+                "email": "admin@mojo.io",
                 "full_name": "Global Administrator",
                 "password": "adminpassword123",
                 "role_code": "admin",
             },
             {
                 "username": "alex",
-                "email": "alex@linguasphere.io",
+                "email": "alex@mojo.io",
                 "full_name": "Alex Johnson",
                 "password": "password123",
                 "role_code": "student",

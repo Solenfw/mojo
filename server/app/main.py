@@ -4,9 +4,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from server.app.api.v1 import auth, speaking, users, srs, gamification, lessons, onboarding, nlp, writing, placement_tests
 
 app = FastAPI(
-    title="Linguasphere API",
+    title="mojo API",
     version="0.1.0",
-    description="Backend API for Linguasphere: advanced Japanese learning, SRS, gamification, and social features.",
+    description="Backend API for mojo: advanced Japanese learning, SRS, gamification, and social features.",
 )
 
 app.add_middleware(
@@ -41,4 +41,4 @@ async def health_check():
 
 @app.get('/')
 async def root():
-    return {"message": "Welcome to the Linguasphere API"}
+    return {"message": "Welcome to the mojo API"}

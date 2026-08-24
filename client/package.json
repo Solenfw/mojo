@@ -1,6 +1,6 @@
 {
-  "name": "linguasphere-client",
-  "description": "LinguaSphere - AI-powered language learning platform frontend",
+  "name": "mojo-client",
+  "description": "Mojo - AI-powered language learning platform frontend",
   "version": "1.0.0",
   "private": true,
   "type": "module",

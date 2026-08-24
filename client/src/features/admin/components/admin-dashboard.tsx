@@ -75,7 +75,7 @@ export const AdminDashboard = ({ onSignOut }: { onSignOut: () => void }) => {
         {/* Header */}
         <header className="h-16 bg-white border-b border-gray-100 flex items-center justify-between px-8 shrink-0">
            <div className="flex items-center gap-4">
-              <h1 className="text-lg font-black text-primary tracking-tighter">LinguaSphere</h1>
+              <h1 className="text-lg font-black text-primary tracking-tighter">Mojo</h1>
            </div>
            <div className="flex items-center gap-6">
               <div className="hidden lg:flex items-center gap-2 bg-gray-50 border border-gray-100 rounded-xl px-3 py-1.5 cursor-pointer hover:bg-gray-100 transition-all">
