@@ -4,14 +4,14 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import { AuthLayout, LoginForm } from '@/features/auth/components/auth-pages';
-import { login, saveToken, getCurrentUser } from '@/lib/auth';
+import { login, getCurrentUser } from '@/lib/auth';
 
 export default function LoginPage() {
   const router = useRouter();
   const [error, setError] = React.useState<string | null>(null);
   const [isLoading, setIsLoading] = React.useState(false);
 
-  const handleAuthSubmit = async (e: React.FormEvent) => {
+  const handleAuthSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault();
     setError(null);
     setIsLoading(true);
@@ -21,13 +21,12 @@ export default function LoginPage() {
     const password = formData.get('password') as string;
 
     try {
-      const token = await login(email, password);
-      saveToken(token.access_token);
+      await login(email, password);
       
       // Fetch the user to check if they have completed onboarding
       const user = await getCurrentUser();
       
-      if (user?.is_onboarded) {
+      if (user?.isOnboarded) {
         router.push('/dashboard');
       } else {
         router.push('/onboarding');

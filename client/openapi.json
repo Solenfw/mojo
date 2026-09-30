@@ -1,0 +1,3946 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "mojo API",
+    "description": "Backend API for mojo: Japanese learning with SRS, AI-rated practice and gamification.",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/api/v1/auth/register": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Register",
+        "operationId": "register_api_v1_auth_register_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegisterResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/login": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Login",
+        "operationId": "login_api_v1_auth_login_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/refresh": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Refresh",
+        "operationId": "refresh_api_v1_auth_refresh_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RefreshResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/logout": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Logout",
+        "description": "Ends this device's session. Idempotent: succeeds even if already signed out.",
+        "operationId": "logout_api_v1_auth_logout_post",
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/me": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Read Users Me",
+        "operationId": "read_users_me_api_v1_users_me_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserRead"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/users/me/dashboard": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Get Dashboard",
+        "description": "XP per day over the last week and XP per skill, both from the activity log.",
+        "operationId": "get_dashboard_api_v1_users_me_dashboard_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DashboardResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/users/me/profile": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Get Profile",
+        "operationId": "get_profile_api_v1_users_me_profile_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProfileResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/onboarding": {
+      "post": {
+        "tags": [
+          "onboarding"
+        ],
+        "summary": "Submit Onboarding",
+        "description": "Saves the answers and marks the user onboarded. Submitting again updates the answers.",
+        "operationId": "submit_onboarding_api_v1_onboarding_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OnboardingRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OnboardingResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/levels": {
+      "get": {
+        "tags": [
+          "courses"
+        ],
+        "summary": "List Levels",
+        "operationId": "list_levels_api_v1_levels_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProficiencyLevelListResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/courses": {
+      "get": {
+        "tags": [
+          "courses"
+        ],
+        "summary": "List Courses",
+        "operationId": "list_courses_api_v1_courses_get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "levelId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "exclusiveMinimum": 0
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Levelid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CourseListResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/courses/{course_id}/lessons": {
+      "get": {
+        "tags": [
+          "courses"
+        ],
+        "summary": "List Lessons",
+        "operationId": "list_lessons_api_v1_courses__course_id__lessons_get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "course_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Course Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LessonListResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/lessons/{lesson_id}": {
+      "get": {
+        "tags": [
+          "courses"
+        ],
+        "summary": "Get Lesson",
+        "description": "The lesson plus what it contains, so the client knows which practices to offer.",
+        "operationId": "get_lesson_api_v1_lessons__lesson_id__get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "lesson_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Lesson Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LessonDetailResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/vocabulary": {
+      "get": {
+        "tags": [
+          "vocabulary"
+        ],
+        "summary": "List Lesson Vocabulary",
+        "operationId": "list_lesson_vocabulary_api_v1_vocabulary_get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "lessonId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "exclusiveMinimum": 0,
+              "title": "Lessonid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VocabularyListResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/vocabulary/review-queue": {
+      "get": {
+        "tags": [
+          "vocabulary"
+        ],
+        "summary": "Review Queue",
+        "description": "Cards due now. New cards enter the schedule the first time they are reviewed.",
+        "operationId": "review_queue_api_v1_vocabulary_review_queue_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VocabQueueResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/vocabulary/reviews": {
+      "post": {
+        "tags": [
+          "vocabulary"
+        ],
+        "summary": "Review",
+        "operationId": "review_api_v1_vocabulary_reviews_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SRSReviewRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SRSReviewResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/reading/passages/{passage_id}": {
+      "get": {
+        "tags": [
+          "reading"
+        ],
+        "summary": "Get Passage",
+        "operationId": "get_passage_api_v1_reading_passages__passage_id__get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "passage_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Passage Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReadingPassageResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/reading/attempts": {
+      "post": {
+        "tags": [
+          "reading"
+        ],
+        "summary": "Submit Attempt",
+        "operationId": "submit_attempt_api_v1_reading_attempts_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubmitReadingAttemptRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubmitReadingAttemptResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/listening/practices/{practice_id}": {
+      "get": {
+        "tags": [
+          "listening"
+        ],
+        "summary": "Get Practice",
+        "operationId": "get_practice_api_v1_listening_practices__practice_id__get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "practice_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Practice Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListeningPracticeResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/listening/attempts": {
+      "post": {
+        "tags": [
+          "listening"
+        ],
+        "summary": "Submit Attempt",
+        "operationId": "submit_attempt_api_v1_listening_attempts_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubmitListeningAttemptRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubmitListeningAttemptResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/speaking/dialogues/{dialogue_id}": {
+      "get": {
+        "tags": [
+          "speaking"
+        ],
+        "summary": "Get Dialogue",
+        "operationId": "get_dialogue_api_v1_speaking_dialogues__dialogue_id__get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "dialogue_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Dialogue Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DialogueResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/speaking/attempts": {
+      "post": {
+        "tags": [
+          "speaking"
+        ],
+        "summary": "Submit Attempt",
+        "description": "Rates each transcript against the scripted line; the expected text always comes from the dialogue.",
+        "operationId": "submit_attempt_api_v1_speaking_attempts_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubmitDialogueAttemptRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubmitDialogueAttemptResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/speaking/pronunciation": {
+      "post": {
+        "tags": [
+          "speaking"
+        ],
+        "summary": "Rate Pronunciation",
+        "description": "Per-line feedback while practising; earns no XP.",
+        "operationId": "rate_pronunciation_api_v1_speaking_pronunciation_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RatePronunciationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RatePronunciationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/speaking/kaiwa": {
+      "post": {
+        "tags": [
+          "speaking"
+        ],
+        "summary": "Kaiwa Turn",
+        "description": "The next line of a free conversation with the AI partner.",
+        "operationId": "kaiwa_turn_api_v1_speaking_kaiwa_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GenerateKaiwaRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenerateKaiwaResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/writing/kanji/{practice_id}": {
+      "get": {
+        "tags": [
+          "writing"
+        ],
+        "summary": "Get Kanji Practice",
+        "operationId": "get_kanji_practice_api_v1_writing_kanji__practice_id__get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "practice_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Practice Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/KanjiPracticeResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/writing/evaluations": {
+      "post": {
+        "tags": [
+          "writing"
+        ],
+        "summary": "Evaluate",
+        "description": "Rates the drawing against the practice's kanji (taken from the database, never from the client).",
+        "operationId": "evaluate_api_v1_writing_evaluations_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EvaluateWritingRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EvaluateWritingResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/gamification/status": {
+      "get": {
+        "tags": [
+          "gamification"
+        ],
+        "summary": "Get Status",
+        "operationId": "get_status_api_v1_gamification_status_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GamificationStatusResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/gamification/hearts/refill": {
+      "post": {
+        "tags": [
+          "gamification"
+        ],
+        "summary": "Refill Hearts",
+        "operationId": "refill_hearts_api_v1_gamification_hearts_refill_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GamificationStatusResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/nlp/tokenize": {
+      "post": {
+        "tags": [
+          "nlp"
+        ],
+        "summary": "Tokenize Text",
+        "operationId": "tokenize_text_api_v1_nlp_tokenize_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TokenizeRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenizeResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/healthz": {
+      "get": {
+        "tags": [
+          "health"
+        ],
+        "summary": "Health Check",
+        "operationId": "health_check_healthz_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "type": "object",
+                  "title": "Response Health Check Healthz Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AccessTokenData": {
+        "properties": {
+          "userId": {
+            "type": "integer",
+            "title": "Userid"
+          },
+          "accessToken": {
+            "type": "string",
+            "title": "Accesstoken"
+          },
+          "tokenType": {
+            "type": "string",
+            "const": "bearer",
+            "title": "Tokentype",
+            "default": "bearer"
+          },
+          "expiresIn": {
+            "type": "integer",
+            "title": "Expiresin"
+          }
+        },
+        "type": "object",
+        "required": [
+          "userId",
+          "accessToken",
+          "tokenType",
+          "expiresIn"
+        ],
+        "title": "AccessTokenData",
+        "description": "The refresh token is never in the body; it is set as an httpOnly cookie."
+      },
+      "CourseListResponse": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "default": true
+          },
+          "businessCode": {
+            "type": "string",
+            "title": "Businesscode",
+            "default": "LMS-RESP-SUCCESS"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "default": "Request completed successfully."
+          },
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/CourseRead"
+            },
+            "type": "array",
+            "title": "Data"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Timestamp"
+          }
+        },
+        "type": "object",
+        "required": [
+          "success",
+          "businessCode",
+          "message",
+          "data",
+          "timestamp"
+        ],
+        "title": "CourseListResponse"
+      },
+      "CourseRead": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Status"
+          },
+          "levelId": {
+            "type": "integer",
+            "title": "Levelid"
+          },
+          "sortOrder": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sortorder"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "status",
+          "levelId",
+          "sortOrder"
+        ],
+        "title": "CourseRead"
+      },
+      "DailyActivity": {
+        "properties": {
+          "day": {
+            "type": "string",
+            "format": "date",
+            "title": "Day"
+          },
+          "xp": {
+            "type": "integer",
+            "title": "Xp"
+          }
+        },
+        "type": "object",
+        "required": [
+          "day",
+          "xp"
+        ],
+        "title": "DailyActivity"
+      },
+      "DashboardData": {
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/DashboardUser"
+          },
+          "activity": {
+            "items": {
+              "$ref": "#/components/schemas/DailyActivity"
+            },
+            "type": "array",
+            "title": "Activity"
+          },
+          "skills": {
+            "items": {
+              "$ref": "#/components/schemas/SkillProgress"
+            },
+            "type": "array",
+            "title": "Skills"
+          }
+        },
+        "type": "object",
+        "required": [
+          "user",
+          "activity",
+          "skills"
+        ],
+        "title": "DashboardData"
+      },
+      "DashboardResponse": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "default": true
+          },
+          "businessCode": {
+            "type": "string",
+            "title": "Businesscode",
+            "default": "LMS-RESP-SUCCESS"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "default": "Request completed successfully."
+          },
+          "data": {
+            "$ref": "#/components/schemas/DashboardData"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Timestamp"
+          }
+        },
+        "type": "object",
+        "required": [
+          "success",
+          "businessCode",
+          "message",
+          "data",
+          "timestamp"
+        ],
+        "title": "DashboardResponse"
+      },
+      "DashboardUser": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "xp": {
+            "type": "integer",
+            "title": "Xp"
+          },
+          "streak": {
+            "type": "integer",
+            "title": "Streak"
+          },
+          "level": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Level"
+          },
+          "avatarUrl": {
+            "type": "string",
+            "title": "Avatarurl"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "xp",
+          "streak",
+          "level",
+          "avatarUrl"
+        ],
+        "title": "DashboardUser"
+      },
+      "DialogueExchangeRead": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "orderIndex": {
+            "type": "integer",
+            "title": "Orderindex"
+          },
+          "speaker": {
+            "type": "string",
+            "title": "Speaker"
+          },
+          "jaText": {
+            "type": "string",
+            "title": "Jatext"
+          },
+          "jaRomaji": {
+            "type": "string",
+            "title": "Jaromaji"
+          },
+          "enText": {
+            "type": "string",
+            "title": "Entext"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "orderIndex",
+          "speaker",
+          "jaText",
+          "jaRomaji",
+          "enText"
+        ],
+        "title": "DialogueExchangeRead"
+      },
+      "DialogueRead": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "xpReward": {
+            "type": "integer",
+            "title": "Xpreward"
+          },
+          "exchanges": {
+            "items": {
+              "$ref": "#/components/schemas/DialogueExchangeRead"
+            },
+            "type": "array",
+            "title": "Exchanges",
+            "default": []
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "description",
+          "xpReward",
+          "exchanges"
+        ],
+        "title": "DialogueRead"
+      },
+      "DialogueResponse": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "default": true
+          },
+          "businessCode": {
+            "type": "string",
+            "title": "Businesscode",
+            "default": "LMS-RESP-SUCCESS"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "default": "Request completed successfully."
+          },
+          "data": {
+            "$ref": "#/components/schemas/DialogueRead"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Timestamp"
+          }
+        },
+        "type": "object",
+        "required": [
+          "success",
+          "businessCode",
+          "message",
+          "data",
+          "timestamp"
+        ],
+        "title": "DialogueResponse"
+      },
+      "DialogueTurnSubmission": {
+        "properties": {
+          "exchangeId": {
+            "type": "integer",
+            "exclusiveMinimum": 0.0,
+            "title": "Exchangeid"
+          },
+          "transcript": {
+            "type": "string",
+            "maxLength": 1000,
+            "title": "Transcript"
+          }
+        },
+        "type": "object",
+        "required": [
+          "exchangeId",
+          "transcript"
+        ],
+        "title": "DialogueTurnSubmission"
+      },
+      "ErrorDetail": {
+        "properties": {
+          "field": {
+            "type": "string",
+            "title": "Field"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message"
+          }
+        },
+        "type": "object",
+        "required": [
+          "field",
+          "message"
+        ],
+        "title": "ErrorDetail"
+      },
+      "ErrorResponse": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "default": false
+          },
+          "businessCode": {
+            "type": "string",
+            "title": "Businesscode"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message"
+          },
+          "errors": {
+            "items": {
+              "$ref": "#/components/schemas/ErrorDetail"
+            },
+            "type": "array",
+            "title": "Errors",
+            "default": []
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Timestamp"
+          }
+        },
+        "type": "object",
+        "required": [
+          "success",
+          "businessCode",
+          "message",
+          "errors",
+          "timestamp"
+        ],
+        "title": "ErrorResponse"
+      },
+      "EvaluateWritingData": {
+        "properties": {
+          "attemptId": {
+            "type": "integer",
+            "title": "Attemptid"
+          },
+          "score": {
+            "type": "integer",
+            "title": "Score"
+          },
+          "feedback": {
+            "type": "string",
+            "title": "Feedback"
+          },
+          "xpEarned": {
+            "type": "integer",
+            "title": "Xpearned"
+          }
+        },
+        "type": "object",
+        "required": [
+          "attemptId",
+          "score",
+          "feedback",
+          "xpEarned"
+        ],
+        "title": "EvaluateWritingData"
+      },
+      "EvaluateWritingRequest": {
+        "properties": {
+          "kanjiPracticeId": {
+            "type": "integer",
+            "exclusiveMinimum": 0.0,
+            "title": "Kanjipracticeid"
+          },
+          "imageBase64": {
+            "type": "string",
+            "title": "Imagebase64"
+          }
+        },
+        "type": "object",
+        "required": [
+          "kanjiPracticeId",
+          "imageBase64"
+        ],
+        "title": "EvaluateWritingRequest",
+        "description": "The target kanji is loaded from the KanjiPractice row, not taken from the client."
+      },
+      "EvaluateWritingResponse": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "default": true
+          },
+          "businessCode": {
+            "type": "string",
+            "title": "Businesscode",
+            "default": "LMS-RESP-SUCCESS"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "default": "Request completed successfully."
+          },
+          "data": {
+            "$ref": "#/components/schemas/EvaluateWritingData"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Timestamp"
+          }
+        },
+        "type": "object",
+        "required": [
+          "success",
+          "businessCode",
+          "message",
+          "data",
+          "timestamp"
+        ],
+        "title": "EvaluateWritingResponse"
+      },
+      "GamificationStatusData": {
+        "properties": {
+          "xp": {
+            "type": "integer",
+            "title": "Xp"
+          },
+          "hearts": {
+            "type": "integer",
+            "title": "Hearts"
+          },
+          "streak": {
+            "type": "integer",
+            "title": "Streak"
+          },
+          "gems": {
+            "type": "integer",
+            "title": "Gems"
+          }
+        },
+        "type": "object",
+        "required": [
+          "xp",
+          "hearts",
+          "streak",
+          "gems"
+        ],
+        "title": "GamificationStatusData"
+      },
+      "GamificationStatusResponse": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "default": true
+          },
+          "businessCode": {
+            "type": "string",
+            "title": "Businesscode",
+            "default": "LMS-RESP-SUCCESS"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "default": "Request completed successfully."
+          },
+          "data": {
+            "$ref": "#/components/schemas/GamificationStatusData"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Timestamp"
+          }
+        },
+        "type": "object",
+        "required": [
+          "success",
+          "businessCode",
+          "message",
+          "data",
+          "timestamp"
+        ],
+        "title": "GamificationStatusResponse"
+      },
+      "GenerateKaiwaRequest": {
+        "properties": {
+          "history": {
+            "items": {
+              "$ref": "#/components/schemas/KaiwaHistoryItem"
+            },
+            "type": "array",
+            "title": "History"
+          }
+        },
+        "type": "object",
+        "required": [
+          "history"
+        ],
+        "title": "GenerateKaiwaRequest"
+      },
+      "GenerateKaiwaResponse": {
+        "properties": {
+          "content": {
+            "type": "string",
+            "title": "Content"
+          },
+          "romaji": {
+            "type": "string",
+            "title": "Romaji"
+          },
+          "translation": {
+            "type": "string",
+            "title": "Translation"
+          }
+        },
+        "type": "object",
+        "required": [
+          "content",
+          "romaji",
+          "translation"
+        ],
+        "title": "GenerateKaiwaResponse"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "KaiwaHistoryItem": {
+        "properties": {
+          "role": {
+            "type": "string",
+            "enum": [
+              "user",
+              "assistant"
+            ],
+            "title": "Role"
+          },
+          "content": {
+            "type": "string",
+            "maxLength": 1000,
+            "title": "Content"
+          }
+        },
+        "type": "object",
+        "required": [
+          "role",
+          "content"
+        ],
+        "title": "KaiwaHistoryItem"
+      },
+      "KanjiPracticeRead": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "kanji": {
+            "type": "string",
+            "title": "Kanji"
+          },
+          "difficulty": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Difficulty"
+          },
+          "xpReward": {
+            "type": "integer",
+            "title": "Xpreward"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "kanji",
+          "difficulty",
+          "xpReward"
+        ],
+        "title": "KanjiPracticeRead"
+      },
+      "KanjiPracticeResponse": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "default": true
+          },
+          "businessCode": {
+            "type": "string",
+            "title": "Businesscode",
+            "default": "LMS-RESP-SUCCESS"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "default": "Request completed successfully."
+          },
+          "data": {
+            "$ref": "#/components/schemas/KanjiPracticeRead"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Timestamp"
+          }
+        },
+        "type": "object",
+        "required": [
+          "success",
+          "businessCode",
+          "message",
+          "data",
+          "timestamp"
+        ],
+        "title": "KanjiPracticeResponse"
+      },
+      "LessonDetailRead": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "courseId": {
+            "type": "integer",
+            "title": "Courseid"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "content": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Content"
+          },
+          "difficulty": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Difficulty"
+          },
+          "estimatedMinutes": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Estimatedminutes"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Status"
+          },
+          "sortOrder": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sortorder"
+          },
+          "vocabularyCount": {
+            "type": "integer",
+            "title": "Vocabularycount"
+          },
+          "readingPassages": {
+            "items": {
+              "$ref": "#/components/schemas/PracticeRef"
+            },
+            "type": "array",
+            "title": "Readingpassages",
+            "default": []
+          },
+          "dialogues": {
+            "items": {
+              "$ref": "#/components/schemas/PracticeRef"
+            },
+            "type": "array",
+            "title": "Dialogues",
+            "default": []
+          },
+          "kanjiPractices": {
+            "items": {
+              "$ref": "#/components/schemas/PracticeRef"
+            },
+            "type": "array",
+            "title": "Kanjipractices",
+            "default": []
+          },
+          "listeningPractices": {
+            "items": {
+              "$ref": "#/components/schemas/PracticeRef"
+            },
+            "type": "array",
+            "title": "Listeningpractices",
+            "default": []
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "courseId",
+          "title",
+          "content",
+          "difficulty",
+          "estimatedMinutes",
+          "status",
+          "sortOrder",
+          "vocabularyCount",
+          "readingPassages",
+          "dialogues",
+          "kanjiPractices",
+          "listeningPractices"
+        ],
+        "title": "LessonDetailRead"
+      },
+      "LessonDetailResponse": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "default": true
+          },
+          "businessCode": {
+            "type": "string",
+            "title": "Businesscode",
+            "default": "LMS-RESP-SUCCESS"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "default": "Request completed successfully."
+          },
+          "data": {
+            "$ref": "#/components/schemas/LessonDetailRead"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Timestamp"
+          }
+        },
+        "type": "object",
+        "required": [
+          "success",
+          "businessCode",
+          "message",
+          "data",
+          "timestamp"
+        ],
+        "title": "LessonDetailResponse"
+      },
+      "LessonListResponse": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "default": true
+          },
+          "businessCode": {
+            "type": "string",
+            "title": "Businesscode",
+            "default": "LMS-RESP-SUCCESS"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "default": "Request completed successfully."
+          },
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/LessonRead"
+            },
+            "type": "array",
+            "title": "Data"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Timestamp"
+          }
+        },
+        "type": "object",
+        "required": [
+          "success",
+          "businessCode",
+          "message",
+          "data",
+          "timestamp"
+        ],
+        "title": "LessonListResponse"
+      },
+      "LessonRead": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "courseId": {
+            "type": "integer",
+            "title": "Courseid"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "content": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Content"
+          },
+          "difficulty": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Difficulty"
+          },
+          "estimatedMinutes": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Estimatedminutes"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Status"
+          },
+          "sortOrder": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sortorder"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "courseId",
+          "title",
+          "content",
+          "difficulty",
+          "estimatedMinutes",
+          "status",
+          "sortOrder"
+        ],
+        "title": "LessonRead"
+      },
+      "ListeningAnswerSubmission": {
+        "properties": {
+          "questionId": {
+            "type": "integer",
+            "exclusiveMinimum": 0.0,
+            "title": "Questionid"
+          },
+          "selectedOptionId": {
+            "type": "integer",
+            "exclusiveMinimum": 0.0,
+            "title": "Selectedoptionid"
+          }
+        },
+        "type": "object",
+        "required": [
+          "questionId",
+          "selectedOptionId"
+        ],
+        "title": "ListeningAnswerSubmission"
+      },
+      "ListeningOptionRead": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "optionText": {
+            "type": "string",
+            "title": "Optiontext"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "optionText"
+        ],
+        "title": "ListeningOptionRead"
+      },
+      "ListeningPracticeRead": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "sourceType": {
+            "type": "string",
+            "enum": [
+              "dialogue",
+              "song",
+              "sentences"
+            ],
+            "title": "Sourcetype"
+          },
+          "audioUrl": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Audiourl"
+          },
+          "transcriptJapanese": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Transcriptjapanese"
+          },
+          "transcriptVietnamese": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Transcriptvietnamese"
+          },
+          "xpReward": {
+            "type": "integer",
+            "title": "Xpreward"
+          },
+          "questions": {
+            "items": {
+              "$ref": "#/components/schemas/ListeningQuestionRead"
+            },
+            "type": "array",
+            "title": "Questions",
+            "default": []
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "sourceType",
+          "audioUrl",
+          "transcriptJapanese",
+          "transcriptVietnamese",
+          "xpReward",
+          "questions"
+        ],
+        "title": "ListeningPracticeRead"
+      },
+      "ListeningPracticeResponse": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "default": true
+          },
+          "businessCode": {
+            "type": "string",
+            "title": "Businesscode",
+            "default": "LMS-RESP-SUCCESS"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "default": "Request completed successfully."
+          },
+          "data": {
+            "$ref": "#/components/schemas/ListeningPracticeRead"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Timestamp"
+          }
+        },
+        "type": "object",
+        "required": [
+          "success",
+          "businessCode",
+          "message",
+          "data",
+          "timestamp"
+        ],
+        "title": "ListeningPracticeResponse"
+      },
+      "ListeningQuestionRead": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "questionText": {
+            "type": "string",
+            "title": "Questiontext"
+          },
+          "sortOrder": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sortorder"
+          },
+          "options": {
+            "items": {
+              "$ref": "#/components/schemas/ListeningOptionRead"
+            },
+            "type": "array",
+            "title": "Options",
+            "default": []
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "questionText",
+          "sortOrder",
+          "options"
+        ],
+        "title": "ListeningQuestionRead"
+      },
+      "LoginRequest": {
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "title": "Email"
+          },
+          "password": {
+            "type": "string",
+            "maxLength": 255,
+            "minLength": 1,
+            "title": "Password"
+          }
+        },
+        "type": "object",
+        "required": [
+          "email",
+          "password"
+        ],
+        "title": "LoginRequest"
+      },
+      "LoginResponse": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "default": true
+          },
+          "businessCode": {
+            "type": "string",
+            "title": "Businesscode",
+            "default": "LMS-RESP-SUCCESS"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "default": "Request completed successfully."
+          },
+          "data": {
+            "$ref": "#/components/schemas/AccessTokenData"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Timestamp"
+          }
+        },
+        "type": "object",
+        "required": [
+          "success",
+          "businessCode",
+          "message",
+          "data",
+          "timestamp"
+        ],
+        "title": "LoginResponse"
+      },
+      "OnboardingData": {
+        "properties": {
+          "userId": {
+            "type": "integer",
+            "title": "Userid"
+          },
+          "isOnboarded": {
+            "type": "boolean",
+            "title": "Isonboarded"
+          },
+          "studyReason": {
+            "type": "string",
+            "enum": [
+              "travel",
+              "work",
+              "anime_manga",
+              "jlpt",
+              "living_in_japan",
+              "other"
+            ],
+            "title": "Studyreason"
+          },
+          "targetLevel": {
+            "type": "string",
+            "enum": [
+              "N1",
+              "N2",
+              "N3",
+              "N4"
+            ],
+            "title": "Targetlevel"
+          },
+          "dailyStudyMinutes": {
+            "type": "integer",
+            "enum": [
+              10,
+              20,
+              30,
+              60
+            ],
+            "title": "Dailystudyminutes"
+          },
+          "onboardedAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Onboardedat"
+          }
+        },
+        "type": "object",
+        "required": [
+          "userId",
+          "isOnboarded",
+          "studyReason",
+          "targetLevel",
+          "dailyStudyMinutes",
+          "onboardedAt"
+        ],
+        "title": "OnboardingData"
+      },
+      "OnboardingRequest": {
+        "properties": {
+          "studyReason": {
+            "type": "string",
+            "enum": [
+              "travel",
+              "work",
+              "anime_manga",
+              "jlpt",
+              "living_in_japan",
+              "other"
+            ],
+            "title": "Studyreason"
+          },
+          "targetLevel": {
+            "type": "string",
+            "enum": [
+              "N1",
+              "N2",
+              "N3",
+              "N4"
+            ],
+            "title": "Targetlevel"
+          },
+          "dailyStudyMinutes": {
+            "type": "integer",
+            "enum": [
+              10,
+              20,
+              30,
+              60
+            ],
+            "title": "Dailystudyminutes"
+          }
+        },
+        "type": "object",
+        "required": [
+          "studyReason",
+          "targetLevel",
+          "dailyStudyMinutes"
+        ],
+        "title": "OnboardingRequest"
+      },
+      "OnboardingResponse": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "default": true
+          },
+          "businessCode": {
+            "type": "string",
+            "title": "Businesscode",
+            "default": "LMS-RESP-SUCCESS"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "default": "Request completed successfully."
+          },
+          "data": {
+            "$ref": "#/components/schemas/OnboardingData"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Timestamp"
+          }
+        },
+        "type": "object",
+        "required": [
+          "success",
+          "businessCode",
+          "message",
+          "data",
+          "timestamp"
+        ],
+        "title": "OnboardingResponse"
+      },
+      "PracticeRef": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "title": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Title"
+          },
+          "xpReward": {
+            "type": "integer",
+            "title": "Xpreward"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "xpReward"
+        ],
+        "title": "PracticeRef",
+        "description": "A practice item inside a lesson; fetch its content from the skill's own endpoint."
+      },
+      "ProficiencyLevelListResponse": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "default": true
+          },
+          "businessCode": {
+            "type": "string",
+            "title": "Businesscode",
+            "default": "LMS-RESP-SUCCESS"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "default": "Request completed successfully."
+          },
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/ProficiencyLevelRead"
+            },
+            "type": "array",
+            "title": "Data"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Timestamp"
+          }
+        },
+        "type": "object",
+        "required": [
+          "success",
+          "businessCode",
+          "message",
+          "data",
+          "timestamp"
+        ],
+        "title": "ProficiencyLevelListResponse"
+      },
+      "ProficiencyLevelRead": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "sortOrder": {
+            "type": "integer",
+            "title": "Sortorder"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "sortOrder"
+        ],
+        "title": "ProficiencyLevelRead"
+      },
+      "ProfileData": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "username": {
+            "type": "string",
+            "title": "Username"
+          },
+          "email": {
+            "type": "string",
+            "title": "Email"
+          },
+          "xp": {
+            "type": "integer",
+            "title": "Xp"
+          },
+          "streak": {
+            "type": "integer",
+            "title": "Streak"
+          },
+          "currentLevel": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Currentlevel"
+          },
+          "targetLevel": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Targetlevel"
+          },
+          "studyIntention": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Studyintention"
+          },
+          "dailyStudyMinutes": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dailystudyminutes"
+          },
+          "memberSince": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Membersince"
+          },
+          "avatarUrl": {
+            "type": "string",
+            "title": "Avatarurl"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "username",
+          "email",
+          "xp",
+          "streak",
+          "currentLevel",
+          "targetLevel",
+          "studyIntention",
+          "dailyStudyMinutes",
+          "memberSince",
+          "avatarUrl"
+        ],
+        "title": "ProfileData"
+      },
+      "ProfileResponse": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "default": true
+          },
+          "businessCode": {
+            "type": "string",
+            "title": "Businesscode",
+            "default": "LMS-RESP-SUCCESS"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "default": "Request completed successfully."
+          },
+          "data": {
+            "$ref": "#/components/schemas/ProfileData"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Timestamp"
+          }
+        },
+        "type": "object",
+        "required": [
+          "success",
+          "businessCode",
+          "message",
+          "data",
+          "timestamp"
+        ],
+        "title": "ProfileResponse"
+      },
+      "RatePronunciationRequest": {
+        "properties": {
+          "expectedText": {
+            "type": "string",
+            "maxLength": 500,
+            "title": "Expectedtext"
+          },
+          "userTranscript": {
+            "type": "string",
+            "maxLength": 500,
+            "title": "Usertranscript"
+          },
+          "romaji": {
+            "type": "string",
+            "maxLength": 500,
+            "title": "Romaji",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "required": [
+          "expectedText",
+          "userTranscript"
+        ],
+        "title": "RatePronunciationRequest"
+      },
+      "RatePronunciationResponse": {
+        "properties": {
+          "score": {
+            "type": "integer",
+            "title": "Score"
+          },
+          "feedback": {
+            "type": "string",
+            "title": "Feedback"
+          },
+          "isCorrect": {
+            "type": "boolean",
+            "title": "Iscorrect"
+          }
+        },
+        "type": "object",
+        "required": [
+          "score",
+          "feedback",
+          "isCorrect"
+        ],
+        "title": "RatePronunciationResponse"
+      },
+      "ReadingAnswerSubmission": {
+        "properties": {
+          "questionId": {
+            "type": "integer",
+            "exclusiveMinimum": 0.0,
+            "title": "Questionid"
+          },
+          "selectedOptionId": {
+            "type": "integer",
+            "exclusiveMinimum": 0.0,
+            "title": "Selectedoptionid"
+          }
+        },
+        "type": "object",
+        "required": [
+          "questionId",
+          "selectedOptionId"
+        ],
+        "title": "ReadingAnswerSubmission"
+      },
+      "ReadingOptionRead": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "optionText": {
+            "type": "string",
+            "title": "Optiontext"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "optionText"
+        ],
+        "title": "ReadingOptionRead"
+      },
+      "ReadingPassageRead": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "title": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Title"
+          },
+          "contentJapanese": {
+            "type": "string",
+            "title": "Contentjapanese"
+          },
+          "contentVietnamese": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Contentvietnamese"
+          },
+          "xpReward": {
+            "type": "integer",
+            "title": "Xpreward"
+          },
+          "questions": {
+            "items": {
+              "$ref": "#/components/schemas/ReadingQuestionRead"
+            },
+            "type": "array",
+            "title": "Questions",
+            "default": []
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "contentJapanese",
+          "contentVietnamese",
+          "xpReward",
+          "questions"
+        ],
+        "title": "ReadingPassageRead"
+      },
+      "ReadingPassageResponse": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "default": true
+          },
+          "businessCode": {
+            "type": "string",
+            "title": "Businesscode",
+            "default": "LMS-RESP-SUCCESS"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "default": "Request completed successfully."
+          },
+          "data": {
+            "$ref": "#/components/schemas/ReadingPassageRead"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Timestamp"
+          }
+        },
+        "type": "object",
+        "required": [
+          "success",
+          "businessCode",
+          "message",
+          "data",
+          "timestamp"
+        ],
+        "title": "ReadingPassageResponse"
+      },
+      "ReadingQuestionRead": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "questionText": {
+            "type": "string",
+            "title": "Questiontext"
+          },
+          "sortOrder": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sortorder"
+          },
+          "options": {
+            "items": {
+              "$ref": "#/components/schemas/ReadingOptionRead"
+            },
+            "type": "array",
+            "title": "Options",
+            "default": []
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "questionText",
+          "sortOrder",
+          "options"
+        ],
+        "title": "ReadingQuestionRead"
+      },
+      "RefreshResponse": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "default": true
+          },
+          "businessCode": {
+            "type": "string",
+            "title": "Businesscode",
+            "default": "LMS-RESP-SUCCESS"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "default": "Request completed successfully."
+          },
+          "data": {
+            "$ref": "#/components/schemas/AccessTokenData"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Timestamp"
+          }
+        },
+        "type": "object",
+        "required": [
+          "success",
+          "businessCode",
+          "message",
+          "data",
+          "timestamp"
+        ],
+        "title": "RefreshResponse"
+      },
+      "RegisterData": {
+        "properties": {
+          "userId": {
+            "type": "integer",
+            "title": "Userid"
+          },
+          "isOnboarded": {
+            "type": "boolean",
+            "title": "Isonboarded"
+          }
+        },
+        "type": "object",
+        "required": [
+          "userId",
+          "isOnboarded"
+        ],
+        "title": "RegisterData"
+      },
+      "RegisterRequest": {
+        "properties": {
+          "username": {
+            "type": "string",
+            "maxLength": 50,
+            "minLength": 2,
+            "pattern": "^[A-Za-z0-9_.-]+$",
+            "title": "Username"
+          },
+          "fullName": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 2,
+            "title": "Fullname"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "title": "Email"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 8,
+            "title": "Password"
+          }
+        },
+        "type": "object",
+        "required": [
+          "username",
+          "fullName",
+          "email",
+          "password"
+        ],
+        "title": "RegisterRequest"
+      },
+      "RegisterResponse": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "default": true
+          },
+          "businessCode": {
+            "type": "string",
+            "title": "Businesscode",
+            "default": "LMS-RESP-SUCCESS"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "default": "Request completed successfully."
+          },
+          "data": {
+            "$ref": "#/components/schemas/RegisterData"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Timestamp"
+          }
+        },
+        "type": "object",
+        "required": [
+          "success",
+          "businessCode",
+          "message",
+          "data",
+          "timestamp"
+        ],
+        "title": "RegisterResponse"
+      },
+      "SRSReviewData": {
+        "properties": {
+          "repetitions": {
+            "type": "integer",
+            "title": "Repetitions"
+          },
+          "easeFactor": {
+            "type": "number",
+            "title": "Easefactor"
+          },
+          "intervalDays": {
+            "type": "integer",
+            "title": "Intervaldays"
+          },
+          "nextReviewAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Nextreviewat"
+          },
+          "xpEarned": {
+            "type": "integer",
+            "title": "Xpearned"
+          }
+        },
+        "type": "object",
+        "required": [
+          "repetitions",
+          "easeFactor",
+          "intervalDays",
+          "nextReviewAt",
+          "xpEarned"
+        ],
+        "title": "SRSReviewData"
+      },
+      "SRSReviewRequest": {
+        "properties": {
+          "vocabId": {
+            "type": "integer",
+            "exclusiveMinimum": 0.0,
+            "title": "Vocabid"
+          },
+          "result": {
+            "type": "string",
+            "enum": [
+              "again",
+              "hard",
+              "good",
+              "easy"
+            ],
+            "title": "Result"
+          }
+        },
+        "type": "object",
+        "required": [
+          "vocabId",
+          "result"
+        ],
+        "title": "SRSReviewRequest"
+      },
+      "SRSReviewResponse": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "default": true
+          },
+          "businessCode": {
+            "type": "string",
+            "title": "Businesscode",
+            "default": "LMS-RESP-SUCCESS"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "default": "Request completed successfully."
+          },
+          "data": {
+            "$ref": "#/components/schemas/SRSReviewData"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Timestamp"
+          }
+        },
+        "type": "object",
+        "required": [
+          "success",
+          "businessCode",
+          "message",
+          "data",
+          "timestamp"
+        ],
+        "title": "SRSReviewResponse"
+      },
+      "SkillProgress": {
+        "properties": {
+          "skill": {
+            "type": "string",
+            "enum": [
+              "vocab",
+              "reading",
+              "speaking",
+              "writing",
+              "listening"
+            ],
+            "title": "Skill"
+          },
+          "xp": {
+            "type": "integer",
+            "title": "Xp"
+          }
+        },
+        "type": "object",
+        "required": [
+          "skill",
+          "xp"
+        ],
+        "title": "SkillProgress"
+      },
+      "SubmitDialogueAttemptData": {
+        "properties": {
+          "attemptId": {
+            "type": "integer",
+            "title": "Attemptid"
+          },
+          "aiScore": {
+            "type": "number",
+            "title": "Aiscore"
+          },
+          "aiFeedback": {
+            "type": "string",
+            "title": "Aifeedback"
+          },
+          "xpEarned": {
+            "type": "integer",
+            "title": "Xpearned"
+          },
+          "completedAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Completedat"
+          }
+        },
+        "type": "object",
+        "required": [
+          "attemptId",
+          "aiScore",
+          "aiFeedback",
+          "xpEarned",
+          "completedAt"
+        ],
+        "title": "SubmitDialogueAttemptData"
+      },
+      "SubmitDialogueAttemptRequest": {
+        "properties": {
+          "dialogueId": {
+            "type": "integer",
+            "exclusiveMinimum": 0.0,
+            "title": "Dialogueid"
+          },
+          "turns": {
+            "items": {
+              "$ref": "#/components/schemas/DialogueTurnSubmission"
+            },
+            "type": "array",
+            "minItems": 1,
+            "title": "Turns"
+          }
+        },
+        "type": "object",
+        "required": [
+          "dialogueId",
+          "turns"
+        ],
+        "title": "SubmitDialogueAttemptRequest",
+        "description": "The learner's transcripts per exchange; the server rates them and awards XP."
+      },
+      "SubmitDialogueAttemptResponse": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "default": true
+          },
+          "businessCode": {
+            "type": "string",
+            "title": "Businesscode",
+            "default": "LMS-RESP-SUCCESS"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "default": "Request completed successfully."
+          },
+          "data": {
+            "$ref": "#/components/schemas/SubmitDialogueAttemptData"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Timestamp"
+          }
+        },
+        "type": "object",
+        "required": [
+          "success",
+          "businessCode",
+          "message",
+          "data",
+          "timestamp"
+        ],
+        "title": "SubmitDialogueAttemptResponse"
+      },
+      "SubmitListeningAttemptData": {
+        "properties": {
+          "attemptId": {
+            "type": "integer",
+            "title": "Attemptid"
+          },
+          "score": {
+            "type": "number",
+            "title": "Score"
+          },
+          "passed": {
+            "type": "boolean",
+            "title": "Passed"
+          },
+          "xpEarned": {
+            "type": "integer",
+            "title": "Xpearned"
+          },
+          "completedAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Completedat"
+          }
+        },
+        "type": "object",
+        "required": [
+          "attemptId",
+          "score",
+          "passed",
+          "xpEarned",
+          "completedAt"
+        ],
+        "title": "SubmitListeningAttemptData"
+      },
+      "SubmitListeningAttemptRequest": {
+        "properties": {
+          "practiceId": {
+            "type": "integer",
+            "exclusiveMinimum": 0.0,
+            "title": "Practiceid"
+          },
+          "answers": {
+            "items": {
+              "$ref": "#/components/schemas/ListeningAnswerSubmission"
+            },
+            "type": "array",
+            "minItems": 1,
+            "title": "Answers"
+          }
+        },
+        "type": "object",
+        "required": [
+          "practiceId",
+          "answers"
+        ],
+        "title": "SubmitListeningAttemptRequest"
+      },
+      "SubmitListeningAttemptResponse": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "default": true
+          },
+          "businessCode": {
+            "type": "string",
+            "title": "Businesscode",
+            "default": "LMS-RESP-SUCCESS"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "default": "Request completed successfully."
+          },
+          "data": {
+            "$ref": "#/components/schemas/SubmitListeningAttemptData"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Timestamp"
+          }
+        },
+        "type": "object",
+        "required": [
+          "success",
+          "businessCode",
+          "message",
+          "data",
+          "timestamp"
+        ],
+        "title": "SubmitListeningAttemptResponse"
+      },
+      "SubmitReadingAttemptData": {
+        "properties": {
+          "attemptId": {
+            "type": "integer",
+            "title": "Attemptid"
+          },
+          "score": {
+            "type": "number",
+            "title": "Score"
+          },
+          "passed": {
+            "type": "boolean",
+            "title": "Passed"
+          },
+          "xpEarned": {
+            "type": "integer",
+            "title": "Xpearned"
+          },
+          "completedAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Completedat"
+          }
+        },
+        "type": "object",
+        "required": [
+          "attemptId",
+          "score",
+          "passed",
+          "xpEarned",
+          "completedAt"
+        ],
+        "title": "SubmitReadingAttemptData"
+      },
+      "SubmitReadingAttemptRequest": {
+        "properties": {
+          "passageId": {
+            "type": "integer",
+            "exclusiveMinimum": 0.0,
+            "title": "Passageid"
+          },
+          "answers": {
+            "items": {
+              "$ref": "#/components/schemas/ReadingAnswerSubmission"
+            },
+            "type": "array",
+            "minItems": 1,
+            "title": "Answers"
+          }
+        },
+        "type": "object",
+        "required": [
+          "passageId",
+          "answers"
+        ],
+        "title": "SubmitReadingAttemptRequest"
+      },
+      "SubmitReadingAttemptResponse": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "default": true
+          },
+          "businessCode": {
+            "type": "string",
+            "title": "Businesscode",
+            "default": "LMS-RESP-SUCCESS"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "default": "Request completed successfully."
+          },
+          "data": {
+            "$ref": "#/components/schemas/SubmitReadingAttemptData"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Timestamp"
+          }
+        },
+        "type": "object",
+        "required": [
+          "success",
+          "businessCode",
+          "message",
+          "data",
+          "timestamp"
+        ],
+        "title": "SubmitReadingAttemptResponse"
+      },
+      "TokenizeItem": {
+        "properties": {
+          "word": {
+            "type": "string",
+            "title": "Word"
+          },
+          "reading": {
+            "type": "string",
+            "title": "Reading"
+          },
+          "pos": {
+            "type": "string",
+            "title": "Pos"
+          }
+        },
+        "type": "object",
+        "required": [
+          "word",
+          "reading",
+          "pos"
+        ],
+        "title": "TokenizeItem"
+      },
+      "TokenizeRequest": {
+        "properties": {
+          "text": {
+            "type": "string",
+            "maxLength": 5000,
+            "title": "Text",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "title": "TokenizeRequest"
+      },
+      "TokenizeResponse": {
+        "properties": {
+          "tokens": {
+            "items": {
+              "$ref": "#/components/schemas/TokenizeItem"
+            },
+            "type": "array",
+            "title": "Tokens"
+          }
+        },
+        "type": "object",
+        "required": [
+          "tokens"
+        ],
+        "title": "TokenizeResponse"
+      },
+      "UserRead": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "username": {
+            "type": "string",
+            "title": "Username"
+          },
+          "email": {
+            "type": "string",
+            "title": "Email"
+          },
+          "fullName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fullname"
+          },
+          "isOnboarded": {
+            "type": "boolean",
+            "title": "Isonboarded"
+          },
+          "currentLevelId": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Currentlevelid"
+          },
+          "lastLoginAt": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lastloginat"
+          },
+          "onboardedAt": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Onboardedat"
+          },
+          "xp": {
+            "type": "integer",
+            "title": "Xp"
+          },
+          "streak": {
+            "type": "integer",
+            "title": "Streak"
+          },
+          "gems": {
+            "type": "integer",
+            "title": "Gems"
+          },
+          "hearts": {
+            "type": "integer",
+            "title": "Hearts"
+          },
+          "heartsLastUpdated": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Heartslastupdated"
+          },
+          "lastActivityDate": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lastactivitydate"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "username",
+          "email",
+          "fullName",
+          "isOnboarded",
+          "currentLevelId",
+          "lastLoginAt",
+          "onboardedAt",
+          "xp",
+          "streak",
+          "gems",
+          "hearts",
+          "heartsLastUpdated",
+          "lastActivityDate"
+        ],
+        "title": "UserRead"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      },
+      "VocabQueueResponse": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "default": true
+          },
+          "businessCode": {
+            "type": "string",
+            "title": "Businesscode",
+            "default": "LMS-RESP-SUCCESS"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "default": "Request completed successfully."
+          },
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/VocabularyRead"
+            },
+            "type": "array",
+            "title": "Data"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Timestamp"
+          }
+        },
+        "type": "object",
+        "required": [
+          "success",
+          "businessCode",
+          "message",
+          "data",
+          "timestamp"
+        ],
+        "title": "VocabQueueResponse",
+        "description": "Due cards for today's SRS review session."
+      },
+      "VocabularyListResponse": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "default": true
+          },
+          "businessCode": {
+            "type": "string",
+            "title": "Businesscode",
+            "default": "LMS-RESP-SUCCESS"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "default": "Request completed successfully."
+          },
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/VocabularyRead"
+            },
+            "type": "array",
+            "title": "Data"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Timestamp"
+          }
+        },
+        "type": "object",
+        "required": [
+          "success",
+          "businessCode",
+          "message",
+          "data",
+          "timestamp"
+        ],
+        "title": "VocabularyListResponse"
+      },
+      "VocabularyRead": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "lessonId": {
+            "type": "integer",
+            "title": "Lessonid"
+          },
+          "kanji": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Kanji"
+          },
+          "kana": {
+            "type": "string",
+            "title": "Kana"
+          },
+          "romaji": {
+            "type": "string",
+            "title": "Romaji"
+          },
+          "meaning": {
+            "type": "string",
+            "title": "Meaning"
+          },
+          "exampleSentence": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Examplesentence"
+          },
+          "exampleTranslation": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Exampletranslation"
+          },
+          "xpReward": {
+            "type": "integer",
+            "title": "Xpreward"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "lessonId",
+          "kanji",
+          "kana",
+          "romaji",
+          "meaning",
+          "exampleSentence",
+          "exampleTranslation",
+          "xpReward"
+        ],
+        "title": "VocabularyRead"
+      }
+    },
+    "securitySchemes": {
+      "OAuth2PasswordBearer": {
+        "type": "oauth2",
+        "flows": {
+          "password": {
+            "scopes": {},
+            "tokenUrl": "/api/v1/auth/token"
+          }
+        }
+      }
+    }
+  }
+}

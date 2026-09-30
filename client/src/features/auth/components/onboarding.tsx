@@ -1,44 +1,57 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { 
-  CheckCircle2, 
-  Baby, 
-  School, 
-  TrendingUp, 
+import {
+  CheckCircle2,
+  Plane,
+  Briefcase,
+  Tv,
+  GraduationCap,
+  House,
+  Sparkles,
   ArrowRight,
   Target,
   Clock,
-  CircleDot
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import type { OnboardingRequest } from '@/types/api.generated';
 
 interface OnboardingProps {
-  onComplete: (data: { level: string; goal: string; time: string }) => Promise<void> | void;
+  onComplete: (data: OnboardingRequest) => Promise<void> | void;
   onSkip?: () => void;
   isSubmitting?: boolean;
   error?: string | null;
 }
 
+const reasons: { id: OnboardingRequest['studyReason']; title: string; desc: string; icon: typeof Plane }[] = [
+  { id: 'travel', title: 'Travel', desc: 'Get around and talk with people on my trips.', icon: Plane },
+  { id: 'work', title: 'Work', desc: 'Use Japanese in my job or career.', icon: Briefcase },
+  { id: 'anime_manga', title: 'Anime & Manga', desc: 'Enjoy shows, manga and games in Japanese.', icon: Tv },
+  { id: 'jlpt', title: 'Pass the JLPT', desc: 'Get certified and track my progress.', icon: GraduationCap },
+  { id: 'living_in_japan', title: 'Living in Japan', desc: 'Handle daily life in Japan.', icon: House },
+  { id: 'other', title: 'Something Else', desc: 'I have my own reasons.', icon: Sparkles },
+];
+
+const targetLevels: { id: OnboardingRequest['targetLevel']; desc: string }[] = [
+  { id: 'N4', desc: 'Basic conversations and simple everyday reading.' },
+  { id: 'N3', desc: 'Everyday situations and moderately complex texts.' },
+  { id: 'N2', desc: 'News, articles and most workplace situations.' },
+  { id: 'N1', desc: 'Near-native: complex, abstract topics at natural speed.' },
+];
+
+const dailyTimes: { id: OnboardingRequest['dailyStudyMinutes']; label: string; intensity: string }[] = [
+  { id: 10, label: '10 Minutes', intensity: 'Casual' },
+  { id: 20, label: '20 Minutes', intensity: 'Regular' },
+  { id: 30, label: '30 Minutes', intensity: 'Steady' },
+  { id: 60, label: '60+ Minutes', intensity: 'Intense' },
+];
+
 export const Onboarding = ({ onComplete, onSkip, isSubmitting = false, error = null }: OnboardingProps) => {
   const [step, setStep] = useState(1);
-  const [data, setData] = useState({
-    level: 'n5',
-    goal: 'business',
-    time: '30m'
+  const [data, setData] = useState<OnboardingRequest>({
+    studyReason: 'travel',
+    targetLevel: 'N4',
+    dailyStudyMinutes: 20,
   });
-
-  const levels = [
-    { id: 'beginner', title: 'Absolute Beginner', desc: "I don't know Hiragana or Katakana yet.", icon: Baby },
-    { id: 'n5', title: 'N5 Foundation', desc: 'Basic kana and simple greetings.', icon: CircleDot, badge: 'JLPT' },
-    { id: 'n4', title: 'N4 Elementary', desc: 'Read simple passages and basic daily talk.', icon: School, badge: 'JLPT' },
-    { id: 'n3', title: 'N3 & Above', desc: 'Intermediate to advanced fluency.', icon: TrendingUp }
-  ];
-
-  const goals = [
-    { id: 'business', title: 'Professional Growth', desc: 'I need Japanese for my career and relocation.' },
-    { id: 'hobby', title: 'Cultural Interest', desc: 'Anime, manga, and travel are my passions.' },
-    { id: 'exam', title: 'Pass JLPT', desc: 'I want to get certified and track my progress.' }
-  ];
 
   const nextStep = () => {
     if (step < 3) setStep(step + 1);
@@ -57,7 +70,7 @@ export const Onboarding = ({ onComplete, onSkip, isSubmitting = false, error = n
         </div>
         <div className="flex justify-between w-full text-[10px] uppercase font-bold tracking-widest text-muted-foreground">
           <span>Step {step} of 3</span>
-          <span>{step === 1 ? 'Current Level' : step === 2 ? 'Your Goal' : 'Daily Commitment'}</span>
+          <span>{step === 1 ? 'Your Reason' : step === 2 ? 'Goal Level' : 'Daily Commitment'}</span>
         </div>
       </div>
 
@@ -75,28 +88,27 @@ export const Onboarding = ({ onComplete, onSkip, isSubmitting = false, error = n
             <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
               <div className="text-center mb-10">
                 <h1 className="text-3xl font-black text-primary tracking-tight mb-2 font-display">Welcome to Mojo</h1>
-                <p className="text-muted-foreground">Let's personalize your journey. Where are you starting?</p>
+                <p className="text-muted-foreground">Let's personalize your journey. Why are you learning Japanese?</p>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {levels.map(l => (
+                {reasons.map(r => (
                   <button
-                    key={l.id}
-                    onClick={() => setData({ ...data, level: l.id })}
+                    key={r.id}
+                    onClick={() => setData({ ...data, studyReason: r.id })}
                     className={`relative p-6 rounded-2xl border text-left transition-all ${
-                      data.level === l.id 
+                      data.studyReason === r.id 
                       ? 'bg-secondary/50 border-primary ring-1 ring-primary shadow-lg shadow-primary/5' 
                       : 'bg-white border-gray-100 hover:border-primary/30 hover:-translate-y-0.5'
                     }`}
                   >
                     <div className="flex items-center justify-between mb-3">
                       <div className="flex items-center gap-2">
-                        <span className={`text-lg font-bold ${data.level === l.id ? 'text-primary' : 'text-gray-700'}`}>{l.title}</span>
-                        {l.badge && <span className="px-1.5 py-0.5 bg-primary/10 text-primary text-[8px] font-black rounded uppercase tracking-wider">{l.badge}</span>}
+                        <span className={`text-lg font-bold ${data.studyReason === r.id ? 'text-primary' : 'text-gray-700'}`}>{r.title}</span>
                       </div>
-                      <l.icon className={`w-5 h-5 ${data.level === l.id ? 'text-primary' : 'text-gray-300'}`} />
+                      <r.icon className={`w-5 h-5 ${data.studyReason === r.id ? 'text-primary' : 'text-gray-300'}`} />
                     </div>
-                    <p className="text-xs text-muted-foreground leading-relaxed">{l.desc}</p>
-                    {data.level === l.id && <CheckCircle2 className="absolute top-2 right-2 w-4 h-4 text-primary fill-white" />}
+                    <p className="text-xs text-muted-foreground leading-relaxed">{r.desc}</p>
+                    {data.studyReason === r.id && <CheckCircle2 className="absolute top-2 right-2 w-4 h-4 text-primary fill-white" />}
                   </button>
                 ))}
               </div>
@@ -106,25 +118,25 @@ export const Onboarding = ({ onComplete, onSkip, isSubmitting = false, error = n
           {step === 2 && (
             <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
               <div className="text-center mb-10">
-                <h1 className="text-3xl font-black text-primary tracking-tight mb-2">What's your primary goal?</h1>
-                <p className="text-muted-foreground">This helps us prioritize the right vocabulary and scenarios.</p>
+                <h1 className="text-3xl font-black text-primary tracking-tight mb-2">Which JLPT level are you aiming for?</h1>
+                <p className="text-muted-foreground">This helps us prioritize the right vocabulary and grammar.</p>
               </div>
               <div className="space-y-4">
-                {goals.map(g => (
+                {targetLevels.map(g => (
                    <button
                     key={g.id}
-                    onClick={() => setData({ ...data, goal: g.id })}
+                    onClick={() => setData({ ...data, targetLevel: g.id })}
                     className={`w-full p-6 rounded-2xl border text-left transition-all flex items-center justify-between ${
-                      data.goal === g.id 
+                      data.targetLevel === g.id 
                       ? 'bg-secondary/50 border-primary ring-1 ring-primary' 
                       : 'bg-white border-gray-100'
                     }`}
                   >
                     <div>
-                      <span className="text-lg font-bold text-primary block mb-1">{g.title}</span>
+                      <span className="text-lg font-bold text-primary block mb-1">JLPT {g.id}</span>
                       <p className="text-xs text-muted-foreground">{g.desc}</p>
                     </div>
-                    {data.goal === g.id ? <Target className="w-6 h-6 text-primary" /> : <div className="w-6 h-6 rounded-full border border-gray-200" />}
+                    {data.targetLevel === g.id ? <Target className="w-6 h-6 text-primary" /> : <div className="w-6 h-6 rounded-full border border-gray-200" />}
                   </button>
                 ))}
               </div>
@@ -138,24 +150,19 @@ export const Onboarding = ({ onComplete, onSkip, isSubmitting = false, error = n
                 <p className="text-muted-foreground">Consistency is key to mastery. How much time can you spare?</p>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {[
-                  { id: '15m', label: '15 Minutes', intensity: 'Casual' },
-                  { id: '30m', label: '30 Minutes', intensity: 'Steady' },
-                  { id: '60m', label: '1 Hour', intensity: 'Intense' },
-                  { id: '90m', label: '2 Hours+', intensity: 'Professional' },
-                ].map(t => (
+                {dailyTimes.map(t => (
                   <button
                     key={t.id}
-                    onClick={() => setData({ ...data, time: t.id })}
+                    onClick={() => setData({ ...data, dailyStudyMinutes: t.id })}
                     className={`p-6 rounded-2xl border text-center transition-all ${
-                      data.time === t.id 
+                      data.dailyStudyMinutes === t.id 
                       ? 'bg-primary text-white border-primary shadow-xl shadow-primary/20' 
                       : 'bg-white border-gray-100 hover:bg-gray-50'
                     }`}
                   >
-                    <Clock className={`w-6 h-6 mx-auto mb-2 ${data.time === t.id ? 'text-white' : 'text-primary'}`} />
+                    <Clock className={`w-6 h-6 mx-auto mb-2 ${data.dailyStudyMinutes === t.id ? 'text-white' : 'text-primary'}`} />
                     <span className="text-lg font-bold block">{t.label}</span>
-                    <span className={`text-[10px] font-bold uppercase tracking-widest ${data.time === t.id ? 'text-white/70' : 'text-muted-foreground'}`}>{t.intensity}</span>
+                    <span className={`text-[10px] font-bold uppercase tracking-widest ${data.dailyStudyMinutes === t.id ? 'text-white/70' : 'text-muted-foreground'}`}>{t.intensity}</span>
                   </button>
                 ))}
               </div>

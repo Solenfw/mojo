@@ -3,7 +3,7 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import { AuthLayout, SignUpForm } from '@/features/auth/components/auth-pages';
-import { checkUserByEmailOrPhone, register, saveToken, login } from '@/lib/auth';
+import { register, login } from '@/lib/auth';
 
 export default function SignUpPage() {
   const router = useRouter();
@@ -16,19 +16,14 @@ export default function SignUpPage() {
     setIsLoading(true);
 
     const formData = new FormData(e.currentTarget);
-    const fullName = formData.get('fullName') as string;
+    const fullName = (formData.get('fullName') as string).trim();
+    const username = (formData.get('username') as string).trim();
     const email = formData.get('email') as string;
-    const phone = formData.get('phone') as string;
     const password = formData.get('password') as string;
 
     try {
-      await checkUserByEmailOrPhone({
-        email,
-        phone,
-      });
-      await register(email, password, fullName, phone);
-      const token = await login(email, password);
-      saveToken(token.access_token);
+      await register({ username, fullName, email, password });
+      await login(email, password);
       router.push('/onboarding');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unable to create account');

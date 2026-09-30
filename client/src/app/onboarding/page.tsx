@@ -5,13 +5,14 @@ import { useRouter } from 'next/navigation';
 import { Onboarding } from '@/features/auth/components/onboarding';
 import { AuthGuard } from '@/features/auth/components/auth-guard';
 import { submitOnboarding } from '@/lib/onboarding';
+import type { OnboardingRequest } from '@/types/api.generated';
 
 export default function OnboardingPage() {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleComplete = async (data: { level: string; goal: string; time: string }) => {
+  const handleComplete = async (data: OnboardingRequest) => {
     setIsSubmitting(true);
     setError(null);
     try {

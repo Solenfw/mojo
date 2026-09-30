@@ -24,7 +24,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import { AuthGuard } from '@/features/auth/components/auth-guard';
-import { clearToken, getCurrentUser } from '@/lib/auth';
+import { getCurrentUser, logout } from '@/lib/auth';
 
 const Sidebar = ({ onSignOut }: { onSignOut: () => void }) => {
   const pathname = usePathname();
@@ -180,8 +180,8 @@ export default function DashboardLayout({
     getCurrentUser().then(setUser);
   }, []);
 
-  const handleSignOut = () => {
-    clearToken();
+  const handleSignOut = async () => {
+    await logout();
     router.push('/login');
   };
 

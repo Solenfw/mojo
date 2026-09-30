@@ -6,9 +6,10 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { getCurrentUser } from '@/lib/auth';
+import type { UserRead } from '@/types/api.generated';
 
 export default function SettingsPage() {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<UserRead | null>(null);
 
   useEffect(() => {
     getCurrentUser().then(setUser);
@@ -31,15 +32,15 @@ export default function SettingsPage() {
         <CardContent className="space-y-4">
           <div className="space-y-2">
             <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Full Name</label>
-            <Input defaultValue={user.full_name || user.username} readOnly className="bg-gray-50 text-gray-500" />
+            <Input defaultValue={user.fullName || user.username} readOnly className="bg-gray-50 text-gray-500" />
           </div>
           <div className="space-y-2">
             <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Email Address</label>
             <Input defaultValue={user.email} readOnly className="bg-gray-50 text-gray-500" />
           </div>
           <div className="space-y-2">
-            <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Phone Number</label>
-            <Input defaultValue={user.phone || ''} readOnly className="bg-gray-50 text-gray-500" />
+            <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Username</label>
+            <Input defaultValue={user.username} readOnly className="bg-gray-50 text-gray-500" />
           </div>
           <p className="text-xs text-muted-foreground italic">* To change your profile details, please contact support.</p>
         </CardContent>

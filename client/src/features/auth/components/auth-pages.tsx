@@ -67,7 +67,7 @@ export const LoginForm = ({
   error,
   isLoading = false
 }: { 
-  onSubmit: (e: React.FormEvent) => void, 
+  onSubmit: (e: React.SubmitEvent) => void, 
   onSignUp: () => void,
   onForgotPassword: () => void,
   error?: string | null,
@@ -94,10 +94,10 @@ export const LoginForm = ({
         )}
         <form onSubmit={onSubmit} className="space-y-4">
           <div className="space-y-2">
-             <label className="text-xs font-bold uppercase tracking-widest text-primary/60 ml-1">Email Or Phone</label>
+             <label className="text-xs font-bold uppercase tracking-widest text-primary/60 ml-1">Email Address</label>
              <div className="relative">
                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                <Input name="email" type="text" placeholder="name@company.com or 0988888888" className="h-12 pl-10 rounded-xl bg-muted/30 border-none focus-visible:ring-primary/20" required />
+                <Input name="email" type="email" placeholder="name@company.com" className="h-12 pl-10 rounded-xl bg-muted/30 border-none focus-visible:ring-primary/20" required />
              </div>
           </div>
           <div className="space-y-2">
@@ -173,14 +173,14 @@ export const SignUpForm = ({
            </div>
         </div>
         <div className="space-y-2">
-           <label className="text-xs font-bold uppercase tracking-widest text-primary/60 ml-1">Phone Number</label>
-           <Input name="phone" type="tel" placeholder="0988888888" className="h-12 rounded-xl bg-muted/30 border-none focus-visible:ring-primary/20" required />
+           <label className="text-xs font-bold uppercase tracking-widest text-primary/60 ml-1">Username</label>
+           <Input name="username" type="text" placeholder="alexj" minLength={2} maxLength={50} className="h-12 rounded-xl bg-muted/30 border-none focus-visible:ring-primary/20" required />
         </div>
         <div className="space-y-2">
            <label className="text-xs font-bold uppercase tracking-widest text-primary/60 ml-1">Password</label>
            <div className="relative">
               <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-              <Input name="password" type="password" placeholder="Create a strong password" className="h-12 pl-10 rounded-xl bg-muted/30 border-none focus-visible:ring-primary/20" required />
+              <Input name="password" type="password" placeholder="Create a strong password" minLength={8} className="h-12 pl-10 rounded-xl bg-muted/30 border-none focus-visible:ring-primary/20" required />
            </div>
         </div>
         <div className="space-y-3 pt-2">
