@@ -1,46 +1,39 @@
-from fastapi import APIRouter, Depends, HTTPException, status
-from sqlalchemy.ext.asyncio import AsyncSession
+"""XP, streak, hearts and gems."""
 
-from server.app.api.deps import get_db
-from server.app.api.v1.users import get_current_user
-from server.app.db import models
-from server.app.services.gamification_engine import GamificationEngine
+from datetime import UTC, datetime
 
-router = APIRouter()
+from fastapi import APIRouter
 
+from app.api.deps import CurrentUser, DbSession
+from app.api.errors import invalid
+from app.models import User
+from app.schemas import GamificationStatusData, GamificationStatusResponse
+from app.services import gamification
+from app.services.gamification import HeartsAlreadyFullError, NotEnoughGemsError
 
-@router.get("/gamification/status", response_model=dict)
-async def get_gamification_status(
-    current_user: models.User = Depends(get_current_user),
-    db: AsyncSession = Depends(get_db),
-):
-    # Regenerate hearts before returning status
-    await GamificationEngine.regenerate_hearts(current_user, db)
-    return {
-        "xp": current_user.xp,
-        "hearts": current_user.hearts,
-        "streak": current_user.streak,
-        "gems": current_user.gems,
-    }
+router = APIRouter(prefix="/gamification", tags=["gamification"])
 
 
-@router.post("/gamification/hearts/refill")
-async def refill_hearts(
-    current_user: models.User = Depends(get_current_user),
-    db: AsyncSession = Depends(get_db),
-):
-    REFILL_COST = 10  # Gems per heart refill
-    if current_user.gems < REFILL_COST:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Not enough gems to refill hearts.",
-        )
-    if current_user.hearts >= GamificationEngine.MAX_HEARTS:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Hearts are already full.",
-        )
-    current_user.gems -= REFILL_COST
-    current_user.hearts = GamificationEngine.MAX_HEARTS
+def _status(user: User) -> GamificationStatusResponse:
+    return GamificationStatusResponse(
+        data=GamificationStatusData(xp=user.xp, hearts=user.hearts, streak=user.streak, gems=user.gems)
+    )
+
+
+@router.get("/status", response_model=GamificationStatusResponse)
+async def get_status(db: DbSession, current_user: CurrentUser) -> GamificationStatusResponse:
+    gamification.regenerate_hearts(current_user, datetime.now(UTC))
     await db.commit()
-    return {"message": "Hearts refilled successfully."}
+    return _status(current_user)
+
+
+@router.post("/hearts/refill", response_model=GamificationStatusResponse)
+async def refill_hearts(db: DbSession, current_user: CurrentUser) -> GamificationStatusResponse:
+    try:
+        gamification.refill_hearts(current_user, datetime.now(UTC))
+    except HeartsAlreadyFullError:
+        raise invalid("Hearts are already full.") from None
+    except NotEnoughGemsError:
+        raise invalid(f"Refilling hearts costs {gamification.HEART_REFILL_COST} gems.") from None
+    await db.commit()
+    return _status(current_user)

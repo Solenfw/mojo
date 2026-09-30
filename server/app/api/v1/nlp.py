@@ -1,28 +1,21 @@
-from fastapi import APIRouter, Depends, HTTPException, status
-from pydantic import BaseModel, Field
+"""Japanese text utilities (MeCab tokenizer)."""
 
-from server.app.api.deps import get_current_user
-from server.app.db import models
-from server.app.services.mecab_service import MeCabService
-from server.app.db.schemas import TokenizeRequest, TokenizeResponse, TokenizeItem
+import anyio
+from fastapi import APIRouter
+
+from app.api.deps import CurrentUser
+from app.api.errors import unavailable
+from app.clients.mecab import MeCabTokenizer
+from app.schemas import TokenizeItem, TokenizeRequest, TokenizeResponse
 
 router = APIRouter(prefix="/nlp", tags=["nlp"])
-
-mecab_service = MeCabService()
+tokenizer = MeCabTokenizer()
 
 
 @router.post("/tokenize", response_model=TokenizeResponse)
-async def tokenize_text(
-    request: TokenizeRequest,
-    current_user: models.User = Depends(get_current_user),
-):
-    del current_user
+async def tokenize_text(payload: TokenizeRequest, _: CurrentUser) -> TokenizeResponse:
     try:
-        tokens = mecab_service.tokenize_japanese_sentence(request.text)
+        tokens = await anyio.to_thread.run_sync(tokenizer.tokenize_japanese_sentence, payload.text)
     except RuntimeError as exc:
-        raise HTTPException(
-            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-            detail=str(exc),
-        ) from exc
-
-    return {"tokens": tokens}
+        raise unavailable(str(exc)) from None
+    return TokenizeResponse(tokens=[TokenizeItem(**token) for token in tokens])

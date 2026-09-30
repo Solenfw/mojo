@@ -1,47 +1,80 @@
-# server/app/api/v1/writing.py
-from fastapi import APIRouter, Depends, HTTPException, status
-from pydantic import BaseModel
-from sqlalchemy.ext.asyncio import AsyncSession
+"""Writing practice: a kanji drawn on a canvas, rated by AI; a passing score earns the practice's XP once."""
 
-from server.app.api.deps import get_current_user, get_db
-from server.app.db import models
-from server.app.services.vision_service import VisionService
-from server.app.services.gamification_engine import GamificationEngine
-from server.app.db.schemas import EvaluateWritingRequest, EvaluateWritingResponse
+from datetime import UTC, datetime
+
+import anyio
+from fastapi import APIRouter, status
+from sqlalchemy import exists, select
+
+from app.api.deps import CurrentUser, DbSession
+from app.api.errors import not_found, unavailable
+from app.clients.vision import VisionClient
+from app.models import KanjiPractice, KanjiPracticeAttempt
+from app.schemas import (
+    EvaluateWritingData,
+    EvaluateWritingRequest,
+    EvaluateWritingResponse,
+    KanjiPracticeRead,
+    KanjiPracticeResponse,
+)
+from app.services.gamification import award_xp
+from app.services.practice import clamp_score
 
 router = APIRouter(prefix="/writing", tags=["writing"])
-vision_service = VisionService()
+vision = VisionClient()
 
-@router.post("/evaluate", response_model=EvaluateWritingResponse)
-async def evaluate_writing(
-    payload: EvaluateWritingRequest,
-    current_user: models.User = Depends(get_current_user),
-    db: AsyncSession = Depends(get_db)
-):
-    """Evaluates base64 canvas drawing and awards XP for practice."""
-    # Strip the data URL prefix if sent from frontend canvas
-    b64_data = payload.image_base64
-    if "," in b64_data:
-        b64_data = b64_data.split(",")[1]
+WRITING_PASS_SCORE = 60
 
-    # Call Gemini Vision
-    evaluation = vision_service.evaluate_kanji(b64_data, payload.target_kanji)
-    
-    score = evaluation.get("score", 70)
-    feedback = evaluation.get("feedback", "Good effort.")
-    
-    # Award Gamification XP
-    xp_awarded = 0
-    if score >= 60:
-        xp_awarded = 15  # Base reward
-        if score >= 90:
-            xp_awarded += 10  # Bonus for high accuracy
-            
-        await GamificationEngine.add_xp(current_user, xp_awarded, db)
-        await GamificationEngine.update_streak(current_user, db)
+
+@router.get("/kanji/{practice_id}", response_model=KanjiPracticeResponse)
+async def get_kanji_practice(practice_id: int, db: DbSession, _: CurrentUser) -> KanjiPracticeResponse:
+    practice = await db.get(KanjiPractice, practice_id)
+    if practice is None:
+        raise not_found("Kanji practice not found.")
+    return KanjiPracticeResponse(data=KanjiPracticeRead.model_validate(practice))
+
+
+@router.post("/evaluations", response_model=EvaluateWritingResponse, status_code=status.HTTP_201_CREATED)
+async def evaluate(
+    payload: EvaluateWritingRequest, db: DbSession, current_user: CurrentUser
+) -> EvaluateWritingResponse:
+    """Rates the drawing against the practice's kanji (taken from the database, never from the client)."""
+    practice = await db.get(KanjiPractice, payload.kanji_practice_id)
+    if practice is None:
+        raise not_found("Kanji practice not found.")
+
+    image = payload.image_base64.split(",", 1)[-1]  # accept a data URL straight from the canvas
+    try:
+        rating = await anyio.to_thread.run_sync(vision.evaluate_kanji, image, practice.kanji)
+    except RuntimeError:
+        raise unavailable("Handwriting evaluation is unavailable right now. Please try again.") from None
+    score = clamp_score(rating.get("score"))
+    feedback = str(rating.get("feedback", ""))
+
+    already_passed = await db.scalar(
+        select(
+            exists().where(
+                KanjiPracticeAttempt.user_id == current_user.id,
+                KanjiPracticeAttempt.kanji_practice_id == practice.id,
+                KanjiPracticeAttempt.xp_earned > 0,
+            )
+        )
+    )
+    xp = practice.xp_reward if score >= WRITING_PASS_SCORE and not already_passed else 0
+    now = datetime.now(UTC)
+
+    attempt = KanjiPracticeAttempt(
+        user_id=current_user.id,
+        kanji_practice_id=practice.id,
+        ai_score=score,
+        ai_feedback=feedback,
+        xp_earned=xp,
+        completed_at=now,
+    )
+    db.add(attempt)
+    await award_xp(db, current_user, skill_code="writing", xp=xp, now=now)
+    await db.commit()
 
     return EvaluateWritingResponse(
-        score=score,
-        feedback=feedback,
-        xp_awarded=xp_awarded
+        data=EvaluateWritingData(attempt_id=attempt.id, score=score, feedback=feedback, xp_earned=xp)
     )

@@ -1,107 +1,120 @@
-from fastapi import APIRouter, Depends, status
-from sqlalchemy import select
-from sqlalchemy.ext.asyncio import AsyncSession
+"""Speaking practice: scripted dialogues rated by AI, per-line pronunciation feedback, and free conversation."""
 
-from server.app.api.deps import get_current_user, get_db
-from server.app.db import models
-from server.app.services.audio_service import AudioService
-from server.app.db.schemas import (
-    GetExercisesResponse,
-    SpeakingExerciseItem,
-    EvaluateSpeakingRequest,
-    EvaluateSpeakingResponse,
+from datetime import UTC, datetime
+
+import anyio
+from fastapi import APIRouter, status
+from sqlalchemy import exists, select
+from sqlalchemy.orm import selectinload
+
+from app.api.deps import CurrentUser, DbSession
+from app.api.errors import invalid, not_found
+from app.clients.audio import AudioClient
+from app.models import Dialogue, DialogueAttempt
+from app.schemas import (
+    DialogueRead,
+    DialogueResponse,
     GenerateKaiwaRequest,
     GenerateKaiwaResponse,
-    SaveSpeakingAttemptRequest,
-    SaveSpeakingAttemptResponse,
+    RatePronunciationRequest,
+    RatePronunciationResponse,
+    SubmitDialogueAttemptData,
+    SubmitDialogueAttemptRequest,
+    SubmitDialogueAttemptResponse,
 )
+from app.services.gamification import award_xp
+from app.services.practice import PASS_MARK, clamp_score
 
 router = APIRouter(prefix="/speaking", tags=["speaking"])
-audio_service = AudioService()
+audio = AudioClient()
 
-@router.get("/exercises/{lesson_id}", response_model=GetExercisesResponse)
-async def get_speaking_exercises(
-    lesson_id: int,
-    current_user: models.User = Depends(get_current_user),
-    db: AsyncSession = Depends(get_db)
-):
-    """Retrieve speech exercises linked to a specific lesson."""
-    del current_user
-    stmt = select(models.Exercises).where(
-        models.Exercises.lesson_id == lesson_id,
-        models.Exercises.exercise_type == "speaking"
+
+async def _load_dialogue(db: DbSession, dialogue_id: int) -> Dialogue:
+    dialogue = await db.scalar(
+        select(Dialogue).where(Dialogue.id == dialogue_id).options(selectinload(Dialogue.exchanges))
     )
-    res = await db.execute(stmt)
-    exercises = res.scalars().all()
-    
-    return {
-        "exercises": [
-            SpeakingExerciseItem(
-                id=ex.id,
-                prompt=ex.prompt,
-                correct_answer=ex.correct_answer or "",
-                explanation=ex.explanation
-            ) for ex in exercises
-        ]
-    }
+    if dialogue is None:
+        raise not_found("Dialogue not found.")
+    return dialogue
 
 
-@router.post("/evaluate", response_model=EvaluateSpeakingResponse)
-async def evaluate_speaking_submission(
-    payload: EvaluateSpeakingRequest,
-    current_user: models.User = Depends(get_current_user)
-):
-    """Pass user transcript to AI speech analyzer for scoring and feedback."""
-    del current_user
-    evaluation = audio_service.evaluate_pronunciation(
-        transcript=payload.transcript, 
-        expected_text=payload.expected_text,
-        romaji=payload.romaji or ""
+@router.get("/dialogues/{dialogue_id}", response_model=DialogueResponse)
+async def get_dialogue(dialogue_id: int, db: DbSession, _: CurrentUser) -> DialogueResponse:
+    dialogue = await _load_dialogue(db, dialogue_id)
+    return DialogueResponse(data=DialogueRead.model_validate(dialogue))
+
+
+@router.post("/attempts", response_model=SubmitDialogueAttemptResponse, status_code=status.HTTP_201_CREATED)
+async def submit_attempt(
+    payload: SubmitDialogueAttemptRequest, db: DbSession, current_user: CurrentUser
+) -> SubmitDialogueAttemptResponse:
+    """Rates each transcript against the scripted line; the expected text always comes from the dialogue."""
+    dialogue = await _load_dialogue(db, payload.dialogue_id)
+    exchanges = {exchange.id: exchange for exchange in dialogue.exchanges}
+    if any(turn.exchange_id not in exchanges for turn in payload.turns):
+        raise invalid("One or more turns refer to lines outside this dialogue.")
+
+    scores, feedback = [], []
+    for turn in payload.turns:
+        line = exchanges[turn.exchange_id]
+        rating = await anyio.to_thread.run_sync(
+            audio.evaluate_pronunciation, turn.transcript, line.ja_text, line.ja_romaji
+        )
+        scores.append(clamp_score(rating.get("score")))
+        feedback.append(f"Line {line.order_index}: {rating.get('feedback', '')}")
+
+    score = round(sum(scores) / len(scores), 2)
+    already_passed = await db.scalar(
+        select(
+            exists().where(
+                DialogueAttempt.user_id == current_user.id,
+                DialogueAttempt.dialogue_id == dialogue.id,
+                DialogueAttempt.xp_earned > 0,
+            )
+        )
     )
-    return EvaluateSpeakingResponse(
-        accuracy_score=evaluation.get("accuracy_score", 80),
-        fluency_score=evaluation.get("fluency_score", 80),
-        score=evaluation.get("score", 80),
-        feedback=evaluation.get("feedback", ""),
-        tips=evaluation.get("tips", []),
-        is_correct=evaluation.get("is_correct", True)
-    )
+    xp = dialogue.xp_reward if score >= PASS_MARK and not already_passed else 0
+    now = datetime.now(UTC)
 
-
-@router.post("/chat", response_model=GenerateKaiwaResponse)
-async def generate_kaiwa_turn(
-    payload: GenerateKaiwaRequest,
-    current_user: models.User = Depends(get_current_user)
-):
-    """Submit dialogue history to receive the next conversational turn."""
-    del current_user
-    history_list = [{"role": m.role, "content": m.content} for m in payload.history]
-    reply = audio_service.generate_kaiwa_response(history_list)
-    return GenerateKaiwaResponse(
-        content=reply.get("content", ""),
-        romaji=reply.get("romaji", ""),
-        translation=reply.get("translation", "")
-    )
-
-
-@router.post("/attempt", response_model=SaveSpeakingAttemptResponse, status_code=status.HTTP_201_CREATED)
-async def save_speaking_attempt(
-    payload: SaveSpeakingAttemptRequest,
-    current_user: models.User = Depends(get_current_user),
-    db: AsyncSession = Depends(get_db)
-):
-    """Commit the speak score and performance feedback to the student progress database."""
-    attempt = models.ExerciseAttempts(
+    attempt = DialogueAttempt(
         user_id=current_user.id,
-        exercise_id=payload.exercise_id,
-        answer_text=payload.answer_text,
-        is_correct=payload.score >= 70,  # considered correct if above 70%
-        score=payload.score,
-        ai_feedback=payload.feedback,
-        duration_seconds=payload.duration_seconds
+        dialogue_id=dialogue.id,
+        ai_score=score,
+        ai_feedback="\n".join(feedback),
+        xp_earned=xp,
+        completed_at=now,
     )
     db.add(attempt)
+    await award_xp(db, current_user, skill_code="speaking", xp=xp, now=now)
     await db.commit()
-    await db.refresh(attempt)
-    
-    return SaveSpeakingAttemptResponse(attempt_id=attempt.id, success=True)
+
+    return SubmitDialogueAttemptResponse(
+        data=SubmitDialogueAttemptData(
+            attempt_id=attempt.id, ai_score=score, ai_feedback=attempt.ai_feedback or "", xp_earned=xp, completed_at=now
+        )
+    )
+
+
+@router.post("/pronunciation", response_model=RatePronunciationResponse)
+async def rate_pronunciation(payload: RatePronunciationRequest, _: CurrentUser) -> RatePronunciationResponse:
+    """Per-line feedback while practising; earns no XP."""
+    rating = await anyio.to_thread.run_sync(
+        audio.evaluate_pronunciation, payload.user_transcript, payload.expected_text, payload.romaji
+    )
+    return RatePronunciationResponse(
+        score=clamp_score(rating.get("score")),
+        feedback=str(rating.get("feedback", "")),
+        is_correct=bool(rating.get("is_correct", False)),
+    )
+
+
+@router.post("/kaiwa", response_model=GenerateKaiwaResponse)
+async def kaiwa_turn(payload: GenerateKaiwaRequest, _: CurrentUser) -> GenerateKaiwaResponse:
+    """The next line of a free conversation with the AI partner."""
+    history = [{"role": item.role, "content": item.content} for item in payload.history]
+    reply = await anyio.to_thread.run_sync(audio.generate_kaiwa_response, history)
+    return GenerateKaiwaResponse(
+        content=str(reply.get("content", "")),
+        romaji=str(reply.get("romaji", "")),
+        translation=str(reply.get("translation", "")),
+    )

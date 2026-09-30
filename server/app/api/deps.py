@@ -1,66 +1,50 @@
-from fastapi import Depends, HTTPException, status
-from jose import JWTError, jwt
-from sqlalchemy import or_, select
+"""
+Request-scoped dependencies. Routes use the Annotated aliases:
+
+    async def handler(db: DbSession, user: CurrentUser): ...
+"""
+
+from collections.abc import AsyncIterator
+from typing import Annotated
+
+from fastapi import Depends
+from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from server.app.db.database import SessionLocal
-from server.app.db import models
-from server.app.core.security import oauth2_scheme, verify_password
-from server.app.core.config import settings
+from app import models
+from app.api.errors import AUTH_SESSION_INVALID, unauthorized
+from app.api.v1 import API_PREFIX
+from app.core.security import InvalidTokenError, decode_access_token
+from app.db.database import SessionLocal
+from app.services import auth as auth_service
 
-SECRET_KEY = settings.secret_key
-if not SECRET_KEY:
-    raise ValueError("SECRET_KEY environment variable is required")
-ALGORITHM = settings.algorithm
+# auto_error=False so a missing header gets the same ErrorResponse body as a bad token.
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl=f"{API_PREFIX}/auth/token", auto_error=False)
 
-async def get_db():
-    """Provide a database session for the request."""
+
+async def get_db() -> AsyncIterator[AsyncSession]:
     async with SessionLocal() as db:
         yield db
 
+
+DbSession = Annotated[AsyncSession, Depends(get_db)]
+
+
 async def get_current_user(
-    token: str = Depends(oauth2_scheme),
-    db: AsyncSession = Depends(get_db),
-):
-    """Load the current user from the JWT token and database."""
-    credentials_exception = HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Could not validate credentials",
-        headers={"WWW-Authenticate": "Bearer"},
-    )
+    token: Annotated[str | None, Depends(oauth2_scheme)],
+    db: DbSession,
+) -> models.User:
+    if token is None:
+        raise unauthorized("Not authenticated.", AUTH_SESSION_INVALID)
     try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        user_id = payload.get("sub")
-        if user_id is None:
-            raise credentials_exception
-    except JWTError:
-        raise credentials_exception
-    try:
-        user_id = int(user_id)
-    except (TypeError, ValueError):
-        raise credentials_exception
+        claims = decode_access_token(token)
+    except InvalidTokenError:
+        raise unauthorized("Could not validate credentials.", AUTH_SESSION_INVALID) from None
 
-    result = await db.execute(select(models.User).where(models.User.id == user_id))
-    user = result.scalars().first()
+    user = await auth_service.load_session_user(db, claims)
     if user is None:
-        raise credentials_exception
+        raise unauthorized("Session has ended. Please sign in again.", AUTH_SESSION_INVALID)
     return user
 
 
-async def get_current_active_user(current_user: models.User = Depends(get_current_user)):
-    return current_user
-
-    
-async def authenticate_user(db: AsyncSession, email_or_phone: str, password: str):
-    result = await db.execute(
-        select(models.User).where(
-            or_(
-                models.User.email == email_or_phone,
-                models.User.phone == email_or_phone,
-            )
-        )
-    )
-    user = result.scalars().first()
-    if not user or not verify_password(password, user.hashed_password):
-        return None
-    return user
+CurrentUser = Annotated[models.User, Depends(get_current_user)]
