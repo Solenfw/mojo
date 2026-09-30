@@ -1,10 +1,11 @@
 import json
-import os
 import urllib.error
 import urllib.request
 
+from app.core.config import settings
 
-class AudioService:
+
+class AudioClient:
     DEFAULT_PRONUNCIATION_RESULT = {
         "accuracy_score": 75,
         "fluency_score": 75,
@@ -18,7 +19,7 @@ class AudioService:
     }
 
     def __init__(self):
-        self.api_key = os.getenv("GEMINI_API_KEY")
+        self.api_key = settings.gemini_api_key
         self.model = "gemini-2.5-flash"
 
     # ==========================================================
@@ -29,18 +30,9 @@ class AudioService:
         if not self.api_key:
             raise RuntimeError("GEMINI_API_KEY not configured")
 
-        url = (
-            f"https://generativelanguage.googleapis.com/v1beta/models/"
-            f"{self.model}:generateContent?key={self.api_key}"
-        )
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/{self.model}:generateContent?key={self.api_key}"
 
-        payload = {
-            "contents": [
-                {
-                    "parts": [{"text": prompt}]
-                }
-            ]
-        }
+        payload = {"contents": [{"parts": [{"text": prompt}]}]}
 
         req = urllib.request.Request(
             url,
@@ -56,15 +48,11 @@ class AudioService:
 
         except urllib.error.HTTPError as e:
             error_body = e.read().decode()
-            raise RuntimeError(f"Gemini error {e.code}: {error_body}")
+            raise RuntimeError(f"Gemini error {e.code}: {error_body}") from e
 
     @staticmethod
     def _parse_json(response: str) -> dict:
-        cleaned = (
-            response.replace("```json", "")
-            .replace("```", "")
-            .strip()
-        )
+        cleaned = response.replace("```json", "").replace("```", "").strip()
         return json.loads(cleaned)
 
     # ==========================================================
@@ -134,13 +122,10 @@ class AudioService:
             return {
                 "content": "かしこまりました。お会計は八百円になります。",
                 "romaji": "Kashikomarimashita. O-kaikei wa happyaku-en ni narimasu.",
-                "translation": "Understood. The total comes to 800 yen."
+                "translation": "Understood. The total comes to 800 yen.",
             }
 
-        dialog = "\n".join(
-            f"{msg['role']}: {msg['content']}"
-            for msg in history[-5:]
-        )
+        dialog = "\n".join(f"{msg['role']}: {msg['content']}" for msg in history[-5:])
 
         prompt = f"""
             You are a Japanese conversation partner.
@@ -165,5 +150,5 @@ class AudioService:
             return {
                 "content": "はい、少々お待ちください。",
                 "romaji": "Hai, shoushou omachi kudasai.",
-                "translation": "Certainly, please wait a moment."
+                "translation": "Certainly, please wait a moment.",
             }

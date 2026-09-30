@@ -3,7 +3,7 @@ from __future__ import annotations
 from pathlib import Path
 
 
-class MeCabService:
+class MeCabTokenizer:
     def __init__(self) -> None:
         self._tagger = None
         self._init_error: str | None = None
@@ -14,7 +14,7 @@ class MeCabService:
             return
 
         try:
-            import MeCab  # type: ignore[import-not-found]
+            import MeCab
         except ModuleNotFoundError:
             self._init_error = (
                 "MeCab tokenizer is unavailable because required dependencies "
@@ -24,7 +24,7 @@ class MeCabService:
 
         dictionary_dir = None
         try:
-            import unidic  # type: ignore[import-not-found]
+            import unidic
 
             candidate_dir = Path(unidic.DICDIR)
             if (candidate_dir / "mecabrc").exists():
@@ -34,7 +34,7 @@ class MeCabService:
 
         if dictionary_dir is None:
             try:
-                import unidic_lite  # type: ignore[import-not-found]
+                import unidic_lite
 
                 dictionary_dir = unidic_lite.DICDIR
             except ModuleNotFoundError:
@@ -48,8 +48,7 @@ class MeCabService:
             self._tagger = MeCab.Tagger(f"-r /dev/null -d {dictionary_dir}")
         except Exception as exc:  # pragma: no cover - depends on local dictionary install
             self._init_error = (
-                "MeCab tokenizer is unavailable because the UniDic dictionary "
-                f"could not be initialized: {exc}"
+                f"MeCab tokenizer is unavailable because the UniDic dictionary could not be initialized: {exc}"
             )
 
     @staticmethod
