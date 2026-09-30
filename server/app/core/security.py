@@ -1,50 +1,104 @@
-from datetime import datetime, timedelta, timezone
-from typing import Optional
+"""
+Password hashing and token primitives. No FastAPI or database code here.
+
+- Access tokens: short-lived JWTs carrying the user id (`sub`) and the auth session id (`sid`).
+- Refresh tokens: opaque random strings; only their SHA-256 digest is stored server-side.
+"""
+
+import hashlib
+import secrets
+from dataclasses import dataclass
+from datetime import UTC, datetime, timedelta
+from functools import cache
+
 import bcrypt
-from fastapi import HTTPException, status
-from fastapi.security import OAuth2PasswordBearer
-from jose import JWTError, jwt
+import jwt
 
-from server.app.core.config import settings
+from app.core.config import settings
 
-# Configuration
-SECRET_KEY = settings.secret_key
-if not SECRET_KEY:
-    raise ValueError("SECRET_KEY environment variable is not set.")
-ALGORITHM = settings.algorithm
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
+BCRYPT_MAX_BYTES = 72
+ACCESS_TOKEN_TYPE = "access"
 
 
-# OAuth2 scheme
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/login/access-token")
+class InvalidTokenError(Exception):
+    """The access token is malformed, expired, or not an access token."""
 
-def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
-    """Create a JWT access token."""
-    to_encode = data.copy()
-    if expires_delta:
-        expire = datetime.now(timezone.utc) + expires_delta
-    else:
-        expire = datetime.now(timezone.utc) + timedelta(minutes=15)
 
-    to_encode.update({"exp": expire})
-    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
-    return encoded_jwt
- 
+@dataclass(frozen=True)
+class AccessTokenClaims:
+    user_id: int
+    session_id: int
 
-def decode_access_token(token: str):
-    """Decode a JWT access token."""
-    try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        return payload
-    except JWTError:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Could not validate credentials",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
-    
+
+# Passwords
+
+
 def get_password_hash(password: str) -> str:
-    return bcrypt.hashpw(password.encode("utf-8")[:72], bcrypt.gensalt()).decode("utf-8")
+    """Hash a password. Callers must reject passwords over BCRYPT_MAX_BYTES first; bcrypt raises on them."""
+    return bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
+
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
-    return bcrypt.checkpw(plain_password.encode("utf-8")[:72], hashed_password.encode("utf-8"))
+    encoded = plain_password.encode("utf-8")
+    if len(encoded) > BCRYPT_MAX_BYTES:
+        return False
+    return bcrypt.checkpw(encoded, hashed_password.encode("utf-8"))
+
+
+@cache
+def _dummy_password_hash() -> str:
+    return get_password_hash(secrets.token_urlsafe(16))
+
+
+def burn_password_check(plain_password: str) -> None:
+    """Spend the same time as a real check, so unknown emails can't be told apart by response time."""
+    verify_password(plain_password, _dummy_password_hash())
+
+
+# Access tokens
+
+
+def create_access_token(*, user_id: int, session_id: int) -> tuple[str, int]:
+    """Return (token, lifetime in seconds)."""
+    lifetime = timedelta(minutes=settings.access_token_expire_minutes)
+    now = datetime.now(UTC)
+    claims = {
+        "sub": str(user_id),
+        "sid": session_id,
+        "type": ACCESS_TOKEN_TYPE,
+        "iat": now,
+        "exp": now + lifetime,
+    }
+    token = jwt.encode(claims, settings.secret_key, algorithm=settings.algorithm)
+    return token, int(lifetime.total_seconds())
+
+
+def decode_access_token(token: str) -> AccessTokenClaims:
+    try:
+        payload = jwt.decode(
+            token,
+            settings.secret_key,
+            algorithms=[settings.algorithm],
+            options={"require": ["sub", "sid", "type", "exp"]},
+        )
+    except jwt.PyJWTError as exc:
+        raise InvalidTokenError from exc
+
+    if payload["type"] != ACCESS_TOKEN_TYPE:
+        raise InvalidTokenError
+    try:
+        return AccessTokenClaims(user_id=int(payload["sub"]), session_id=int(payload["sid"]))
+    except (TypeError, ValueError) as exc:
+        raise InvalidTokenError from exc
+
+
+# Refresh tokens
+
+
+def generate_refresh_token() -> str:
+    return secrets.token_urlsafe(32)
+
+
+def hash_refresh_token(token: str) -> str:
+    # Refresh tokens are 256-bit random values, so a fast unsalted digest is sufficient.
+    return hashlib.sha256(token.encode("utf-8")).hexdigest()
