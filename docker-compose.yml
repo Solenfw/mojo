@@ -1,22 +1,31 @@
+# Run through make (`make db-up`, `make dev`): it passes the secrets file with --env-file.
+# Only the POSTGRES_* values below reach the db container; the app gets the full secrets file.
+# Running compose directly fails fast on the missing values.
 services:
   db:
     image: postgres:17
-    container_name: lingua_sphere_db
+    container_name: mojo_db
     environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER:?run via make (missing POSTGRES_USER)}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?run via make (missing POSTGRES_PASSWORD)}
+      POSTGRES_DB: ${POSTGRES_DB:?run via make (missing POSTGRES_DB)}
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB} || exit 1"]
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
       interval: 10s
       timeout: 5s
       retries: 5
+
+  app:
+    build: ./server
     env_file:
-      - .env
+      - ${HOME}/.config/secrets/mojo/.env
+    depends_on:
+      db:
+        condition: service_healthy
 
 volumes:
   postgres_data:

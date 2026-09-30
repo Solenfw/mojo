@@ -1,0 +1,16 @@
+# Install once with `make hooks`. Runs the same locked ruff as CI (uv), only on staged server files.
+repos:
+  - repo: local
+    hooks:
+      - id: ruff-check
+        name: ruff check (server)
+        entry: bash -c 'cd server && uv run ruff check --fix .'
+        language: system
+        files: ^server/.*\.py$
+        pass_filenames: false
+      - id: ruff-format
+        name: ruff format (server)
+        entry: bash -c 'cd server && uv run ruff format .'
+        language: system
+        files: ^server/.*\.py$
+        pass_filenames: false
