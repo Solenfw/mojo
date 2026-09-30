@@ -1,0 +1,11 @@
+# Keep the build context to what the image needs; never send local envs or secrets.
+.venv
+**/__pycache__
+**/*.py[cod]
+.pytest_cache
+tests
+scripts
+.env
+.env.*
+Dockerfile
+.dockerignore
