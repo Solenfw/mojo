@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { Reading } from '@/features/reading/components/reading-view';
+import { Reading } from '@/features/reading/reading-view';
 
 export default function ReadingPage() {
   const router = useRouter();

@@ -23,7 +23,7 @@ import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
-import { AuthGuard } from '@/features/auth/components/auth-guard';
+import { AuthGuard } from '@/features/auth/auth-guard';
 import { getCurrentUser, logout } from '@/lib/auth';
 
 const Sidebar = ({ onSignOut }: { onSignOut: () => void }) => {

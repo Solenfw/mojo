@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { KanjiCanvas } from '@/features/writing/components/kanji-canvas';
+import { KanjiCanvas } from '@/features/writing/kanji-canvas';
 
 export default function WritingPage() {
   const router = useRouter();

@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { LiveCall } from '@/features/live/components/live-call';
+import { LiveCall } from '@/features/live/live-call';
 
 export default function LivePage() {
   const router = useRouter();

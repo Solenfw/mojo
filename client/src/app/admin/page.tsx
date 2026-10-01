@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { AdminDashboard } from '@/features/admin/components/admin-dashboard';
+import { AdminDashboard } from '@/features/admin/admin-dashboard';
 
 export default function AdminPage() {
   const router = useRouter();

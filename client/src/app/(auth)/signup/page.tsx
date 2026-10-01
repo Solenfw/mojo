@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useRouter } from 'next/navigation';
-import { AuthLayout, SignUpForm } from '@/features/auth/components/auth-pages';
+import { AuthLayout, SignUpForm } from '@/features/auth/auth-pages';
 import { register, login } from '@/lib/auth';
 
 export default function SignUpPage() {

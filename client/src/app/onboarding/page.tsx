@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Onboarding } from '@/features/auth/components/onboarding';
-import { AuthGuard } from '@/features/auth/components/auth-guard';
+import { Onboarding } from '@/features/auth/onboarding';
+import { AuthGuard } from '@/features/auth/auth-guard';
 import { submitOnboarding } from '@/lib/onboarding';
 import type { OnboardingRequest } from '@/types/api.generated';
 
