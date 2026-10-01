@@ -3,7 +3,7 @@
 
 import React from 'react';
 import { useRouter } from 'next/navigation';
-import { AuthLayout, LoginForm } from '@/features/auth/auth-pages';
+import { AuthLayout, LoginForm } from '@/features/auth/login-form';
 import { login, getCurrentUser } from '@/features/auth/session';
 
 export default function LoginPage() {
