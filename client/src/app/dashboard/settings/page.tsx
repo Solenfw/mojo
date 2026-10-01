@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { getCurrentUser } from '@/features/auth/session';
+import { getCurrentUser } from '@/lib/api-client';
 import type { UserRead } from '@/types/api.generated';
 
 export default function SettingsPage() {

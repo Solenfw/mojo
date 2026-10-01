@@ -4,7 +4,7 @@ import React from 'react';
 import { useRouter } from 'next/navigation';
 import { AuthLayout } from '@/features/auth/auth-layout';
 import { SignUpForm } from '@/features/auth/signup-form';
-import { register, login } from '@/features/auth/session';
+import { register, login } from '@/lib/api-client';
 
 export default function SignUpPage() {
   const router = useRouter();
