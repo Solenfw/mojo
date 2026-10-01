@@ -1,4 +1,4 @@
-import { authFetch, getErrorMessage } from '@/lib/auth';
+import { authFetch, getErrorMessage } from '@/features/auth/session';
 import type { OnboardingData, OnboardingRequest, OnboardingResponse } from '@/types/api.generated';
 
 export const submitOnboarding = async (answers: OnboardingRequest): Promise<OnboardingData> => {

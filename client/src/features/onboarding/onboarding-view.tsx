@@ -45,7 +45,7 @@ const dailyTimes: { id: OnboardingRequest['dailyStudyMinutes']; label: string; i
   { id: 60, label: '60+ Minutes', intensity: 'Intense' },
 ];
 
-export const Onboarding = ({ onComplete, onSkip, isSubmitting = false, error = null }: OnboardingProps) => {
+export const OnboardingView = ({ onComplete, onSkip, isSubmitting = false, error = null }: OnboardingProps) => {
   const [step, setStep] = useState(1);
   const [data, setData] = useState<OnboardingRequest>({
     studyReason: 'travel',

@@ -16,9 +16,9 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
-import { N5_LESSONS } from '@/utils/constants';
+import { N5_LESSONS } from '@/lib/constants';
 import { Lesson } from '@/types';
-import { getToken } from '@/lib/auth';
+import { getToken } from '@/features/auth/session';
 
 const API_BASE_URL = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000').replace(/\/$/, '');
 

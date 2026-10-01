@@ -15,7 +15,7 @@ import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Lesson } from '@/types';
-import { N5_VOCABULARY } from '@/utils/constants';
+import { N5_VOCABULARY } from '@/lib/constants';
 
 interface LessonViewProps {
   lesson: Lesson;

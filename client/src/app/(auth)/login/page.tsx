@@ -4,7 +4,7 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import { AuthLayout, LoginForm } from '@/features/auth/auth-pages';
-import { login, getCurrentUser } from '@/lib/auth';
+import { login, getCurrentUser } from '@/features/auth/session';
 
 export default function LoginPage() {
   const router = useRouter();

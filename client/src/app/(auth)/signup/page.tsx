@@ -3,7 +3,7 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import { AuthLayout, SignUpForm } from '@/features/auth/auth-pages';
-import { register, login } from '@/lib/auth';
+import { register, login } from '@/features/auth/session';
 
 export default function SignUpPage() {
   const router = useRouter();

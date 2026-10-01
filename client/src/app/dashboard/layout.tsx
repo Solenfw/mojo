@@ -24,7 +24,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import { AuthGuard } from '@/features/auth/auth-guard';
-import { getCurrentUser, logout } from '@/lib/auth';
+import { getCurrentUser, logout } from '@/features/auth/session';
 
 const Sidebar = ({ onSignOut }: { onSignOut: () => void }) => {
   const pathname = usePathname();

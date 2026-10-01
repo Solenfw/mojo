@@ -2,9 +2,9 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Onboarding } from '@/features/auth/onboarding';
+import { OnboardingView } from '@/features/onboarding/onboarding-view';
 import { AuthGuard } from '@/features/auth/auth-guard';
-import { submitOnboarding } from '@/lib/onboarding';
+import { submitOnboarding } from '@/features/onboarding/submit-onboarding';
 import type { OnboardingRequest } from '@/types/api.generated';
 
 export default function OnboardingPage() {
@@ -28,7 +28,7 @@ export default function OnboardingPage() {
 
   return (
     <AuthGuard>
-      <Onboarding
+      <OnboardingView
         onComplete={handleComplete}
         onSkip={() => router.push('/dashboard')}
         isSubmitting={isSubmitting}
