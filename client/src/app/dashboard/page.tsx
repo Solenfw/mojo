@@ -18,9 +18,7 @@ import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { N5_LESSONS } from '@/lib/constants';
 import { Lesson } from '@/types';
-import { getToken } from '@/lib/api-client';
-
-const API_BASE_URL = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000').replace(/\/$/, '');
+import { API_BASE_URL, getToken } from '@/lib/api-client';
 
 const DashboardContent = () => {
   const router = useRouter();

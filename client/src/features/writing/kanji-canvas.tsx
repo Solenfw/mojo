@@ -14,9 +14,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { N5_VOCABULARY } from '@/lib/constants';
-import { getToken } from '@/lib/api-client';
-
-const API_BASE_URL = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000').replace(/\/$/, '');
+import { API_BASE_URL, getToken } from '@/lib/api-client';
 
 export const KanjiCanvas = ({ onBack }: { onBack: () => void }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);

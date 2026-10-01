@@ -3,7 +3,7 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 
-import { getCurrentUser } from '@/lib/api-client';
+import { getCurrentUser } from '@/features/auth/session';
 
 export const AuthGuard = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();

@@ -1,26 +1,19 @@
 /**
- * Client side of the auth flow.
+ * HTTP client for the Mojo API, and the session state it depends on.
  *
  * - The access token is kept in memory only (never in storage).
  * - The refresh token lives in an httpOnly cookie that JS can't read; the browser sends it to
  *   /api/v1/auth/* when requests use `credentials: 'include'`.
  * - After a page load there is no access token until `refreshSession()` restores one from the
- *   cookie; `authFetch` and `getCurrentUser` do that automatically.
+ *   cookie; `authFetch` does that automatically.
+ *
+ * Login, registration and logout live in `@/features/auth/session`, which starts and ends the
+ * session through `applySession` and `clearSession`.
  */
-import type {
-  AccessTokenData,
-  ErrorResponse,
-  LoginRequest,
-  LoginResponse,
-  RefreshResponse,
-  RegisterData,
-  RegisterRequest,
-  RegisterResponse,
-  UserRead,
-} from '@/types/api.generated';
+import type { AccessTokenData, ErrorResponse, RefreshResponse } from '@/types/api.generated';
 
 export const API_BASE_URL = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000').replace(/\/$/, '');
-const AUTH_URL = `${API_BASE_URL}/api/v1/auth`;
+const REFRESH_URL = `${API_BASE_URL}/api/v1/auth/refresh`;
 const REFRESH_LEAD_SECONDS = 60;
 
 let accessToken: string | null = null;
@@ -52,7 +45,7 @@ export const getErrorMessage = async (response: Response, fallback: string) => {
   }
 };
 
-const applySession = (data: AccessTokenData) => {
+export const applySession = (data: AccessTokenData) => {
   accessToken = data.accessToken;
   clearTimeout(refreshTimer);
   // Refresh ahead of expiry so the in-memory token stays valid for callers of getToken().
@@ -60,7 +53,7 @@ const applySession = (data: AccessTokenData) => {
   refreshTimer = setTimeout(() => void refreshSession(), delaySeconds * 1000);
 };
 
-const clearSession = () => {
+export const clearSession = () => {
   accessToken = null;
   clearTimeout(refreshTimer);
 };
@@ -72,7 +65,7 @@ export const getToken = () => accessToken;
 export const refreshSession = (): Promise<string | null> => {
   refreshInFlight ??= (async () => {
     try {
-      const response = await fetch(`${AUTH_URL}/refresh`, { method: 'POST', credentials: 'include' });
+      const response = await fetch(REFRESH_URL, { method: 'POST', credentials: 'include' });
       if (!response.ok) {
         clearSession();
         return null;
@@ -103,51 +96,4 @@ export const authFetch = async (path: string, init: RequestInit = {}): Promise<R
 
   const refreshed = await refreshSession();
   return refreshed ? send(refreshed) : response;
-};
-
-export const login = async (email: string, password: string): Promise<AccessTokenData> => {
-  const response = await fetch(`${AUTH_URL}/login`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    credentials: 'include',
-    body: JSON.stringify({ email, password } satisfies LoginRequest),
-  });
-  if (!response.ok) {
-    throw new Error(await getErrorMessage(response, 'Authentication failed'));
-  }
-  const result = (await response.json()) as LoginResponse;
-  applySession(result.data);
-  return result.data;
-};
-
-export const register = async (payload: RegisterRequest): Promise<RegisterData> => {
-  const response = await fetch(`${AUTH_URL}/register`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
-  });
-  if (!response.ok) {
-    throw new Error(await getErrorMessage(response, 'Unable to create account'));
-  }
-  const result = (await response.json()) as RegisterResponse;
-  return result.data;
-};
-
-export const logout = async (): Promise<void> => {
-  try {
-    await fetch(`${AUTH_URL}/logout`, { method: 'POST', credentials: 'include' });
-  } catch {
-    // Signing out locally still matters if the server is unreachable.
-  } finally {
-    clearSession();
-  }
-};
-
-export const getCurrentUser = async (): Promise<UserRead | null> => {
-  try {
-    const response = await authFetch('/api/v1/users/me');
-    return response.ok ? ((await response.json()) as UserRead) : null;
-  } catch {
-    return null;
-  }
 };

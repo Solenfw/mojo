@@ -24,10 +24,8 @@ import {
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
-import { getToken } from '@/lib/api-client';
+import { API_BASE_URL, getToken } from '@/lib/api-client';
 import { SpeakingLesson, Dialogue, DialogueTurn, ChatMessage } from '@/types';
-
-const API_BASE_URL = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000').replace(/\/$/, '');
 
 export const KaiwaPractice = ({ onBack }: { onBack: () => void }) => {
   // Navigation & Mode states
