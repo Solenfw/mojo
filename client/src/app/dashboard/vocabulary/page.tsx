@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { Vocabulary } from '@/features/vocab/components/vocabulary-view';
+import { Vocabulary } from '@/features/vocabulary/components/vocabulary-view';
 
 export default function VocabularyPage() {
   const router = useRouter();
