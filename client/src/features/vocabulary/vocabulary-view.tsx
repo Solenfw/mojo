@@ -14,175 +14,141 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
-import { API_BASE_URL, getToken } from '@/lib/api-client';
-import { VocabularyDeck, NormalizedCard} from '@/types';
+import { getLevelLessons } from '@/features/curriculum/api';
+import type { SrsReviewRequest, VocabularyRead } from '@/types/api.generated';
+import { getLessonVocabulary, getReviewQueue, reviewCard } from './api';
+
+const LEVEL = 'N5';
+
+type Deck = { key: string; title: string; description: string; totalItems: number } & (
+  | { type: 'srs' }
+  | { type: 'lesson'; lessonId: number }
+);
+
+interface Flashcard {
+  id: number;
+  vocab: string;
+  kanji?: string;
+  romaji: string;
+  meaning: string;
+  example?: string;
+  exampleMeaning?: string;
+}
+
+const toFlashcard = (word: VocabularyRead): Flashcard => ({
+  id: word.id,
+  vocab: word.kana,
+  kanji: word.kanji && word.kanji !== word.kana ? word.kanji : undefined,
+  romaji: word.romaji,
+  meaning: word.meaning,
+  example: word.exampleSentence ?? undefined,
+  exampleMeaning: word.exampleTranslation ?? undefined,
+});
+
+const errorText = (err: unknown, fallback: string) => (err instanceof Error ? err.message : fallback);
 
 export function Vocabulary({ onBack }: { onBack: () => void }) {
   const [screen, setScreen] = useState<'decks' | 'flashcards' | 'results'>('decks');
-  const [decks, setDecks] = useState<VocabularyDeck[]>([]);
-  const [selectedDeck, setSelectedDeck] = useState<VocabularyDeck | null>(null);
-  const [cards, setCards] = useState<NormalizedCard[]>([]);
+  const [decks, setDecks] = useState<Deck[]>([]);
+  const [dueCards, setDueCards] = useState<VocabularyRead[]>([]);
+  const [selectedDeck, setSelectedDeck] = useState<Deck | null>(null);
+  const [cards, setCards] = useState<Flashcard[]>([]);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [isFlipped, setIsFlipped] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
   const [sessionXp, setSessionXp] = useState<number>(0);
+  const [error, setError] = useState<string | null>(null);
+  const [isReviewing, setIsReviewing] = useState(false);
 
   // --- API CALL: FETCH OVERVIEW SET LIST ---
   useEffect(() => {
+    if (screen !== 'decks') return;
+
     const fetchDecks = async () => {
       try {
-        const token = getToken();
         setLoading(true);
+        // The due queue is both the SRS deck's count and its cards.
+        const [queue, lessons] = await Promise.all([getReviewQueue(), getLevelLessons(LEVEL)]);
 
-        // 1. Fetch due SRS counts
-        const srsRes = await fetch(`${API_BASE_URL}/api/v1/srs/due`, {
-          headers: { 'Authorization': `Bearer ${token}` }
-        });
-        const dueItems = srsRes.ok ? await srsRes.json() : [];
+        const lessonDecks: Deck[] = lessons
+          .filter((lesson) => lesson.vocabularyCount > 0)
+          .map((lesson) => ({
+            key: `lesson-${lesson.id}`,
+            type: 'lesson',
+            lessonId: lesson.id,
+            title: lesson.title,
+            description: 'Structured curriculum vocabulary lesson.',
+            totalItems: lesson.vocabularyCount,
+          }));
 
-        // 2. Fetch standard N5 Course Lessons
-        const courseRes = await fetch(`${API_BASE_URL}/api/v1/courses/by-level?targetLevel=N5`, {
-          headers: { 'Authorization': `Bearer ${token}` }
-        }).then(r => r.json());
-        
-        const courseId = courseRes.data?.[0]?.courseId;
-        let lessonsDecks: VocabularyDeck[] = [];
-
-        if (courseId) {
-          const lessonsRes = await fetch(`${API_BASE_URL}/api/v1/courses/lessons?recommendedCourseId=${courseId}`, {
-            headers: { 'Authorization': `Bearer ${token}` }
-          }).then(r => r.json());
-          
-          lessonsDecks = (lessonsRes.data || [])
-            .filter((l: any) => l.lessonType === 'vocabulary')
-            .map((l: any) => ({
-              id: l.lessonId.toString(),
-              title: l.lessonTitle,
-              description: `Structured curriculum vocabulary lesson.`,
-              totalItems: l.estimatedDuration, // approximate count of concepts
-              type: 'lesson'
-            }));
-        }
-
-        const combinedDecks: VocabularyDeck[] = [
+        setDueCards(queue);
+        setDecks([
           {
-            id: 'srs_due',
+            key: 'srs',
+            type: 'srs',
             title: 'Adaptive Due Queue (SRS)',
             description: 'Intelligent review scheduling based on your retention rate.',
-            totalItems: dueItems.length,
-            type: 'srs'
+            totalItems: queue.length,
           },
-          ...lessonsDecks
-        ];
-
-        setDecks(combinedDecks);
+          ...lessonDecks
+        ]);
+        setError(null);
       } catch (err) {
         console.error("Failed to load vocabulary decks", err);
+        setError(errorText(err, 'Unable to load vocabulary decks.'));
       } finally {
         setLoading(false);
       }
     };
-    
-    if (screen === 'decks') {
-      fetchDecks();
-    }
+
+    void fetchDecks();
   }, [screen]);
 
   // --- API CALL: LOAD DECK ITEMS ---
-  const handleSelectDeck = async (deck: VocabularyDeck) => {
+  const handleSelectDeck = async (deck: Deck) => {
     setSelectedDeck(deck);
     setLoading(true);
     setSessionXp(0);
+    setError(null);
 
     try {
-      const token = getToken();
-      let rawCards: any[] = [];
-
-      if (deck.type === 'srs') {
-        const res = await fetch(`${API_BASE_URL}/api/v1/srs/due`, {
-          headers: { 'Authorization': `Bearer ${token}` }
-        });
-        if (res.ok) rawCards = await res.json();
-      } else {
-        const res = await fetch(`${API_BASE_URL}/api/v1/lessons/${deck.id}/vocabulary`, {
-          headers: { 'Authorization': `Bearer ${token}` }
-        });
-        if (res.ok) {
-          const data = await res.json();
-          rawCards = data.items || [];
-        }
-      }
-
-      // Normalize different backend payloads to a uniform structure
-      const normalized: NormalizedCard[] = rawCards.map((c) => ({
-        id: parseInt(c.vocab_id || c.id || Math.floor(Math.random() * 100000)),
-        vocab: c.vocab || c.furigana || '',
-        kanji: (c.kanji && c.kanji !== c.vocab && c.kanji !== c.furigana) ? c.kanji : undefined,
-        romaji: c.romaji || '',
-        meaning: c.meaning || '',
-        example: c.example || c.example_sentence || '',
-        exampleMeaning: c.exampleEnglish || c.example_meaning || '',
-      }));
-
-      setCards(normalized);
+      const words = deck.type === 'srs' ? dueCards : await getLessonVocabulary(deck.lessonId);
+      setCards(words.map(toFlashcard));
       setCurrentIndex(0);
       setIsFlipped(false);
       setScreen('flashcards');
     } catch (err) {
       console.error("Error loading items:", err);
+      setError(errorText(err, 'Unable to load this deck.'));
     } finally {
       setLoading(false);
     }
   };
 
   // --- API CALL: SUBMIT PERFORMANCE METRIC ---
-  const handleReviewScore = async (qualityScore: number) => {
-    if (!selectedDeck || cards.length === 0) return;
+  // Every review is recorded, lesson decks included: that is how a new card enters the SRS schedule.
+  // XP comes from the server (0 for a card reviewed before it is due).
+  const handleReview = async (result: SrsReviewRequest['result']) => {
+    if (!selectedDeck || cards.length === 0 || isReviewing) return;
     const currentCard = cards[currentIndex];
-    const token = getToken();
+    setIsReviewing(true);
 
     try {
-      if (selectedDeck.type === 'srs') {
-        // Post review results directly to the fixed SM-2 API endpoint
-        await fetch(`${API_BASE_URL}/api/v1/srs/review`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-          },
-          body: JSON.stringify({
-            vocab_id: currentCard.id,
-            quality_score: qualityScore
-          })
-        });
-      }
-      
-      // Award progress XP
-      setSessionXp(prev => prev + (qualityScore >= 3 ? 10 : 2));
+      const review = await reviewCard(currentCard.id, result);
+      setSessionXp(prev => prev + review.xpEarned);
+      setError(null);
 
-      // Advance
       if (currentIndex < cards.length - 1) {
         setIsFlipped(false);
         setCurrentIndex(prev => prev + 1);
       } else {
-        // Complete Lesson and post learned items
-        if (selectedDeck.type === 'lesson') {
-          await fetch(`${API_BASE_URL}/api/v1/lessons/${selectedDeck.id}/complete`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({
-              xp_gained: sessionXp + 15,
-              vocab_learned: cards.map(c => c.id)
-            })
-          });
-        }
         setScreen('results');
       }
     } catch (err) {
       console.error("Error recording vocabulary performance", err);
+      setError(errorText(err, 'Unable to save your review. Please try again.'));
+    } finally {
+      setIsReviewing(false);
     }
   };
 
@@ -227,10 +193,12 @@ export function Vocabulary({ onBack }: { onBack: () => void }) {
               </Button>
             </div>
 
+            {error && <p className="text-xs font-bold text-destructive text-center">{error}</p>}
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {decks.map((deck) => (
                 <Card 
-                  key={deck.id}
+                  key={deck.key}
                   onClick={() => handleSelectDeck(deck)}
                   className={`hover:shadow-xl hover:border-primary/40 transition-all duration-300 group cursor-pointer border-gray-100 rounded-3xl ${
                     deck.type === 'srs' ? 'bg-secondary/40 border-primary/20' : 'bg-white'
@@ -356,7 +324,8 @@ export function Vocabulary({ onBack }: { onBack: () => void }) {
             {isFlipped && (
               <div className="grid grid-cols-3 gap-3 pt-2">
                 <Button 
-                  onClick={() => handleReviewScore(1)}
+                  onClick={() => handleReview('again')}
+                  disabled={isReviewing}
                   className="h-16 rounded-2xl bg-red-50 border border-red-200 text-red-600 hover:bg-red-100/70 flex flex-col items-center justify-center gap-0.5 shadow-none"
                 >
                   <span className="text-xs font-black uppercase tracking-wider">Forgot</span>
@@ -364,7 +333,8 @@ export function Vocabulary({ onBack }: { onBack: () => void }) {
                 </Button>
                 
                 <Button 
-                  onClick={() => handleReviewScore(3)}
+                  onClick={() => handleReview('hard')}
+                  disabled={isReviewing}
                   className="h-16 rounded-2xl bg-amber-50 border border-amber-200 text-amber-600 hover:bg-amber-100/70 flex flex-col items-center justify-center gap-0.5 shadow-none"
                 >
                   <span className="text-xs font-black uppercase tracking-wider">Hard</span>
@@ -372,7 +342,8 @@ export function Vocabulary({ onBack }: { onBack: () => void }) {
                 </Button>
 
                 <Button 
-                  onClick={() => handleReviewScore(5)}
+                  onClick={() => handleReview('easy')}
+                  disabled={isReviewing}
                   className="h-16 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-600 hover:bg-emerald-100/70 flex flex-col items-center justify-center gap-0.5 shadow-none"
                 >
                   <span className="text-xs font-black uppercase tracking-wider">Easy</span>
@@ -380,6 +351,8 @@ export function Vocabulary({ onBack }: { onBack: () => void }) {
                 </Button>
               </div>
             )}
+
+            {error && <p className="text-xs font-bold text-destructive text-center">{error}</p>}
           </motion.div>
         )}
 
