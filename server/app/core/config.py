@@ -3,13 +3,17 @@ All configuration comes from environment variables. Locally, the Makefile suppli
 secrets file with `uv run --env-file`; elsewhere, set them in the process environment.
 """
 
+from pathlib import Path
 from typing import Literal
 
 from pydantic import Field
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict, SettingsConfigDict
+
+ENV_PATH = Path.home() / ".config" / "mojo" / "secrets" / ".env"
 
 
 class Settings(BaseSettings):
+    model_config = SettingsConfigDict(env_file=ENV_PATH, env_file_encoding="utf-8")
     secret_key: str = Field(min_length=32)  # signs access tokens; generate with `openssl rand -hex 32`
     algorithm: str = "HS256"
     database_url: str
