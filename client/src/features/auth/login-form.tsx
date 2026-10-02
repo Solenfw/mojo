@@ -85,7 +85,7 @@ export const LoginForm = ({
       </div>
       <div className="text-center pt-4">
         <p className="text-sm text-muted-foreground">
-          Don't have an account? {' '}
+          Don&apos;t have an account? {' '}
           <button onClick={onSignUp} className="text-primary font-bold hover:underline">Create Account</button>
         </p>
       </div>

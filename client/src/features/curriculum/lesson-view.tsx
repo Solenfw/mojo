@@ -93,7 +93,7 @@ export const LessonView = ({ lesson, onBack, onComplete }: LessonViewProps) => {
           <Card className="border-none bg-muted/50 shadow-none">
             <CardContent className="p-4 flex gap-3 italic text-sm text-muted-foreground">
               <Lightbulb className="w-5 h-5 text-accent shrink-0" />
-              "{currentItem.exampleSentence}"
+              &quot;{currentItem.exampleSentence}&quot;
             </CardContent>
           </Card>
         </motion.div>
@@ -105,7 +105,7 @@ export const LessonView = ({ lesson, onBack, onComplete }: LessonViewProps) => {
               Cultural Context
             </h4>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              In Japanese business culture, {currentItem.meaning === 'student' ? 'students often respect their teachers with deep bows' : 'referring to oneself clearly is essential for establishing professional hierarchy'}. Using "{currentItem.kanji}" correctly signifies your awareness of social standing.
+              In Japanese business culture, {currentItem.meaning === 'student' ? 'students often respect their teachers with deep bows' : 'referring to oneself clearly is essential for establishing professional hierarchy'}. Using &quot;{currentItem.kanji}&quot; correctly signifies your awareness of social standing.
             </p>
           </div>
 
@@ -119,11 +119,11 @@ export const LessonView = ({ lesson, onBack, onComplete }: LessonViewProps) => {
             <ul className="space-y-2">
               <li className="flex items-center gap-2 text-xs text-muted-foreground">
                 <CheckCircle2 className="w-3 h-3 text-emerald-500" />
-                Focus on the rhythm of "{currentItem.kana}"
+                Focus on the rhythm of &quot;{currentItem.kana}&quot;
               </li>
               <li className="flex items-center gap-2 text-xs text-muted-foreground">
                 <CheckCircle2 className="w-3 h-3 text-emerald-500" />
-                The stroke order of "{currentItem.kanji}" starts from top-left.
+                The stroke order of &quot;{currentItem.kanji}&quot; starts from top-left.
               </li>
             </ul>
           </div>

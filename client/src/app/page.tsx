@@ -115,7 +115,7 @@ export default function LandingPage() {
                 </div>
 
                 <div className="p-6 bg-primary text-white rounded-3xl space-y-4">
-                  <p className="text-sm font-jp italic opacity-80">"How to order Sushi in Tokyo?"</p>
+                  <p className="text-sm font-jp italic opacity-80">&quot;How to order Sushi in Tokyo?&quot;</p>
                   <p className="text-2xl font-jp font-bold">すいません、中トロを二つください。</p>
                   <div className="flex items-center gap-2 pt-2 border-t border-white/10 text-xs font-medium opacity-60">
                     <Zap className="w-3 h-3 fill-white" />
@@ -158,7 +158,7 @@ export default function LandingPage() {
       <section id="features" className="py-32">
         <div className="max-w-7xl mx-auto px-8 md:px-16 space-y-16">
           <div className="text-center space-y-4">
-            <h2 className="text-4xl font-black text-primary tracking-tight">The Professional's Edge</h2>
+            <h2 className="text-4xl font-black text-primary tracking-tight">The Professional&apos;s Edge</h2>
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto">Skip the generic apps. We focus on high-impact language skills needed for the global economy.</p>
           </div>
 

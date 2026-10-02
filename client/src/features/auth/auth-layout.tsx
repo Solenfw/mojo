@@ -7,10 +7,9 @@ interface AuthLayoutProps {
   title: string;
   subtitle: string;
   onBack: () => void;
-  isLoading?: boolean;
 }
 
-export const AuthLayout = ({ children, title, subtitle, onBack, isLoading }: AuthLayoutProps) => {
+export const AuthLayout = ({ children, title, subtitle, onBack }: AuthLayoutProps) => {
   return (
     <div className="min-h-screen bg-white flex flex-col items-center justify-center p-6 font-sans relative overflow-hidden">
       {/* Background Orbs */}

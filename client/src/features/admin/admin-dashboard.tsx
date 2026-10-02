@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { motion } from 'motion/react';
 import { 
   Users, 
@@ -20,8 +19,6 @@ import {
 import { Button } from '@/components/ui/button';
 
 export const AdminDashboard = ({ onSignOut }: { onSignOut: () => void }) => {
-  const [viewAs, setViewAs] = useState('admin');
-
   const stats = [
     { label: 'Total Students', value: '12,450', growth: '+12%', icon: Users },
     { label: 'Active (Daily)', value: '3,892', growth: '+5%', icon: Flame },

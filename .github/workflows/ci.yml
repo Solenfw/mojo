@@ -50,7 +50,7 @@ jobs:
       - run: uv run pytest -q
 
   client:
-    name: Client (type-check, build)
+    name: Client (lint, type-check, build)
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -63,6 +63,7 @@ jobs:
           cache: npm
           cache-dependency-path: client/package-lock.json
       - run: npm ci
+      - run: npm run lint
       - run: npm run type-check
       - run: npm run build
         env:

@@ -1,15 +1,5 @@
 export type JLPTLevel = 'N5' | 'N4' | 'N3' | 'N2' | 'N1';
 
-export interface User {
-  id: string;
-  name: string;
-  email: string;
-  proficiency: JLPTLevel;
-  streak: number;
-  xp: number;
-  avatarUrl?: string;
-}
-
 export interface Vocabulary {
   id: string;
   kanji: string;
@@ -30,22 +20,3 @@ export interface Lesson {
   items: string[]; // List of vocabulary or content IDs
   xpReward: number;
 }
-
-export interface MasteryRecord {
-  vocabularyId: string;
-  userId: string;
-  masteryLevel: number; // 0 to 100
-  lastReviewed: Date;
-  nextReview: Date;
-}
-
-export interface Card {
-  id: string;
-  kanji: string;
-  furigana: string;
-  meaning: string;
-  example: string;
-  exampleEnglish: string;
-  level: string;
-}
-

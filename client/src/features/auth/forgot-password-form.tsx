@@ -19,7 +19,7 @@ export const ForgotPasswordForm = ({ onBack }: { onBack: () => void }) => {
         <div className="space-y-2">
           <h3 className="text-2xl font-bold text-primary">Instructions Sent</h3>
           <p className="text-sm text-muted-foreground leading-relaxed">
-            We've sent a password reset link to your email address. Please check your inbox.
+            We&apos;ve sent a password reset link to your email address. Please check your inbox.
           </p>
         </div>
         <Button onClick={onBack} className="w-full h-12 bg-primary hover:bg-primary/90 font-bold rounded-xl transition-all">
@@ -33,7 +33,7 @@ export const ForgotPasswordForm = ({ onBack }: { onBack: () => void }) => {
     <div className="bg-white p-8 rounded-4xl border border-primary/5 shadow-2xl shadow-primary/5 space-y-6">
        <div className="flex items-center gap-3 p-4 bg-blue-50 text-primary rounded-2xl">
           <AlertCircle className="w-5 h-5 shrink-0" />
-          <p className="text-xs font-medium">Enter your email and we'll send you a link to reset your password.</p>
+          <p className="text-xs font-medium">Enter your email and we&apos;ll send you a link to reset your password.</p>
        </div>
        <form onSubmit={(e) => { e.preventDefault(); setSubmitted(true); }} className="space-y-4">
           <div className="space-y-2">

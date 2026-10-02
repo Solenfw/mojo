@@ -9,7 +9,7 @@ export default function CurriculumPage() {
         <BookOpen className="w-12 h-12 text-primary" />
       </div>
       <h2 className="text-3xl font-bold tracking-tighter text-primary mb-2">Curriculum Roadmap</h2>
-      <p className="text-muted-foreground max-w-md">Your structured path to JLPT N5 mastery. We're organizing the next set of modules for you.</p>
+      <p className="text-muted-foreground max-w-md">Your structured path to JLPT N5 mastery. We&apos;re organizing the next set of modules for you.</p>
     </div>
   );
 }

@@ -25,6 +25,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import { AuthGuard } from '@/features/auth/auth-guard';
 import { getCurrentUser, logout } from '@/features/auth/session';
+import type { UserRead } from '@/types/api.generated';
 
 const Sidebar = ({ onSignOut }: { onSignOut: () => void }) => {
   const pathname = usePathname();
@@ -105,7 +106,7 @@ const Sidebar = ({ onSignOut }: { onSignOut: () => void }) => {
   );
 };
 
-const Header = ({ user }: { user: any }) => {
+const Header = ({ user }: { user: UserRead }) => {
   const avatarUrl = `https://api.dicebear.com/7.x/avataaars/svg?seed=${user?.username || 'user'}`;
   
   return (
@@ -144,37 +145,13 @@ const Header = ({ user }: { user: any }) => {
   );
 };
 
-const Mask = () => {
-  const [visible, setVisible] = React.useState(true);
-
-  if (!visible) return null;
-
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
-      <div className="bg-white rounded-xl shadow-xl max-w-sm w-full mx-4 p-6 flex flex-col gap-4">
-        <div className="flex items-center gap-2">
-          <span className="text-lg">⚠️</span>
-          <h2 className="font-bold text-sm text-primary">Work in Progress : This is just a prototype.</h2>
-        </div>
-        <p className="text-xs text-muted-foreground leading-relaxed">
-          Everything in the current project is a work in progress and subject to change.
-          The final product may differ significantly from what is currently shown.
-        </p>
-        <Button className="w-full h-8 text-xs" onClick={() => setVisible(false)}>
-          Got it
-        </Button>
-      </div>
-    </div>
-  );
-};
-
 export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
   const router = useRouter();
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<UserRead | null>(null);
 
   useEffect(() => {
     getCurrentUser().then(setUser);

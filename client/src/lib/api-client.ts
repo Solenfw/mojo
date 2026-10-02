@@ -56,9 +56,6 @@ export const clearSession = () => {
   clearTimeout(refreshTimer);
 };
 
-/** Current access token, for screens not yet ported to `api`. Removed in step 8 of docs/api-layer.md. */
-export const getToken = () => accessToken;
-
 /** Exchange the refresh cookie for a new access token. Concurrent callers share one request. */
 export const refreshSession = (): Promise<string | null> => {
   refreshInFlight ??= (async () => {
