@@ -2,7 +2,7 @@
  * Starting and ending a session: login, registration, logout and the current user.
  * The token handling itself lives in `@/lib/api-client`.
  */
-import { API_BASE_URL, applySession, authFetch, clearSession, getErrorMessage } from '@/lib/api-client';
+import { API_BASE_URL, applySession, api, clearSession, getErrorMessage } from '@/lib/api-client';
 import type {
   AccessTokenData,
   LoginRequest,
@@ -55,8 +55,8 @@ export const logout = async (): Promise<void> => {
 
 export const getCurrentUser = async (): Promise<UserRead | null> => {
   try {
-    const response = await authFetch('/api/v1/users/me');
-    return response.ok ? ((await response.json()) as UserRead) : null;
+    const { data, response } = await api.GET('/api/v1/users/me');
+    return response.ok && data ? data : null;
   } catch {
     return null;
   }

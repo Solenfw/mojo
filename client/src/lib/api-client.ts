@@ -5,12 +5,13 @@
  * - The refresh token lives in an httpOnly cookie that JS can't read; the browser sends it to
  *   /api/v1/auth/* when requests use `credentials: 'include'`.
  * - After a page load there is no access token until `refreshSession()` restores one from the
- *   cookie; `authFetch` does that automatically.
+ *   cookie; requests made through `api` do that automatically.
  *
  * Login, registration and logout live in `@/features/auth/session`, which starts and ends the
  * session through `applySession` and `clearSession`.
  */
-import type { AccessTokenData, ErrorResponse, RefreshResponse } from '@/types/api.generated';
+import createClient from 'openapi-fetch';
+import type { AccessTokenData, ErrorResponse, RefreshResponse, paths } from '@/types/api.generated';
 
 export const API_BASE_URL = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000').replace(/\/$/, '');
 const REFRESH_URL = `${API_BASE_URL}/api/v1/auth/refresh`;
@@ -26,20 +27,17 @@ const isErrorResponse = (value: unknown): value is ErrorResponse =>
 
 // Accepts the ErrorResponse envelope, the same envelope nested under FastAPI's `detail`,
 // or FastAPI's own `detail` (a string, or a list of validation errors).
+export const errorMessageFrom = (payload: unknown, fallback: string): string => {
+  const body = payload && typeof payload === 'object' && 'detail' in payload ? payload.detail : payload;
+  if (isErrorResponse(body)) return body.errors?.[0]?.message || body.message || fallback;
+  if (typeof body === 'string' && body) return body;
+  if (Array.isArray(body) && typeof body[0]?.msg === 'string') return body[0].msg as string;
+  return fallback;
+};
+
 export const getErrorMessage = async (response: Response, fallback: string) => {
   try {
-    const payload: unknown = await response.json();
-    const body = payload && typeof payload === 'object' && 'detail' in payload ? payload.detail : payload;
-    if (isErrorResponse(body)) {
-      return body.errors?.[0]?.message || body.message || fallback;
-    }
-    if (typeof body === 'string') {
-      return body;
-    }
-    if (Array.isArray(body) && typeof body[0]?.msg === 'string') {
-      return body[0].msg as string;
-    }
-    return fallback;
+    return errorMessageFrom(await response.json(), fallback);
   } catch {
     return response.statusText || fallback;
   }
@@ -48,7 +46,7 @@ export const getErrorMessage = async (response: Response, fallback: string) => {
 export const applySession = (data: AccessTokenData) => {
   accessToken = data.accessToken;
   clearTimeout(refreshTimer);
-  // Refresh ahead of expiry so the in-memory token stays valid for callers of getToken().
+  // Refresh ahead of expiry so requests don't have to wait for a refresh.
   const delaySeconds = Math.max(data.expiresIn - REFRESH_LEAD_SECONDS, 5);
   refreshTimer = setTimeout(() => void refreshSession(), delaySeconds * 1000);
 };
@@ -58,7 +56,7 @@ export const clearSession = () => {
   clearTimeout(refreshTimer);
 };
 
-/** Current access token, or null before the session is restored. Prefer authFetch in new code. */
+/** Current access token, for screens not yet ported to `api`. Removed in step 8 of docs/api-layer.md. */
 export const getToken = () => accessToken;
 
 /** Exchange the refresh cookie for a new access token. Concurrent callers share one request. */
@@ -82,18 +80,35 @@ export const refreshSession = (): Promise<string | null> => {
   return refreshInFlight;
 };
 
-/** fetch() against the API with the access token attached; refreshes and retries once on 401. */
-export const authFetch = async (path: string, init: RequestInit = {}): Promise<Response> => {
-  const send = (token: string | null) => {
-    const headers = new Headers(init.headers);
-    if (token) headers.set('Authorization', `Bearer ${token}`);
-    return fetch(`${API_BASE_URL}${path}`, { ...init, headers });
+/** Sends the request with the access token attached; refreshes and retries once on 401. */
+const sendWithAuth = async (request: Request): Promise<Response> => {
+  const retry = request.clone(); // a request body can only be read once
+  const send = (req: Request, token: string | null) => {
+    if (token) req.headers.set('Authorization', `Bearer ${token}`);
+    return fetch(req);
   };
 
-  const token = accessToken ?? (await refreshSession());
-  const response = await send(token);
+  const response = await send(request, accessToken ?? (await refreshSession()));
   if (response.status !== 401) return response;
 
   const refreshed = await refreshSession();
-  return refreshed ? send(refreshed) : response;
+  return refreshed ? send(retry, refreshed) : response;
+};
+
+/** Typed client for the API contract: paths, params and bodies are checked against openapi.json. */
+export const api = createClient<paths>({ baseUrl: API_BASE_URL, fetch: sendWithAuth });
+
+export class ApiError extends Error {
+  constructor(message: string, readonly status: number) {
+    super(message);
+    this.name = 'ApiError';
+  }
+}
+
+/** The body of a successful call; otherwise throws an ApiError with the server's message. */
+export const unwrap = <T>(result: { data?: T; error?: unknown; response: Response }, fallback: string): T => {
+  if (!result.response.ok) {
+    throw new ApiError(errorMessageFrom(result.error, fallback), result.response.status);
+  }
+  return result.data as T;
 };

@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { OnboardingView } from '@/features/onboarding/onboarding-view';
 import { AuthGuard } from '@/features/auth/auth-guard';
-import { submitOnboarding } from '@/features/onboarding/submit-onboarding';
+import { submitOnboarding } from '@/features/onboarding/api';
 import type { OnboardingRequest } from '@/types/api.generated';
 
 export default function OnboardingPage() {
