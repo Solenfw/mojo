@@ -13,19 +13,44 @@ import {
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { N5_VOCABULARY } from '@/lib/constants';
-import { API_BASE_URL, getToken } from '@/lib/api-client';
+import { getLevelLessons } from '@/features/curriculum/api';
+import type { EvaluateWritingData, KanjiPracticeRead } from '@/types/api.generated';
+import { evaluateWriting, getKanjiPractice } from './api';
+
+const WRITING_PASS_SCORE = 60;
 
 export const KanjiCanvas = ({ onBack }: { onBack: () => void }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isDrawing, setIsDrawing] = useState(false);
-  const [targetKanji, setTargetKanji] = useState(N5_VOCABULARY[0]);
-  const [feedback, setFeedback] = useState<{ text: string; score: number; xp: number } | null>(null);
+  const [practices, setPractices] = useState<KanjiPracticeRead[]>([]);
+  const [targetKanji, setTargetKanji] = useState<KanjiPracticeRead | null>(null);
+  const [feedback, setFeedback] = useState<EvaluateWritingData | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [isLoadingPractices, setIsLoadingPractices] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const loadPractices = async () => {
+      try {
+        const lessons = await getLevelLessons('N5');
+        const practiceRefs = lessons.flatMap((lesson) => lesson.kanjiPractices);
+        const loadedPractices = await Promise.all(practiceRefs.map((practice) => getKanjiPractice(practice.id)));
+        setPractices(loadedPractices);
+        setTargetKanji(loadedPractices[0] ?? null);
+        setError(null);
+      } catch (err) {
+        console.error('Failed to load kanji practices:', err);
+        setError(err instanceof Error ? err.message : 'Unable to load kanji practices.');
+      } finally {
+        setIsLoadingPractices(false);
+      }
+    };
+    void loadPractices();
+  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (canvas) {
+    if (canvas && targetKanji) {
       const ctx = canvas.getContext('2d');
       if (ctx) {
         // Setup canvas with white background so the saved image isn't transparent
@@ -82,40 +107,21 @@ export const KanjiCanvas = ({ onBack }: { onBack: () => void }) => {
 
   const handleAnalyze = async () => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas || !targetKanji) return;
 
     setIsAnalyzing(true);
     setFeedback(null);
-
-    const base64Image = canvas.toDataURL('image/png');
-    const token = getToken();
+    setError(null);
 
     try {
-      const res = await fetch(`${API_BASE_URL}/api/v1/writing/evaluate`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          image_base64: base64Image,
-          target_kanji: targetKanji.kanji
-        })
+      const result = await evaluateWriting({
+        kanjiPracticeId: targetKanji.id,
+        imageBase64: canvas.toDataURL('image/png'),
       });
-
-      if (res.ok) {
-        const data = await res.json();
-        setFeedback({
-          text: data.feedback,
-          score: data.score,
-          xp: data.xp_awarded
-        });
-      } else {
-        setFeedback({ text: 'Failed to evaluate. Please try again.', score: 0, xp: 0 });
-      }
+      setFeedback(result);
     } catch (err) {
-      console.error(err);
-      setFeedback({ text: 'Network error. Could not connect to AI.', score: 0, xp: 0 });
+      console.error('Failed to evaluate writing:', err);
+      setError(err instanceof Error ? err.message : 'Unable to evaluate your writing.');
     } finally {
       setIsAnalyzing(false);
     }
@@ -137,8 +143,8 @@ export const KanjiCanvas = ({ onBack }: { onBack: () => void }) => {
             <CardHeader className="bg-primary text-white p-6">
               <div className="flex justify-between items-center">
                 <div>
-                  <CardTitle className="text-4xl font-jp">{targetKanji.kanji}</CardTitle>
-                  <p className="text-sm opacity-80">{targetKanji.kana} ({targetKanji.meaning})</p>
+                  <CardTitle className="text-4xl font-jp">{targetKanji?.kanji ?? 'Loading…'}</CardTitle>
+                  <p className="text-sm opacity-80">{targetKanji?.title}</p>
                 </div>
               </div>
             </CardHeader>
@@ -184,7 +190,7 @@ export const KanjiCanvas = ({ onBack }: { onBack: () => void }) => {
             <Button
               className="w-full h-14 text-lg bg-primary hover:bg-primary/90 shadow-lg shadow-primary/20"
               onClick={handleAnalyze}
-              disabled={isAnalyzing}
+              disabled={isAnalyzing || !targetKanji}
             >
               {isAnalyzing ? (
                  <span className="flex items-center gap-2">
@@ -200,47 +206,53 @@ export const KanjiCanvas = ({ onBack }: { onBack: () => void }) => {
                   initial={{ opacity: 0, height: 0, y: -10 }}
                   animate={{ opacity: 1, height: 'auto', y: 0 }}
                   exit={{ opacity: 0, height: 0 }}
-                  className={`p-5 rounded-2xl border text-sm ${feedback.score >= 60 ? 'bg-emerald-50 border-emerald-100 text-emerald-800' : 'bg-red-50 border-red-100 text-red-800'}`}
+                  className={`p-5 rounded-2xl border text-sm ${feedback.score >= WRITING_PASS_SCORE ? 'bg-emerald-50 border-emerald-100 text-emerald-800' : 'bg-red-50 border-red-100 text-red-800'}`}
                 >
                   <div className="flex items-center justify-between mb-3">
                     <div className="font-bold flex items-center gap-2">
-                      {feedback.score >= 60 ? <CheckCircle className="w-5 h-5 text-emerald-500" /> : <AlertCircle className="w-5 h-5 text-red-500" />}
-                      Sensei's Feedback
+                      {feedback.score >= WRITING_PASS_SCORE ? <CheckCircle className="w-5 h-5 text-emerald-500" /> : <AlertCircle className="w-5 h-5 text-red-500" />}
+                      Sensei&apos;s Feedback
                     </div>
-                    <span className={`font-black text-lg ${feedback.score >= 60 ? 'text-emerald-600' : 'text-red-600'}`}>
+                    <span className={`font-black text-lg ${feedback.score >= WRITING_PASS_SCORE ? 'text-emerald-600' : 'text-red-600'}`}>
                       {feedback.score}/100
                     </span>
                   </div>
-                  <p className="leading-relaxed font-medium">{feedback.text}</p>
+                  <p className="leading-relaxed font-medium">{feedback.feedback}</p>
                   
-                  {feedback.xp > 0 && (
+                  {feedback.xpEarned > 0 && (
                      <div className="mt-3 pt-3 border-t border-current/10 font-bold text-emerald-600 flex justify-between items-center">
                         <span>XP Awarded</span>
-                        <span className="bg-emerald-500 text-white px-2 py-0.5 rounded text-xs">+{feedback.xp} XP</span>
+                        <span className="bg-emerald-500 text-white px-2 py-0.5 rounded text-xs">+{feedback.xpEarned} XP</span>
                      </div>
                   )}
                 </motion.div>
               )}
             </AnimatePresence>
 
+            {error && <p className="text-sm font-bold text-destructive">{error}</p>}
+
             <div className="pt-6 border-t border-gray-100">
               <p className="text-[10px] uppercase font-bold text-muted-foreground mb-4 tracking-widest text-center">Practice Queue</p>
               <div className="flex justify-center gap-4">
-                {N5_VOCABULARY.slice(1, 5).map(v => (
+                {practices.map((practice) => (
                   <button
-                    key={v.id}
+                    key={practice.id}
                     className={`w-12 h-12 rounded-xl border-2 transition-all font-jp text-xl flex items-center justify-center ${
-                      targetKanji.id === v.id ? 'border-primary bg-primary/5 text-primary shadow-sm' : 'border-gray-100 hover:border-primary/40 text-gray-500'
+                      targetKanji?.id === practice.id ? 'border-primary bg-primary/5 text-primary shadow-sm' : 'border-gray-100 hover:border-primary/40 text-gray-500'
                     }`}
                     onClick={() => {
-                        setTargetKanji(v);
+                        setTargetKanji(practice);
                         clearCanvas();
                     }}
                   >
-                    {v.kanji}
+                    {practice.kanji}
                   </button>
                 ))}
               </div>
+              {isLoadingPractices && <p className="mt-3 text-center text-xs text-muted-foreground">Loading kanji practices...</p>}
+              {!isLoadingPractices && practices.length === 0 && !error && (
+                <p className="mt-3 text-center text-xs text-muted-foreground">No kanji practices are available yet.</p>
+              )}
             </div>
           </div>
         </div>
