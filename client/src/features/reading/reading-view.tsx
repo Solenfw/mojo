@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
@@ -5,37 +7,59 @@ import {
   Book, 
   CheckCircle2, 
   ChevronLeft, 
-  HelpCircle, 
-  Clock, 
   Trophy, 
   BookOpen, 
-  ArrowRight,
   Eye,
   EyeOff
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
-import { API_BASE_URL, getToken } from '@/lib/api-client';
-import { ReadingData } from '@/types';
+import { getLevelLessons } from '@/features/curriculum/api';
+import { getLessonVocabulary } from '@/features/vocabulary/api';
+import type { LessonDetailRead, ReadingPassageRead, VocabularyRead } from '@/types/api.generated';
+import { getPassage, submitReadingAttempt } from './api';
 
-interface ReadingLesson {
+interface ReadingPractice {
+  passageId: number;
+  passageTitle: string | null;
   lessonId: number;
   lessonTitle: string;
-  lessonOrder: number;
-  estimatedDuration: number;
-  isPreviewAvailable: boolean;
+  lessonDifficulty: string | null;
+  estimatedMinutes: number | null;
 }
+
+type GlossaryEntry = Pick<VocabularyRead, 'kana' | 'kanji' | 'romaji' | 'meaning'>;
+
+interface ReadingViewData {
+  passage: ReadingPassageRead;
+  lessonId: number;
+  lessonTitle: string;
+  difficulty: string;
+  words: Record<string, GlossaryEntry>;
+}
+
+const toReadingPractice = (lesson: LessonDetailRead): ReadingPractice[] =>
+  lesson.readingPassages.map((passage) => ({
+    passageId: passage.id,
+    passageTitle: passage.title,
+    lessonId: lesson.id,
+    lessonTitle: lesson.title,
+    lessonDifficulty: lesson.difficulty,
+    estimatedMinutes: lesson.estimatedMinutes,
+  }));
+
+const errorText = (err: unknown, fallback: string) => (err instanceof Error ? err.message : fallback);
 
 export const Reading = ({ onBack }: { onBack: () => void }) => {
   // Navigation & Mode states
   const [screen, setScreen] = useState<'lessons' | 'practice' | 'results'>('lessons');
-  const [lessons, setLessons] = useState<ReadingLesson[]>([]);
-  const [selectedLesson, setSelectedLesson] = useState<ReadingLesson | null>(null);
-  const [lessonId, setLessonId] = useState<number | null>(null);
+  const [practices, setPractices] = useState<ReadingPractice[]>([]);
+  const [isLoadingPractices, setIsLoadingPractices] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   // Practice States
-  const [data, setData] = useState<ReadingData | null>(null);
+  const [data, setData] = useState<ReadingViewData | null>(null);
   const [showPopup, setShowPopup] = useState<string | null>(null);
   const [showTranslation, setShowTranslation] = useState<Record<number, boolean>>({});
   
@@ -44,60 +68,58 @@ export const Reading = ({ onBack }: { onBack: () => void }) => {
   const [typedAnswers, setTypedAnswers] = useState<Record<number, string>>({}); // exercise_id -> user typed string for short answers
 
   // Result states
-  const [result, setResult] = useState<{ score: number; xp_gained: number; is_passed: boolean; max_score: number } | null>(null);
+  const [result, setResult] = useState<{ score: number; xpEarned: number; passed: boolean; maxScore: number } | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Fetch Reading Lessons List on Load
+  // List each passage in the N5 curriculum as an individual practice.
   useEffect(() => {
-    const fetchLessons = async () => {
+    const fetchPractices = async () => {
       try {
-        const token = getToken();
-        // Fetch course first to get the dynamic N5 Course ID
-        const courseRes = await fetch(`${API_BASE_URL}/api/v1/courses/by-level?targetLevel=N5`, {
-          headers: { 'Authorization': `Bearer ${token}` }
-        }).then(r => r.json());
-        
-        const courseId = courseRes.data?.[0]?.courseId;
-        if (!courseId) return;
-
-        // Fetch all lessons linked to the N5 course
-        const lessonsRes = await fetch(`${API_BASE_URL}/api/v1/courses/lessons?recommendedCourseId=${courseId}`, {
-          headers: { 'Authorization': `Bearer ${token}` }
-        }).then(r => r.json());
-        
-        // Filter out only reading lessons
-        const readingLessons = (lessonsRes.data || []).filter((l: any) => l.lessonType === 'reading');
-        setLessons(readingLessons);
+        const lessons = await getLevelLessons('N5');
+        setPractices(lessons.flatMap(toReadingPractice));
+        setError(null);
       } catch (err) {
-        console.error("Failed to fetch reading lessons list:", err);
+        console.error('Failed to load reading practices:', err);
+        setError(errorText(err, 'Unable to load reading practices.'));
+      } finally {
+        setIsLoadingPractices(false);
       }
     };
-    fetchLessons();
+    void fetchPractices();
   }, []);
 
-  // Fetch Chosen Reading Lesson Details
-  const handleSelectLesson = async (lesson: ReadingLesson) => {
-    setSelectedLesson(lesson);
-    setLessonId(lesson.lessonId);
-    
+  const handleSelectPractice = async (practice: ReadingPractice) => {
     // Reset quiz state
     setAnswers({});
     setTypedAnswers({});
     setResult(null);
     setShowTranslation({});
+    setError(null);
 
     try {
-      const token = getToken();
-      const res = await fetch(`${API_BASE_URL}/api/v1/lessons/${lesson.lessonId}/reading`, {
-        headers: { 'Authorization': `Bearer ${token}` }
+      const [passage, vocabulary] = await Promise.all([
+        getPassage(practice.passageId),
+        getLessonVocabulary(practice.lessonId),
+      ]);
+      const words = Object.fromEntries(
+        vocabulary.map((word) => [word.kanji ?? word.kana, {
+          kana: word.kana,
+          kanji: word.kanji,
+          romaji: word.romaji,
+          meaning: word.meaning,
+        }]),
+      );
+      setData({
+        passage,
+        lessonId: practice.lessonId,
+        lessonTitle: practice.lessonTitle,
+        difficulty: practice.lessonDifficulty ?? 'N5',
+        words,
       });
-      if (res.ok) {
-        const json = await res.json();
-        setData(json);
-        setScreen('practice');
-      }
+      setScreen('practice');
     } catch (err) {
-      console.error("Failed to load reading details:", err);
+      console.error('Failed to load reading passage:', err);
+      setError(errorText(err, 'Unable to load this reading passage.'));
     }
   };
 
@@ -109,44 +131,29 @@ export const Reading = ({ onBack }: { onBack: () => void }) => {
     if (!data) return;
     setIsSubmitting(true);
 
-    // Dynamic Client-side validation mapper to adapt the typed input to standard Backend option-id checking
-    const finalAnswers: Record<number, number> = {};
-
-    data.questions.forEach((q) => {
-      const isSA = q.options.length === 1; // Backend seeder seeds exactly 1 correct answer option for short-answers [17]
+    const answersToSubmit = data.passage.questions.map((question) => {
+      const isShortAnswer = question.options.length === 1;
       
-      if (isSA) {
-        const typed = typedAnswers[q.id] || "";
-        const correctText = q.options[0].text;
-        
-        // Clean comparison between typed answer and the correct answer text
+      if (isShortAnswer) {
+        const typed = typedAnswers[question.id] ?? '';
+        const correctText = question.options[0].optionText;
         const isCorrect = typed.trim().toLowerCase() === correctText.trim().toLowerCase();
-        
-        // If correct, submit the valid option id, else map to a dummy invalid id (-1)
-        finalAnswers[q.id] = isCorrect ? q.options[0].id : -1;
-      } else {
-        // Multiple Choice or True/False
-        finalAnswers[q.id] = answers[q.id] || -1;
+        return { questionId: question.id, selectedOptionId: isCorrect ? question.options[0].id : -1 };
       }
+
+      return { questionId: question.id, selectedOptionId: answers[question.id] ?? -1 };
     });
 
     try {
-      const token = getToken();
-      const res = await fetch(`${API_BASE_URL}/api/v1/lessons/${lessonId}/reading/submit`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ answers: finalAnswers })
+      const attempt = await submitReadingAttempt({
+        passageId: data.passage.id,
+        answers: answersToSubmit,
       });
-      if (res.ok) {
-        const resultData = await res.json();
-        setResult(resultData);
-        setScreen('results');
-      }
+      setResult({ score: attempt.score, passed: attempt.passed, xpEarned: attempt.xpEarned, maxScore: 100 });
+      setScreen('results');
     } catch (err) {
-      console.error("Failed to submit reading quiz:", err);
+      console.error('Failed to submit reading attempt:', err);
+      setError(errorText(err, 'Unable to submit your reading attempt.'));
     } finally {
       setIsSubmitting(false);
     }
@@ -188,7 +195,7 @@ export const Reading = ({ onBack }: { onBack: () => void }) => {
                         </div>
                         <div className="text-center space-y-1">
                           <p className="text-sm font-bold text-gray-700">{data.words[word].meaning}</p>
-                          <span className="inline-block px-1.5 py-0.5 bg-gray-100 text-gray-500 text-[8px] font-black rounded uppercase mt-2">JLPT {data.words[word].level}</span>
+                          <p className="text-[10px] font-bold text-gray-400">{data.words[word].romaji}</p>
                         </div>
                         <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-1 border-4 border-transparent border-t-white" />
                       </motion.div>
@@ -254,11 +261,11 @@ export const Reading = ({ onBack }: { onBack: () => void }) => {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {lessons.map((lesson) => (
+              {practices.map((practice) => (
                 <Card 
-                  key={lesson.lessonId}
+                  key={practice.passageId}
                   className="hover:shadow-xl hover:border-primary/40 transition-all duration-300 group cursor-pointer border-gray-100 rounded-3xl"
-                  onClick={() => void handleSelectLesson(lesson)}
+                  onClick={() => void handleSelectPractice(practice)}
                 >
                   <CardContent className="p-6 flex flex-col justify-between h-full space-y-6">
                     <div className="flex justify-between items-start">
@@ -266,15 +273,16 @@ export const Reading = ({ onBack }: { onBack: () => void }) => {
                         <BookOpen className="w-6 h-6 text-primary group-hover:text-white" />
                       </div>
                       <Badge variant="outline" className="text-[10px] font-bold text-muted-foreground uppercase border-gray-200">
-                        {lesson.estimatedDuration} min
+                        {practice.estimatedMinutes ?? '—'} min
                       </Badge>
                     </div>
 
                     <div className="space-y-2">
                       {/* <span className="text-[10px] font-black uppercase text-accent tracking-[0.2em]">Lesson {lesson.lessonOrder}</span> */}
                       <h3 className="text-xl font-bold text-primary tracking-tight leading-snug group-hover:text-accent transition-colors">
-                        {lesson.lessonTitle}
+                        {practice.passageTitle ?? practice.lessonTitle}
                       </h3>
+                      <p className="text-xs font-medium text-muted-foreground">{practice.lessonTitle}</p>
                     </div>
 
                     <div className="flex items-center gap-2 text-xs font-bold text-primary group-hover:gap-3 transition-all pt-2">
@@ -285,6 +293,11 @@ export const Reading = ({ onBack }: { onBack: () => void }) => {
                 </Card>
               ))}
             </div>
+            {isLoadingPractices && <p className="text-center text-sm font-medium text-muted-foreground">Loading reading practices...</p>}
+            {!isLoadingPractices && practices.length === 0 && !error && (
+              <p className="text-center text-sm font-medium text-muted-foreground">No reading passages are available yet.</p>
+            )}
+            {error && <p className="text-center text-sm font-bold text-destructive">{error}</p>}
           </motion.main>
         )}
 
@@ -313,49 +326,48 @@ export const Reading = ({ onBack }: { onBack: () => void }) => {
                   </div>
 
                   <h1 className="text-4xl font-jp text-primary font-black leading-tight border-b pb-6">
-                    {data.title}
+                    {data.passage.title ?? data.lessonTitle}
                   </h1>
 
-                  {/* Dynamic Render Passages with individual JP-VN show/hide features */}
+                  {/* Keep the translation toggle per paragraph. */}
                   <div className="space-y-10">
-                    {data.passages && data.passages.length > 0 ? (
-                      data.passages.map((p) => (
-                        <div key={p.id} className="space-y-4">
+                    {data.passage.contentJapanese.split('\n').map((paragraph, index) => {
+                      const translation = data.passage.contentVietnamese?.split('\n')[index];
+                      return (
+                        <div key={`${index}-${paragraph}`} className="space-y-4">
                           <div className="text-2xl font-jp leading-[1.9] text-gray-800 whitespace-pre-wrap">
-                            {renderInteractiveText(p.japanese)}
+                            {renderInteractiveText(paragraph)}
                           </div>
-                          
-                          <div className="pt-2">
-                            <Button 
-                              variant="outline" 
-                              size="sm" 
-                              onClick={() => setShowTranslation(prev => ({ ...prev, [p.id]: !prev[p.id] }))}
-                              className="text-primary text-[10px] font-bold uppercase tracking-widest gap-2 rounded-xl border-primary/20 hover:bg-primary/5"
-                            >
-                              {showTranslation[p.id] ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
-                              {showTranslation[p.id] ? "Hide translation" : "Show translation"}
-                            </Button>
-                          </div>
-
-                          <AnimatePresence>
-                            {showTranslation[p.id] && p.vietnamese && (
-                              <motion.div 
-                                initial={{ opacity: 0, height: 0 }}
-                                animate={{ opacity: 1, height: 'auto' }}
-                                exit={{ opacity: 0, height: 0 }}
-                                className="p-5 bg-secondary/40 border border-primary/5 rounded-2xl text-sm text-gray-600 leading-relaxed font-medium mt-2"
-                              >
-                                {p.vietnamese}
-                              </motion.div>
-                            )}
-                          </AnimatePresence>
+                          {translation && (
+                            <>
+                              <div className="pt-2">
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={() => setShowTranslation((prev) => ({ ...prev, [index]: !prev[index] }))}
+                                  className="text-primary text-[10px] font-bold uppercase tracking-widest gap-2 rounded-xl border-primary/20 hover:bg-primary/5"
+                                >
+                                  {showTranslation[index] ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
+                                  {showTranslation[index] ? 'Hide translation' : 'Show translation'}
+                                </Button>
+                              </div>
+                              <AnimatePresence>
+                                {showTranslation[index] && (
+                                  <motion.div
+                                    initial={{ opacity: 0, height: 0 }}
+                                    animate={{ opacity: 1, height: 'auto' }}
+                                    exit={{ opacity: 0, height: 0 }}
+                                    className="p-5 bg-secondary/40 border border-primary/5 rounded-2xl text-sm text-gray-600 leading-relaxed font-medium mt-2"
+                                  >
+                                    {translation}
+                                  </motion.div>
+                                )}
+                              </AnimatePresence>
+                            </>
+                          )}
                         </div>
-                      ))
-                    ) : (
-                      <div className="text-2xl font-jp leading-[1.9] text-gray-800 whitespace-pre-wrap">
-                        {renderInteractiveText(data.content)}
-                      </div>
-                    )}
+                      );
+                    })}
                   </div>
                 </article>
 
@@ -367,11 +379,11 @@ export const Reading = ({ onBack }: { onBack: () => void }) => {
                   </div>
 
                   <div className="space-y-12 pt-6">
-                    {data.questions.map((q, i) => {
+                    {data.passage.questions.map((q, i) => {
                       // Dynamically infer question types based on option structure [17]
                       const isTF = q.options.length === 2 && (
-                        q.options[0].text === '〇' || q.options[0].text === '✕' || q.options[0].text === '✖' ||
-                        q.options[1].text === '〇' || q.options[1].text === '✕' || q.options[1].text === '✖'
+                        q.options[0].optionText === '〇' || q.options[0].optionText === '✕' || q.options[0].optionText === '✖' ||
+                        q.options[1].optionText === '〇' || q.options[1].optionText === '✕' || q.options[1].optionText === '✖'
                       );
                       const isSA = q.options.length === 1;
 
@@ -381,13 +393,13 @@ export const Reading = ({ onBack }: { onBack: () => void }) => {
                             <span className="w-8 h-8 rounded-full bg-primary/5 text-primary flex items-center justify-center text-sm shrink-0 border border-primary/10">
                               {i + 1}
                             </span>
-                            <div className="pt-0.5">{q.prompt}</div>
+                            <div className="pt-0.5">{q.questionText}</div>
                           </div>
 
                           {/* CASE A: True/False Render Style */}
                           {isTF && (() => {
-                            const trueOpt = q.options.find(o => o.text === '〇' || o.text === '○') || q.options[0];
-                            const falseOpt = q.options.find(o => o.text === '✕' || o.text === '✖') || q.options[1];
+                            const trueOpt = q.options.find(o => o.optionText === '〇' || o.optionText === '○') || q.options[0];
+                            const falseOpt = q.options.find(o => o.optionText === '✕' || o.optionText === '✖') || q.options[1];
 
                             return (
                               <div className="flex gap-4 pl-12 max-w-md">
@@ -440,7 +452,7 @@ export const Reading = ({ onBack }: { onBack: () => void }) => {
                                     answers[q.id] === opt.id ? 'border-primary bg-primary/5 shadow-xs' : 'border-gray-100 hover:border-primary/50'
                                   }`}
                                 >
-                                  {opt.text}
+                                  {opt.optionText}
                                   {answers[q.id] === opt.id && <CheckCircle2 className="w-5 h-5 text-primary" />}
                                 </button>
                               ))}
@@ -461,6 +473,7 @@ export const Reading = ({ onBack }: { onBack: () => void }) => {
                       <ChevronRight className="w-4 h-4" />
                     </Button>
                   </div>
+                  {error && <p className="text-right text-sm font-bold text-destructive">{error}</p>}
                 </section>
               </div>
 
@@ -476,7 +489,6 @@ export const Reading = ({ onBack }: { onBack: () => void }) => {
                       <div key={kanji} className="group cursor-pointer">
                         <div className="flex justify-between items-start mb-1">
                           <span className="text-lg font-jp font-black text-gray-800 group-hover:text-primary transition-colors">{kanji}</span>
-                          <span className="text-[8px] font-black uppercase bg-gray-100 px-1.5 py-0.5 rounded text-muted-foreground">{details.level}</span>
                         </div>
                         <p className="text-[10px] font-bold text-primary/40 uppercase tracking-widest">{details.kana}</p>
                         <p className="text-xs font-bold text-gray-500 mt-1">{details.meaning}</p>
@@ -511,7 +523,7 @@ export const Reading = ({ onBack }: { onBack: () => void }) => {
                 </Badge>
                 <h2 className="text-3xl font-black text-primary tracking-tight">Lesson Complete</h2>
                 <p className="text-sm text-muted-foreground font-medium">
-                  {result.is_passed ? 'Congratulations! You have met the reading comprehension requirements.' : 'The lesson did not meet the desired score. Please try again.'}
+                  {result.passed ? 'Congratulations! You have met the reading comprehension requirements.' : 'The passage did not meet the desired score. Please try again.'}
                 </p>
               </div>
 
@@ -529,7 +541,7 @@ export const Reading = ({ onBack }: { onBack: () => void }) => {
                       strokeWidth="6"
                       strokeLinecap="round"
                       initial={{ strokeDasharray: "282.7", strokeDashoffset: "282.7" }}
-                      animate={{ strokeDashoffset: (282.7 - (282.7 * result.score) / (result.max_score || 100)) }}
+                      animate={{ strokeDashoffset: (282.7 - (282.7 * result.score) / result.maxScore) }}
                       transition={{ duration: 1.2, ease: "easeOut" }}
                     />
                   </svg>
@@ -552,7 +564,7 @@ export const Reading = ({ onBack }: { onBack: () => void }) => {
                   </div>
                 </div>
                 <span className="bg-emerald-500 text-white font-black text-xs px-3 py-1 rounded-lg">
-                  +{result.xp_gained} XP
+                  +{result.xpEarned} XP
                 </span>
               </div>
 

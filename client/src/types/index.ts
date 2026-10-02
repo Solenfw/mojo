@@ -49,42 +49,6 @@ export interface Card {
   level: string;
 }
 
-export interface Option {
-  id: number;
-  text: string;
-}
-
-export interface Question {
-  id: number;
-  prompt: string;
-  options: Option[];
-}
-
-export interface ReadingData {
-  id: number;
-  title: string;
-  content: string;
-  difficulty: string;
-  passages: Array<{
-    id: number;
-    title: string;
-    japanese: string;
-    vietnamese?: string | null;
-  }>;
-  questions: Question[];
-  words: Record<
-    string,
-    {
-      kana: string;
-      meaning: string;
-      level: string;
-      kanji: string;
-      romaji: string;
-      type: string;
-    }
-  >;
-} 
-
 export interface Message {
   id: string;
   role: 'user' | 'assistant';
