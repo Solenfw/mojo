@@ -12,7 +12,7 @@ from app.db.database import engine
 
 
 @asynccontextmanager
-async def lifespan(_: FastAPI) -> AsyncIterator[None]:
+async def lifespan(_: FastAPI) -> AsyncGenerator[None, None]:
     yield
     await engine.dispose()
 

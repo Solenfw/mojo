@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { KaiwaPractice } from '@/features/practice/kaiwa-practice';
+import { KaiwaPractice } from '@/features/speaking/kaiwa-practice';
 
 export default function PracticePage() {
   const router = useRouter();
