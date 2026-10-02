@@ -1,22 +1,17 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   Mic,
   MicOff,
   Volume2,
   Bot,
-  User,
-  Settings,
   X,
-  Play,
-  RotateCcw,
   Lightbulb,
   BookOpen,
   Award,
   ChevronRight,
   Sparkles,
   CheckCircle,
-  HelpCircle,
   Keyboard,
   ArrowRight
 } from 'lucide-react';
@@ -24,29 +19,71 @@ import {
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
-import { API_BASE_URL, getToken } from '@/lib/api-client';
-import { SpeakingLesson, Dialogue, DialogueTurn, ChatMessage } from '@/types';
+import { getLevelLessons } from '@/features/curriculum/api';
+import type {
+  DialogueExchangeRead,
+  DialogueRead,
+  SubmitDialogueAttemptData,
+  SubmitDialogueAttemptRequest,
+} from '@/types/api.generated';
+import { getDialogue, ratePronunciation, submitDialogueAttempt } from './api';
+
+interface PracticeLesson {
+  id: number;
+  dialogueId: number;
+  title: string;
+  lessonTitle: string;
+  estimatedMinutes: number | null;
+}
+
+interface ChatMessage {
+  id: string;
+  speaker: string;
+  role: 'assistant' | 'user';
+  japanese: string;
+  romaji?: string;
+  english?: string;
+  userTranscript?: string;
+  score?: number;
+  feedback?: string;
+}
+
+interface SpeechRecognitionLike {
+  lang: string;
+  continuous: boolean;
+  interimResults: boolean;
+  onstart: (() => void) | null;
+  onresult: ((event: { results: { 0: { 0: { transcript: string } } } }) => void) | null;
+  onerror: ((event: { error: string }) => void) | null;
+  onend: (() => void) | null;
+  start: () => void;
+  stop: () => void;
+}
+
+type SpeechRecognitionConstructor = new () => SpeechRecognitionLike;
+
+const errorText = (err: unknown, fallback: string) => (err instanceof Error ? err.message : fallback);
 
 export const KaiwaPractice = ({ onBack }: { onBack: () => void }) => {
   // Navigation & Mode states
   const [screen, setScreen] = useState<'lessons' | 'dialogue-practice' | 'results'>('lessons');
-  const [lessons, setLessons] = useState<SpeakingLesson[]>([]);
-  const [selectedLesson, setSelectedLesson] = useState<SpeakingLesson | null>(null);
-  const [dialogue, setDialogue] = useState<Dialogue | null>(null);
+  const [lessons, setLessons] = useState<PracticeLesson[]>([]);
+  const [selectedLesson, setSelectedLesson] = useState<PracticeLesson | null>(null);
+  const [dialogue, setDialogue] = useState<DialogueRead | null>(null);
 
   // Practice Flow states
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
   const [currentLineIndex, setCurrentLineIndex] = useState(0);
   const [appRole, setAppRole] = useState<string>('');
+  const [result, setResult] = useState<SubmitDialogueAttemptData | null>(null);
+  const [error, setError] = useState<string | null>(null);
   
   // Microphone & Speech States
   const [isRecording, setIsRecording] = useState(false);
-  const [recognitionSupported, setRecognitionSupported] = useState(true);
-  const [transcript, setTranscript] = useState('');
   const [isEvaluating, setIsEvaluating] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [manualInput, setManualInput] = useState('');
   const [showManualInput, setShowManualInput] = useState(false);
-  const [scores, setScores] = useState<number[]>([]);
 
   // Feedback states
   const [currentTurnFeedback, setCurrentTurnFeedback] = useState<{
@@ -56,57 +93,25 @@ export const KaiwaPractice = ({ onBack }: { onBack: () => void }) => {
   } | null>(null);
 
   const scrollRef = useRef<HTMLDivElement>(null);
-  const recognitionRef = useRef<any>(null);
+  const recognitionRef = useRef<SpeechRecognitionLike | null>(null);
+  const turnsRef = useRef<SubmitDialogueAttemptRequest['turns']>([]);
 
-  // Initialize Speech Recognition
-  useEffect(() => {
-    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-    if (SpeechRecognition) {
-      const rec = new SpeechRecognition();
-      rec.lang = 'ja-JP';
-      rec.continuous = false;
-      rec.interimResults = false;
-
-      rec.onstart = () => {
-        setIsRecording(true);
-        setTranscript('');
-      };
-
-      rec.onresult = (event: any) => {
-        const text = event.results[0][0].transcript;
-        setTranscript(text);
-        void evaluateUserSpeech(text);
-      };
-
-      rec.onerror = (event: any) => {
-        console.error("Speech recognition error", event.error);
-        setIsRecording(false);
-      };
-
-      rec.onend = () => {
-        setIsRecording(false);
-      };
-
-      recognitionRef.current = rec;
-    } else {
-      setRecognitionSupported(false);
-    }
-  }, [screen, currentLineIndex]);
-
-  // Fetch Speaking Lessons on Load
+  // Fetch every N5 lesson that contains at least one dialogue.
   useEffect(() => {
     const fetchLessons = async () => {
       try {
-        const token = getToken();
-        const res = await fetch(`${API_BASE_URL}/api/v1/lessons/speaking?course_id=1`, {
-          headers: { 'Authorization': `Bearer ${token}` }
-        });
-        if (res.ok) {
-          const json = await res.json();
-          setLessons(json.data || []);
-        }
+        const curriculum = await getLevelLessons('N5');
+        setLessons(curriculum.flatMap((lesson) => lesson.dialogues.map((dialogueRef) => ({
+          id: dialogueRef.id,
+          dialogueId: dialogueRef.id,
+          title: dialogueRef.title ?? lesson.title,
+          lessonTitle: lesson.title,
+          estimatedMinutes: lesson.estimatedMinutes,
+        }))));
+        setError(null);
       } catch (err) {
-        console.error("Failed to load speaking lessons:", err);
+        console.error('Failed to load speaking lessons:', err);
+        setError(errorText(err, 'Unable to load speaking lessons.'));
       }
     };
     void fetchLessons();
@@ -134,75 +139,87 @@ export const KaiwaPractice = ({ onBack }: { onBack: () => void }) => {
     }
   };
 
-  const handleSelectLesson = async (lesson: SpeakingLesson) => {
+  const handleSelectLesson = async (lesson: PracticeLesson) => {
     setSelectedLesson(lesson);
+    setError(null);
     try {
-      const token = getToken();
-      const res = await fetch(`${API_BASE_URL}/api/v1/lessons/${lesson.lessonId}/speaking`, {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-      if (res.ok) {
-        const json = await res.json();
-        const dialogues = json.data?.dialogues || [];
-        if (dialogues.length > 0) {
-          const firstDialogue = dialogues[0];
-          setDialogue(firstDialogue);
-          setScreen('dialogue-practice');
-          
-          // Setup state for new practice flow
-          setChatHistory([]);
-          setScores([]);
-          setCurrentLineIndex(0);
-          setCurrentTurnFeedback(null);
-          
-          // Identify speaker roles dynamically:
-          // The first speaker is played by the App (Assistant). Others areplayed by the User.
-          const firstSpeaker = firstDialogue.conversation[0]?.speaker || 'A';
-          setAppRole(firstSpeaker);
+      const loadedDialogue = await getDialogue(lesson.dialogueId);
+      const exchanges = [...loadedDialogue.exchanges].sort((a, b) => a.orderIndex - b.orderIndex);
+      const orderedDialogue = { ...loadedDialogue, exchanges };
+      setDialogue(orderedDialogue);
+      setScreen('dialogue-practice');
 
-          // Run the first turn
-          setTimeout(() => {
-            void runConversationTurn(0, firstDialogue.conversation, firstSpeaker);
-          }, 500);
-        }
-      }
+      // Setup state for the new dialogue and its server-submitted transcripts.
+      setChatHistory([]);
+      turnsRef.current = [];
+      setResult(null);
+      setCurrentLineIndex(0);
+      setCurrentTurnFeedback(null);
+
+      // The first speaker is the App (Assistant); other speakers are played by the user.
+      const firstSpeaker = exchanges[0]?.speaker || 'A';
+      setAppRole(firstSpeaker);
+
+      setTimeout(() => {
+        void runConversationTurn(0, exchanges, firstSpeaker, loadedDialogue.id);
+      }, 500);
     } catch (err) {
-      console.error("Failed to load dialogue details:", err);
+      console.error('Failed to load dialogue details:', err);
+      setError(errorText(err, 'Unable to load this dialogue.'));
     }
   };
 
-  const runConversationTurn = (index: number, conversation: DialogueTurn[], botRole: string) => {
-    if (index >= conversation.length) {
+  const finishDialogue = async (dialogueId: number) => {
+    setIsSubmitting(true);
+    setError(null);
+    try {
+      const attempt = await submitDialogueAttempt({ dialogueId, turns: turnsRef.current });
+      setResult(attempt);
       setScreen('results');
+    } catch (err) {
+      console.error('Failed to submit dialogue attempt:', err);
+      setError(errorText(err, 'Unable to submit your dialogue attempt.'));
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const runConversationTurn = (
+    index: number,
+    exchanges: DialogueExchangeRead[],
+    botRole: string,
+    dialogueId: number,
+  ) => {
+    if (index >= exchanges.length) {
+      void finishDialogue(dialogueId);
       return;
     }
 
-    const currentLine = conversation[index];
+    const currentLine = exchanges[index];
     
     if (currentLine.speaker === botRole) {
       // App (Bot) Turn
       const newMsg: ChatMessage = {
-        id: `bot-${index}-${Date.now()}`,
+        id: `bot-${currentLine.id}`,
         speaker: currentLine.speaker,
         role: 'assistant',
-        japanese: currentLine.japanese,
-        romaji: currentLine.romaji,
-        vietnamese: currentLine.vietnamese
+        japanese: currentLine.jaText,
+        romaji: currentLine.jaRomaji,
+        english: currentLine.enText,
       };
 
       setChatHistory(prev => [...prev, newMsg]);
-      speakJapanese(currentLine.japanese);
+      speakJapanese(currentLine.jaText);
 
       // Auto-advance to the next line (User turn) after audio read and a brief pause
       setTimeout(() => {
         setCurrentLineIndex(index + 1);
-        runConversationTurn(index + 1, conversation, botRole);
+        runConversationTurn(index + 1, exchanges, botRole, dialogueId);
       }, 3500);
     } else {
       // User Turn: Wait for user interaction
       setCurrentLineIndex(index);
       setCurrentTurnFeedback(null);
-      setTranscript('');
       setManualInput('');
     }
   };
@@ -222,9 +239,9 @@ export const KaiwaPractice = ({ onBack }: { onBack: () => void }) => {
 
   const simulateUserSpeech = () => {
     if (!dialogue) return;
-    const currentLine = dialogue.conversation[currentLineIndex];
+    const currentLine = dialogue.exchanges[currentLineIndex];
     // Simply submit expected Japanese as transcribed output
-    void evaluateUserSpeech(currentLine.japanese);
+    void evaluateUserSpeech(currentLine.jaText);
   };
 
   const handleManualSubmit = () => {
@@ -233,72 +250,88 @@ export const KaiwaPractice = ({ onBack }: { onBack: () => void }) => {
     void evaluateUserSpeech(manualInput);
   };
 
-  const evaluateUserSpeech = async (spokenText: string) => {
+  const evaluateUserSpeech = useCallback(async (spokenText: string) => {
     if (!dialogue) return;
-    const currentLine = dialogue.conversation[currentLineIndex];
+    const currentLine = dialogue.exchanges[currentLineIndex];
+    if (!currentLine) return;
     setIsEvaluating(true);
+    setError(null);
 
     try {
-      const token = getToken();
-      const res = await fetch(`${API_BASE_URL}/api/v1/speaking/evaluate`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          expected_text: currentLine.japanese,
-          transcript: spokenText,             // key mới đổi từ user_transcript sang transcript
-          romaji: currentLine.romaji
-        })
+      const rating = await ratePronunciation({
+        expectedText: currentLine.jaText,
+        userTranscript: spokenText,
+        romaji: currentLine.jaRomaji,
       });
+      setCurrentTurnFeedback({
+        score: rating.score,
+        feedback: rating.feedback,
+        isCorrect: rating.isCorrect,
+      });
+      turnsRef.current = [
+        ...turnsRef.current.filter((turn) => turn.exchangeId !== currentLine.id),
+        { exchangeId: currentLine.id, transcript: spokenText },
+      ];
 
-      if (res.ok) {
-        const rating = await res.json(); // Nhận về cấu trúc gộp: score, feedback, is_correct, v.v.
-        
-        setCurrentTurnFeedback({
-          score: rating.score,
-          feedback: rating.feedback,
-          isCorrect: rating.is_correct
-        });
-
-        setScores(prev => [...prev, rating.score]);
-
-        // Append User Speech message to Chat History log
-        const userMsg: ChatMessage = {
-          id: `user-${currentLineIndex}-${Date.now()}`,
-          speaker: currentLine.speaker,
-          role: 'user',
-          japanese: currentLine.japanese,
-          userTranscript: spokenText,
-          score: rating.score,
-          feedback: rating.feedback
-        };
-        setChatHistory(prev => [...prev, userMsg]);
-      }
+      const userMsg: ChatMessage = {
+        id: `user-${currentLine.id}`,
+        speaker: currentLine.speaker,
+        role: 'user',
+        japanese: currentLine.jaText,
+        userTranscript: spokenText,
+        score: rating.score,
+        feedback: rating.feedback,
+      };
+      setChatHistory((prev) => [...prev, userMsg]);
     } catch (err) {
-      console.error("Error rating pronunciation:", err);
+      console.error('Error rating pronunciation:', err);
+      setError(errorText(err, 'Unable to rate this pronunciation.'));
     } finally {
       setIsEvaluating(false);
     }
-  };
+  }, [dialogue, currentLineIndex]);
+
+  // Initialize Speech Recognition after its callback is available.
+  useEffect(() => {
+    const speechWindow = window as Window & {
+      SpeechRecognition?: SpeechRecognitionConstructor;
+      webkitSpeechRecognition?: SpeechRecognitionConstructor;
+    };
+    const SpeechRecognition = speechWindow.SpeechRecognition ?? speechWindow.webkitSpeechRecognition;
+    if (!SpeechRecognition) return;
+
+    const recognition = new SpeechRecognition();
+    recognition.lang = 'ja-JP';
+    recognition.continuous = false;
+    recognition.interimResults = false;
+    recognition.onstart = () => setIsRecording(true);
+    recognition.onresult = (event) => void evaluateUserSpeech(event.results[0][0].transcript);
+    recognition.onerror = (event) => {
+      console.error('Speech recognition error:', event.error);
+      setIsRecording(false);
+    };
+    recognition.onend = () => setIsRecording(false);
+    recognitionRef.current = recognition;
+
+    return () => {
+      recognition.onstart = null;
+      recognition.onresult = null;
+      recognition.onerror = null;
+      recognition.onend = null;
+      recognitionRef.current = null;
+    };
+  }, [evaluateUserSpeech]);
 
   const handleNextLine = () => {
     if (!dialogue) return;
     const nextIndex = currentLineIndex + 1;
     setCurrentTurnFeedback(null);
     setCurrentLineIndex(nextIndex);
-    void runConversationTurn(nextIndex, dialogue.conversation, appRole);
+    void runConversationTurn(nextIndex, dialogue.exchanges, appRole, dialogue.id);
   };
 
   const handleRepeatLine = (text: string) => {
     speakJapanese(text);
-  };
-
-  const getAverageScore = () => {
-    if (scores.length === 0) return 0;
-    const sum = scores.reduce((a, b) => a + b, 0);
-    return Math.round(sum / scores.length);
   };
 
   return (
@@ -348,7 +381,7 @@ export const KaiwaPractice = ({ onBack }: { onBack: () => void }) => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {lessons.map((lesson) => (
                 <Card 
-                  key={lesson.lessonId}
+                  key={lesson.id}
                   className="hover:shadow-xl hover:border-primary/40 transition-all duration-300 group cursor-pointer border-gray-100 rounded-3xl"
                   onClick={() => void handleSelectLesson(lesson)}
                 >
@@ -358,14 +391,13 @@ export const KaiwaPractice = ({ onBack }: { onBack: () => void }) => {
                         <BookOpen className="w-6 h-6 text-primary group-hover:text-white" />
                       </div>
                       <Badge variant="outline" className="text-[10px] font-bold text-muted-foreground uppercase border-gray-200">
-                        {lesson.estimatedDuration} phút
+                        {lesson.estimatedMinutes ?? '—'} min
                       </Badge>
                     </div>
 
                     <div className="space-y-2">
-                      <span className="text-[10px] font-black uppercase text-accent tracking-[0.2em]">Lesson {lesson.lessonOrder}</span>
                       <h3 className="text-xl font-bold text-primary tracking-tight leading-snug group-hover:text-accent transition-colors">
-                        {lesson.lessonTitle}
+                        {lesson.title}
                       </h3>
                     </div>
 
@@ -402,7 +434,7 @@ export const KaiwaPractice = ({ onBack }: { onBack: () => void }) => {
 
               {/* Chat View */}
               <div className="flex-1 overflow-y-auto p-6 space-y-6 pb-24 no-scrollbar" ref={scrollRef}>
-                {chatHistory.map((msg, idx) => (
+                {chatHistory.map((msg) => (
                   <motion.div
                     key={msg.id}
                     initial={{ opacity: 0, y: 10 }}
@@ -443,11 +475,11 @@ export const KaiwaPractice = ({ onBack }: { onBack: () => void }) => {
                       {msg.role === 'user' && msg.userTranscript && (
                         <div className="mt-2 text-xs border-t border-indigo-100/50 pt-2 space-y-1">
                           <p className="font-bold text-indigo-900/60">Speech Recognized:</p>
-                          <p className="font-jp text-indigo-900 italic">"{msg.userTranscript}"</p>
+                          <p className="font-jp text-indigo-900 italic">&quot;{msg.userTranscript}&quot;</p>
                         </div>
                       )}
                       {msg.romaji && <p className="text-xs text-primary/60 italic font-medium">{msg.romaji}</p>}
-                      {msg.vietnamese && <p className="text-xs text-muted-foreground mt-2 border-t pt-2 border-gray-100">{msg.vietnamese}</p>}
+                      {msg.english && <p className="text-xs text-muted-foreground mt-2 border-t pt-2 border-gray-100">{msg.english}</p>}
                     </div>
                   </motion.div>
                 ))}
@@ -466,29 +498,29 @@ export const KaiwaPractice = ({ onBack }: { onBack: () => void }) => {
               {/* Top: Current Prompt Display */}
               <div className="p-8 space-y-6 flex-1 overflow-y-auto no-scrollbar">
                 <div className="space-y-2 text-center lg:text-left">
-                  <span className="text-[10px] font-black uppercase text-accent tracking-[0.25em]">It's your turn to speak</span>
+                  <span className="text-[10px] font-black uppercase text-accent tracking-[0.25em]">It&apos;s your turn to speak</span>
                   <h3 className="text-xs font-bold text-muted-foreground uppercase tracking-widest">
-                    Turn {currentLineIndex + 1} of {dialogue.conversation.length}
+                    Turn {currentLineIndex + 1} of {dialogue.exchanges.length}
                   </h3>
                 </div>
 
-                {dialogue.conversation[currentLineIndex] && (
+                {dialogue.exchanges[currentLineIndex] && (
                   <Card className="border-none shadow-lg rounded-3xl overflow-hidden bg-white">
                     <CardContent className="p-8 space-y-6">
                       <div className="space-y-2 text-center">
                         <span className="text-[9px] font-black uppercase text-primary/40 tracking-wider">Correct Speaking Example:</span>
                         <h4 className="text-3xl font-jp font-black text-primary leading-snug">
-                          {dialogue.conversation[currentLineIndex].japanese}
+                          {dialogue.exchanges[currentLineIndex].jaText}
                         </h4>
                         <p className="text-sm font-medium text-primary/70 italic">
-                          {dialogue.conversation[currentLineIndex].romaji}
+                          {dialogue.exchanges[currentLineIndex].jaRomaji}
                         </p>
                       </div>
 
                       <div className="p-4 bg-secondary/30 rounded-2xl text-center border">
-                        <span className="text-[9px] font-black uppercase text-primary/40 tracking-wider block mb-1">Vietnamese Meaning:</span>
+                        <span className="text-[9px] font-black uppercase text-primary/40 tracking-wider block mb-1">English Meaning:</span>
                         <p className="text-xs text-primary font-bold">
-                          {dialogue.conversation[currentLineIndex].vietnamese}
+                          {dialogue.exchanges[currentLineIndex].enText}
                         </p>
                       </div>
 
@@ -496,7 +528,7 @@ export const KaiwaPractice = ({ onBack }: { onBack: () => void }) => {
                         <Button 
                           variant="ghost" 
                           size="sm" 
-                          onClick={() => handleRepeatLine(dialogue.conversation[currentLineIndex].japanese)}
+                          onClick={() => handleRepeatLine(dialogue.exchanges[currentLineIndex].jaText)}
                           className="text-primary hover:bg-secondary text-[10px] font-bold uppercase tracking-widest gap-2"
                         >
                           <Volume2 className="w-4 h-4" />
@@ -507,7 +539,7 @@ export const KaiwaPractice = ({ onBack }: { onBack: () => void }) => {
                   </Card>
                 )}
 
-                {/* Score and Vietnamese Feedback Panel */}
+                {/* Pronunciation Feedback Panel */}
                 <AnimatePresence mode="wait">
                   {currentTurnFeedback && (
                     <motion.div
@@ -564,17 +596,18 @@ export const KaiwaPractice = ({ onBack }: { onBack: () => void }) => {
                 )}
 
                 <div className="flex items-center justify-center gap-6 w-full">
-                  {/* Simulate speak button - extremely useful for testing without mic setup */}
-                  <button 
-                    onClick={simulateUserSpeech}
-                    className="flex flex-col items-center gap-1.5 group outline-none"
-                    title="Simulate Accurate Pronunciation"
-                  >
-                    <div className="w-10 h-10 rounded-full border border-gray-200 group-hover:bg-primary/5 group-hover:border-primary flex items-center justify-center transition-all bg-white shadow-xs">
-                      <Sparkles className="w-4 h-4 text-gray-400 group-hover:text-primary" />
-                    </div>
-                    <span className="text-[8px] font-black uppercase tracking-widest text-muted-foreground group-hover:text-primary">Simulate</span>
-                  </button>
+                  {process.env.NODE_ENV !== 'production' && (
+                    <button
+                      onClick={simulateUserSpeech}
+                      className="flex flex-col items-center gap-1.5 group outline-none"
+                      title="Simulate Accurate Pronunciation"
+                    >
+                      <div className="w-10 h-10 rounded-full border border-gray-200 group-hover:bg-primary/5 group-hover:border-primary flex items-center justify-center transition-all bg-white shadow-xs">
+                        <Sparkles className="w-4 h-4 text-gray-400 group-hover:text-primary" />
+                      </div>
+                      <span className="text-[8px] font-black uppercase tracking-widest text-muted-foreground group-hover:text-primary">Simulate</span>
+                    </button>
+                  )}
 
                   {/* Main Record Trigger */}
                   {currentTurnFeedback ? (
@@ -620,8 +653,11 @@ export const KaiwaPractice = ({ onBack }: { onBack: () => void }) => {
                 </div>
 
                 <div className="text-center">
+                  {error && <p className="text-xs font-bold text-destructive mb-2">{error}</p>}
                   <p className="text-[10px] font-black text-muted-foreground uppercase tracking-wider">
-                    {currentTurnFeedback 
+                    {isSubmitting
+                      ? 'Submitting your dialogue for final scoring...'
+                      : currentTurnFeedback 
                       ? "Press the red button to proceed to the next line" 
                       : isRecording 
                         ? "Recording... Please speak the sentence above into the microphone" 
@@ -635,7 +671,7 @@ export const KaiwaPractice = ({ onBack }: { onBack: () => void }) => {
         )}
 
         {/* SCREEN 3: RESULTS SUMMARY */}
-        {screen === 'results' && (
+        {screen === 'results' && result && (
           <motion.main 
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -655,7 +691,7 @@ export const KaiwaPractice = ({ onBack }: { onBack: () => void }) => {
                 </Badge>
                 <h2 className="text-3xl font-black text-primary tracking-tight">Script Completed</h2>
                 <p className="text-sm text-muted-foreground font-medium">
-                  Congratulations! You have completed the conversational practice session.
+                  {result.aiFeedback}
                 </p>
               </div>
 
@@ -673,13 +709,13 @@ export const KaiwaPractice = ({ onBack }: { onBack: () => void }) => {
                       strokeWidth="6"
                       strokeLinecap="round"
                       initial={{ strokeDasharray: "282.7", strokeDashoffset: "282.7" }}
-                      animate={{ strokeDashoffset: (282.7 - (282.7 * getAverageScore()) / 100) }}
+                      animate={{ strokeDashoffset: (282.7 - (282.7 * result.aiScore) / 100) }}
                       transition={{ duration: 1.2, ease: "easeOut" }}
                     />
                   </svg>
                   <div className="flex flex-col items-center justify-center">
-                    <span className="text-5xl font-black text-emerald-500">{getAverageScore()}</span>
-                    <span className="text-[9px] font-black uppercase tracking-widest text-muted-foreground mt-1">AVERAGE SCORE</span>
+                    <span className="text-5xl font-black text-emerald-500">{result.aiScore}</span>
+                    <span className="text-[9px] font-black uppercase tracking-widest text-muted-foreground mt-1">AI SCORE</span>
                   </div>
                 </div>
               </div>
@@ -696,7 +732,7 @@ export const KaiwaPractice = ({ onBack }: { onBack: () => void }) => {
                   </div>
                 </div>
                 <span className="bg-emerald-500 text-white font-black text-xs px-3 py-1 rounded-lg">
-                  +50 XP
+                  +{result.xpEarned} XP
                 </span>
               </div>
 
