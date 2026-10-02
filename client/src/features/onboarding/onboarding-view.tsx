@@ -2,17 +2,12 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   CheckCircle2,
-  Plane,
-  Briefcase,
-  Tv,
-  GraduationCap,
-  House,
-  Sparkles,
   ArrowRight,
   Target,
   Clock,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { STUDY_REASONS } from '@/features/onboarding/study-reasons';
 import type { OnboardingRequest } from '@/types/api.generated';
 
 interface OnboardingProps {
@@ -21,15 +16,6 @@ interface OnboardingProps {
   isSubmitting?: boolean;
   error?: string | null;
 }
-
-const reasons: { id: OnboardingRequest['studyReason']; title: string; desc: string; icon: typeof Plane }[] = [
-  { id: 'travel', title: 'Travel', desc: 'Get around and talk with people on my trips.', icon: Plane },
-  { id: 'work', title: 'Work', desc: 'Use Japanese in my job or career.', icon: Briefcase },
-  { id: 'anime_manga', title: 'Anime & Manga', desc: 'Enjoy shows, manga and games in Japanese.', icon: Tv },
-  { id: 'jlpt', title: 'Pass the JLPT', desc: 'Get certified and track my progress.', icon: GraduationCap },
-  { id: 'living_in_japan', title: 'Living in Japan', desc: 'Handle daily life in Japan.', icon: House },
-  { id: 'other', title: 'Something Else', desc: 'I have my own reasons.', icon: Sparkles },
-];
 
 const targetLevels: { id: OnboardingRequest['targetLevel']; desc: string }[] = [
   { id: 'N4', desc: 'Basic conversations and simple everyday reading.' },
@@ -88,10 +74,10 @@ export const OnboardingView = ({ onComplete, onSkip, isSubmitting = false, error
             <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
               <div className="text-center mb-10">
                 <h1 className="text-3xl font-black text-primary tracking-tight mb-2 font-display">Welcome to Mojo</h1>
-                <p className="text-muted-foreground">Let's personalize your journey. Why are you learning Japanese?</p>
+                <p className="text-muted-foreground">Let&apos;s personalize your journey. Why are you learning Japanese?</p>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {reasons.map(r => (
+                {STUDY_REASONS.map(r => (
                   <button
                     key={r.id}
                     onClick={() => setData({ ...data, studyReason: r.id })}

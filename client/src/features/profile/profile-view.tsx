@@ -5,7 +5,7 @@ import { motion } from 'motion/react';
 import { useRouter } from 'next/navigation';
 import {
   BookOpen, CalendarDays, CheckCircle2, Clock, Flame, Globe, Mail,
-  MapPin, Sparkles, Star, Target, Trophy, User, Zap
+  Sparkles, Star, Target, Trophy, User, Zap
 } from 'lucide-react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -13,7 +13,9 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { API_BASE_URL, getToken } from '@/lib/api-client';
+import { studyReasonLabel } from '@/features/onboarding/study-reasons';
+import type { ProfileData } from '@/types/api.generated';
+import { getProfile } from './api';
 
 const WEEKLY_PLAN = [
   { day: 'Mon', focus: 'Vocabulary', minutes: 30, complete: true },
@@ -27,36 +29,32 @@ const WEEKLY_PLAN = [
 
 export const ProfileView = () => {
   const router = useRouter();
-  const [profile, setProfile] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
+  const [profile, setProfile] = useState<ProfileData | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const token = getToken();
-        const res = await fetch(`${API_BASE_URL}/api/v1/users/me/profile`, {
-          headers: { 'Authorization': `Bearer ${token}` }
-        });
-        if (res.ok) {
-          const data = await res.json();
-          setProfile(data);
-        }
-      } catch (err) {
-        console.error("Failed to fetch profile:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchProfile();
+    getProfile()
+      .then(setProfile)
+      .catch((err) => {
+        console.error('Failed to fetch profile:', err);
+        setError(err instanceof Error ? err.message : 'Unable to load your profile.');
+      });
   }, []);
 
-  if (loading || !profile) {
+  if (!profile) {
     return (
       <div className="flex h-[60vh] items-center justify-center">
-        <p className="text-muted-foreground font-bold animate-pulse">Loading Profile...</p>
+        {error
+          ? <p className="text-destructive font-bold">{error}</p>
+          : <p className="text-muted-foreground font-bold animate-pulse">Loading Profile...</p>}
       </div>
     );
   }
+
+  const jlpt = (level: string | null) => (level ? `JLPT ${level}` : 'Not set');
+  const memberSince = new Date(profile.memberSince).toLocaleDateString(undefined, {
+    year: 'numeric', month: 'long', day: 'numeric'
+  });
 
   const completedMinutes = WEEKLY_PLAN.filter(i => i.complete).reduce((t, i) => t + i.minutes, 0);
   const plannedMinutes = WEEKLY_PLAN.reduce((t, i) => t + i.minutes, 0);
@@ -64,8 +62,8 @@ export const ProfileView = () => {
 
   const PROFILE_DETAILS = [
     { label: 'Email', value: profile.email, icon: Mail },
-    { label: 'Phone', value: profile.phone, icon: MapPin },
-    { label: 'Study Goal', value: profile.study_goal, icon: Target },
+    { label: 'Daily Goal', value: profile.dailyStudyMinutes ? `${profile.dailyStudyMinutes} min / day` : 'Not set', icon: Clock },
+    { label: 'Study Goal', value: studyReasonLabel(profile.studyIntention) ?? 'Not set', icon: Target },
     { label: 'Interface Language', value: 'English', icon: Globe }
   ];
 
@@ -85,11 +83,11 @@ export const ProfileView = () => {
           </Avatar>
           <div>
             <div className="flex flex-wrap items-center gap-2 mb-2">
-              <Badge variant="secondary" className="font-bold">JLPT {profile.current_level}</Badge>
+              <Badge variant="secondary" className="font-bold">{jlpt(profile.currentLevel)}</Badge>
               <Badge className="bg-primary text-white border-none font-bold">Active Learner</Badge>
             </div>
             <h2 className="text-3xl font-bold tracking-tighter text-primary">{profile.name}</h2>
-            <p className="text-muted-foreground">Target Level: JLPT {profile.target_level}</p>
+            <p className="text-muted-foreground">Target Level: {jlpt(profile.targetLevel)}</p>
           </div>
         </div>
 
@@ -102,10 +100,10 @@ export const ProfileView = () => {
       {/* KPI Stats Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {[
-          { label: 'Current Level', value: `JLPT ${profile.current_level}`, helper: 'current level', icon: BookOpen },
+          { label: 'Current Level', value: jlpt(profile.currentLevel), helper: 'current level', icon: BookOpen },
           { label: 'Active Streak', value: `${profile.streak} Days`, helper: 'Active Streak', icon: Flame },
           { label: 'Total XP', value: profile.xp.toLocaleString(), helper: 'Total XP', icon: Zap },
-          { label: 'Target Level', value: `JLPT ${profile.target_level}`, helper: 'Target Level', icon: Trophy }
+          { label: 'Target Level', value: jlpt(profile.targetLevel), helper: 'Target Level', icon: Trophy }
         ].map((stat) => (
           <Card key={stat.label}>
             <CardContent className="p-5">
@@ -163,7 +161,7 @@ export const ProfileView = () => {
               <div className="rounded-xl bg-secondary/50 p-5">
                 <CalendarDays className="w-5 h-5 text-primary mb-3" />
                 <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-2">Member Since</p>
-                <p className="text-lg font-bold text-primary">{profile.member_since}</p>
+                <p className="text-lg font-bold text-primary">{memberSince}</p>
               </div>
             </div>
           </CardContent>
