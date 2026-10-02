@@ -16,57 +16,75 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
-import { N5_LESSONS } from '@/lib/constants';
-import { Lesson } from '@/types';
-import { API_BASE_URL, getToken } from '@/lib/api-client';
+import { getLevelLessons } from '@/features/curriculum/api';
+import type { DashboardData, LessonDetailRead, SkillProgress } from '@/types/api.generated';
+import { getDashboard } from './api';
+
+const LEVEL = 'N5';
+const RECOMMENDED_LESSONS = 3;
+
+const SKILL_NAMES: Record<SkillProgress['skill'], string> = {
+  vocab: 'Vocabulary',
+  reading: 'Reading',
+  speaking: 'Speaking',
+  writing: 'Writing',
+  listening: 'Listening',
+};
+
+// `day` is a UTC calendar date ("2026-10-01"); show it as a weekday on the chart.
+const weekday = (day: string) =>
+  new Date(`${day}T00:00:00Z`).toLocaleDateString(undefined, { weekday: 'short', timeZone: 'UTC' });
+
+// A lesson has no type; open the first practice it contains.
+const lessonRoute = (lesson: LessonDetailRead) => {
+  if (lesson.readingPassages.length) return '/dashboard/reading';
+  if (lesson.dialogues.length) return '/dashboard/practice';
+  if (lesson.kanjiPractices.length) return '/dashboard/writing';
+  return '/dashboard/vocabulary';
+};
 
 const DashboardContent = () => {
   const router = useRouter();
-  const [dashboardData, setDashboardData] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
+  const [dashboardData, setDashboardData] = useState<DashboardData | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [lessons, setLessons] = useState<LessonDetailRead[] | null>(null);
 
   useEffect(() => {
-    const fetchDashboard = async () => {
-      try {
-        const token = getToken();
-        const res = await fetch(`${API_BASE_URL}/api/v1/users/me/dashboard`, {
-          headers: { 'Authorization': `Bearer ${token}` }
-        });
-        if (res.ok) {
-          const data = await res.json();
-          setDashboardData(data);
-        }
-      } catch (err) {
-        console.error("Failed to fetch dashboard data:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchDashboard();
+    getDashboard()
+      .then(setDashboardData)
+      .catch((err) => {
+        console.error('Failed to fetch dashboard data:', err);
+        setError(err instanceof Error ? err.message : 'Unable to load your dashboard.');
+      });
+    // Loaded separately so the rest of the dashboard doesn't wait for it.
+    getLevelLessons(LEVEL)
+      .then((items) => setLessons(items.slice(0, RECOMMENDED_LESSONS)))
+      .catch((err) => {
+        console.error('Failed to fetch lessons:', err);
+        setLessons([]);
+      });
   }, []);
 
-  const handleLessonStart = (lesson: Lesson) => {
-    // Navigate to actual module dynamically. For now, route to reading or vocab
-    if (lesson.type === 'reading') router.push('/dashboard/reading');
-    else router.push('/dashboard/vocabulary');
-  };
-
-  if (loading || !dashboardData) {
+  if (!dashboardData) {
     return (
       <div className="flex h-[60vh] items-center justify-center">
-        <p className="text-muted-foreground font-bold animate-pulse">Loading your learning path...</p>
+        {error
+          ? <p className="text-destructive font-bold">{error}</p>
+          : <p className="text-muted-foreground font-bold animate-pulse">Loading your learning path...</p>}
       </div>
     );
   }
 
-  const { user, activity, mastery } = dashboardData;
+  const { user, skills } = dashboardData;
+  const activity = dashboardData.activity.map((item) => ({ day: weekday(item.day), xp: item.xp }));
+  const topSkillXp = Math.max(0, ...skills.map((item) => item.xp));
 
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-end">
         <div>
           <h2 className="text-3xl font-bold tracking-tighter text-primary">Konnichiwa, {user.name.split(' ')[0]}! 👋</h2>
-          <p className="text-muted-foreground">You're on a {user.streak}-day heat streak. Don't break it today!</p>
+          <p className="text-muted-foreground">You&apos;re on a {user.streak}-day heat streak. Don&apos;t break it today!</p>
         </div>
         <Button className="bg-primary group">
           Continue Learning
@@ -110,13 +128,13 @@ const DashboardContent = () => {
             <CardTitle className="text-lg font-bold">Skills Mastery</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
-            {mastery.map((item: any) => (
-              <div key={item.module} className="space-y-2">
+            {skills.map((item) => (
+              <div key={item.skill} className="space-y-2">
                 <div className="flex justify-between text-xs font-medium">
-                  <span className="font-jp">{item.module}</span>
-                  <span className="text-primary font-bold">{item.score}%</span>
+                  <span>{SKILL_NAMES[item.skill]}</span>
+                  <span className="text-primary font-bold">{item.xp.toLocaleString()} XP</span>
                 </div>
-                <Progress value={item.score} className="h-1.5" />
+                <Progress value={topSkillXp ? (item.xp / topSkillXp) * 100 : 0} className="h-1.5" />
               </div>
             ))}
           </CardContent>
@@ -128,21 +146,29 @@ const DashboardContent = () => {
           <CardHeader>
             <div className="flex justify-between items-center">
               <CardTitle className="text-lg font-bold">Recommended Lessons</CardTitle>
-              <Badge variant="secondary" className="font-bold">{user.level} Path</Badge>
+              <Badge variant="secondary" className="font-bold">{LEVEL} Path</Badge>
             </div>
           </CardHeader>
           <CardContent className="space-y-4">
-            {N5_LESSONS.map((lesson: Lesson) => (
+            {lessons === null && (
+              <p className="text-xs text-muted-foreground animate-pulse">Loading lessons...</p>
+            )}
+            {lessons?.length === 0 && (
+              <p className="text-xs text-muted-foreground">No lessons available yet.</p>
+            )}
+            {lessons?.map((lesson) => (
               <div 
                 key={lesson.id} 
-                onClick={() => handleLessonStart(lesson)}
+                onClick={() => router.push(lessonRoute(lesson))}
                 className="group p-4 border rounded-lg hover:border-primary hover:bg-secondary/20 transition-all cursor-pointer"
               >
                 <div className="flex justify-between items-start mb-2">
                   <h4 className="font-bold text-primary">{lesson.title}</h4>
-                  <span className="text-[10px] font-bold bg-secondary px-2 py-0.5 rounded text-primary">+{lesson.xpReward} XP</span>
+                  {lesson.estimatedMinutes != null && (
+                    <span className="text-[10px] font-bold bg-secondary px-2 py-0.5 rounded text-primary">{lesson.estimatedMinutes} min</span>
+                  )}
                 </div>
-                <p className="text-xs text-muted-foreground line-clamp-1">{lesson.description}</p>
+                {lesson.content && <p className="text-xs text-muted-foreground line-clamp-1">{lesson.content}</p>}
               </div>
             ))}
           </CardContent>
@@ -161,7 +187,7 @@ const DashboardContent = () => {
                   <Library className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <p className="text-sm font-bold">Today's SRS Queue</p>
+                  <p className="text-sm font-bold">Today&apos;s SRS Queue</p>
                   <p className="text-[11px] opacity-70 italic">Cards waiting for review</p>
                 </div>
               </div>
