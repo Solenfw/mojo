@@ -50,7 +50,7 @@ class LearnerProfile(Base):
 
     id: Mapped[int] = mapped_column(Identity(start=1), primary_key=True)
     user_id: Mapped[int] = mapped_column(ForeignKey("user.id"), nullable=False, unique=True)
-    target_level: Mapped[str | None] = mapped_column(String(2))  # JLPT goal: N1 | N2 | N3 | N4
+    target_level: Mapped[str | None] = mapped_column(String(20))  # JLPT goal: beginner | N5 | N4 | N3 | N2 | N1
     study_intention: Mapped[str | None] = mapped_column(String(255))  # why they study: travel, work, anime_manga, ...
     daily_study_minutes: Mapped[int | None] = mapped_column(Integer)  # dedicated time
 

@@ -8,7 +8,7 @@ from typing import Literal
 from app.schemas.base import ApiResponse, CamelModel
 
 StudyReason = Literal["travel", "work", "anime_manga", "jlpt", "living_in_japan", "other"]
-TargetLevel = Literal["N1", "N2", "N3", "N4"]
+TargetLevel = Literal["beginner", "N5", "N4", "N3", "N2", "N1"]  # "beginner" = no JLPT goal yet
 DailyStudyMinutes = Literal[10, 20, 30, 60]  # 60 means "60 minutes or more"
 
 
