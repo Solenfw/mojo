@@ -15,7 +15,7 @@ COMPOSE := docker compose --env-file $(ENV_FILE)
 
 .DEFAULT_GOAL := help
 .PHONY: help check-env dev api db-up db-down migrate migration downgrade db-current \
-	test-db test-db-down test lint format typecheck check hooks api-types \
+	seed seed-reset test-db test-db-down test lint format typecheck check hooks api-types \
 	client-install client-dev client-build client-typecheck
 
 help: ## List the available commands
@@ -52,6 +52,12 @@ downgrade: check-env ## Roll back the most recent migration
 
 db-current: check-env ## Show the database's current migration
 	$(RUN) alembic current
+
+seed: check-env ## Fill an empty database with demo data (run after migrate)
+	$(RUN) python -m scripts.seed_demo
+
+seed-reset: check-env ## Wipe all data except skills, then seed demo data again
+	$(RUN) python -m scripts.seed_demo --reset
 
 # ── Tests ─────────────────────────────────────────────────────
 
