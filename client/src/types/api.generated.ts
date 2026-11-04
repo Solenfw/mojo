@@ -1111,17 +1111,12 @@ export interface components {
              * Targetlevel
              * @enum {string}
              */
-            targetLevel: "N1" | "N2" | "N3" | "N4";
+            targetLevel: "beginner" | "N5" | "N4" | "N3" | "N2" | "N1";
             /**
              * Dailystudyminutes
              * @enum {integer}
              */
             dailyStudyMinutes: 10 | 20 | 30 | 60;
-            /**
-             * Onboardedat
-             * Format: date-time
-             */
-            onboardedAt: string;
         };
         /** OnboardingRequest */
         OnboardingRequest: {
@@ -1134,7 +1129,7 @@ export interface components {
              * Targetlevel
              * @enum {string}
              */
-            targetLevel: "N1" | "N2" | "N3" | "N4";
+            targetLevel: "beginner" | "N5" | "N4" | "N3" | "N2" | "N1";
             /**
              * Dailystudyminutes
              * @enum {integer}
@@ -1665,8 +1660,6 @@ export interface components {
             currentLevelId: number | null;
             /** Lastloginat */
             lastLoginAt: string | null;
-            /** Onboardedat */
-            onboardedAt: string | null;
             /** Xp */
             xp: number;
             /** Streak */

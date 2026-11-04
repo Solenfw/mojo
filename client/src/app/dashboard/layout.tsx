@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { 
   BookOpen, 
@@ -34,7 +35,7 @@ const Sidebar = ({ onSignOut }: { onSignOut: () => void }) => {
     { href: '/dashboard/profile', icon: User, label: 'Profile' },
     { href: '/dashboard/curriculum', icon: BookOpen, label: 'Curriculum' },
     { href: '/dashboard/vocabulary', icon: Library, label: 'Vocabulary' },
-    { href: '/dashboard/practice', icon: Mic, label: 'Kaiwa Partner' },
+    { href: '/dashboard/speaking', icon: Mic, label: 'Kaiwa Partner' },
     { href: '/dashboard/reading', icon: Book, label: 'Reading' },
     { href: '/dashboard/writing', icon: PenTool, label: 'Kanji Writing' },
     { href: '/dashboard/live', icon: Video, label: 'VIP Session' },
@@ -44,7 +45,7 @@ const Sidebar = ({ onSignOut }: { onSignOut: () => void }) => {
     <div className="w-64 h-screen border-r bg-white flex flex-col sticky top-0">
       <div className="px-6 py-5 border-b">
         <div className="flex items-center gap-3">
-          <img
+          <Image
             src="/logo.png"
             alt="Mojo Logo"
             className="w-10 h-10 object-contain"

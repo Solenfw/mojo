@@ -27,6 +27,7 @@ import type {
   SubmitDialogueAttemptRequest,
 } from '@/types/api.generated';
 import { getDialogue, ratePronunciation, submitDialogueAttempt } from './api';
+import { getJapaneseVoice, speakJapanese, stopSpeech, unlockSpeech } from './tts';
 
 interface PracticeLesson {
   id: number;
@@ -84,6 +85,7 @@ export const KaiwaPractice = ({ onBack }: { onBack: () => void }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [manualInput, setManualInput] = useState('');
   const [showManualInput, setShowManualInput] = useState(false);
+  const [hasJapaneseVoice, setHasJapaneseVoice] = useState(true);
 
   // Feedback states
   const [currentTurnFeedback, setCurrentTurnFeedback] = useState<{
@@ -124,22 +126,14 @@ export const KaiwaPractice = ({ onBack }: { onBack: () => void }) => {
     }
   }, [chatHistory]);
 
-  const speakJapanese = (text: string) => {
-    if ('speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'ja-JP';
-      
-      const voices = window.speechSynthesis.getVoices();
-      const jaVoice = voices.find(voice => voice.lang.startsWith('ja'));
-      if (jaVoice) {
-        utterance.voice = jaVoice;
-      }
-      window.speechSynthesis.speak(utterance);
-    }
-  };
+  // Check once for a Japanese voice so the user can be told why the partner is silent; stop speaking on leave.
+  useEffect(() => {
+    void getJapaneseVoice().then((voice) => setHasJapaneseVoice(voice !== null));
+    return stopSpeech;
+  }, []);
 
   const handleSelectLesson = async (lesson: PracticeLesson) => {
+    unlockSpeech(); // still inside the click, so Safari allows the first line to be spoken later
     setSelectedLesson(lesson);
     setError(null);
     try {
@@ -209,13 +203,17 @@ export const KaiwaPractice = ({ onBack }: { onBack: () => void }) => {
       };
 
       setChatHistory(prev => [...prev, newMsg]);
-      speakJapanese(currentLine.jaText);
 
-      // Auto-advance to the next line (User turn) after audio read and a brief pause
-      setTimeout(() => {
+      // Advance shortly after the line has been spoken; the timer covers browsers that never report the end.
+      let advanced = false;
+      const advance = () => {
+        if (advanced) return;
+        advanced = true;
         setCurrentLineIndex(index + 1);
         runConversationTurn(index + 1, exchanges, botRole, dialogueId);
-      }, 3500);
+      };
+      void speakJapanese(currentLine.jaText, () => setTimeout(advance, 600));
+      setTimeout(advance, Math.max(3500, currentLine.jaText.length * 300 + 2000));
     } else {
       // User Turn: Wait for user interaction
       setCurrentLineIndex(index);
@@ -331,7 +329,7 @@ export const KaiwaPractice = ({ onBack }: { onBack: () => void }) => {
   };
 
   const handleRepeatLine = (text: string) => {
-    speakJapanese(text);
+    void speakJapanese(text);
   };
 
   return (
@@ -431,6 +429,13 @@ export const KaiwaPractice = ({ onBack }: { onBack: () => void }) => {
                   Auto-play Pronunciation
                 </Badge>
               </div>
+              {!hasJapaneseVoice && (
+                <div className="px-6 py-3 bg-amber-50 border-b border-amber-100 text-xs text-amber-800 shrink-0">
+                  <span className="font-bold">No Japanese voice found in this browser, so lines can&apos;t be read aloud.</span>{' '}
+                  Use Chrome, or on macOS add one in System Settings → Accessibility → Spoken Content → System Voice →
+                  Manage Voices → Japanese, then reload.
+                </div>
+              )}
 
               {/* Chat View */}
               <div className="flex-1 overflow-y-auto p-6 space-y-6 pb-24 no-scrollbar" ref={scrollRef}>

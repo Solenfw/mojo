@@ -233,11 +233,11 @@ export const KanjiCanvas = ({ onBack }: { onBack: () => void }) => {
 
             <div className="pt-6 border-t border-gray-100">
               <p className="text-[10px] uppercase font-bold text-muted-foreground mb-4 tracking-widest text-center">Practice Queue</p>
-              <div className="flex justify-center gap-4">
+              <div className="flex max-h-36 flex-wrap justify-center gap-3 overflow-y-auto p-1">
                 {practices.map((practice) => (
                   <button
                     key={practice.id}
-                    className={`w-12 h-12 rounded-xl border-2 transition-all font-jp text-xl flex items-center justify-center ${
+                    className={`w-12 h-12 shrink-0 rounded-xl border-2 transition-all font-jp text-xl flex items-center justify-center ${
                       targetKanji?.id === practice.id ? 'border-primary bg-primary/5 text-primary shadow-sm' : 'border-gray-100 hover:border-primary/40 text-gray-500'
                     }`}
                     onClick={() => {

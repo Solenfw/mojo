@@ -17,11 +17,13 @@ interface OnboardingProps {
   error?: string | null;
 }
 
-const targetLevels: { id: OnboardingRequest['targetLevel']; desc: string }[] = [
-  { id: 'N4', desc: 'Basic conversations and simple everyday reading.' },
-  { id: 'N3', desc: 'Everyday situations and moderately complex texts.' },
-  { id: 'N2', desc: 'News, articles and most workplace situations.' },
-  { id: 'N1', desc: 'Near-native: complex, abstract topics at natural speed.' },
+const targetLevels: { id: OnboardingRequest['targetLevel']; label: string; desc: string }[] = [
+  { id: 'beginner', label: 'Complete Beginner', desc: 'Starting from zero: hiragana, katakana and survival phrases.' },
+  { id: 'N5', label: 'JLPT N5', desc: 'Basic greetings, simple sentences and everyday words.' },
+  { id: 'N4', label: 'JLPT N4', desc: 'Basic conversations and simple everyday reading.' },
+  { id: 'N3', label: 'JLPT N3', desc: 'Everyday situations and moderately complex texts.' },
+  { id: 'N2', label: 'JLPT N2', desc: 'News, articles and most workplace situations.' },
+  { id: 'N1', label: 'JLPT N1', desc: 'Near-native: complex, abstract topics at natural speed.' },
 ];
 
 const dailyTimes: { id: OnboardingRequest['dailyStudyMinutes']; label: string; intensity: string }[] = [
@@ -119,7 +121,7 @@ export const OnboardingView = ({ onComplete, onSkip, isSubmitting = false, error
                     }`}
                   >
                     <div>
-                      <span className="text-lg font-bold text-primary block mb-1">JLPT {g.id}</span>
+                      <span className="text-lg font-bold text-primary block mb-1">{g.label}</span>
                       <p className="text-xs text-muted-foreground">{g.desc}</p>
                     </div>
                     {data.targetLevel === g.id ? <Target className="w-6 h-6 text-primary" /> : <div className="w-6 h-6 rounded-full border border-gray-200" />}

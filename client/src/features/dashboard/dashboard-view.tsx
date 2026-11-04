@@ -38,7 +38,7 @@ const weekday = (day: string) =>
 // A lesson has no type; open the first practice it contains.
 const lessonRoute = (lesson: LessonDetailRead) => {
   if (lesson.readingPassages.length) return '/dashboard/reading';
-  if (lesson.dialogues.length) return '/dashboard/practice';
+  if (lesson.dialogues.length) return '/dashboard/speaking';
   if (lesson.kanjiPractices.length) return '/dashboard/writing';
   return '/dashboard/vocabulary';
 };
@@ -215,7 +215,7 @@ const DashboardContent = () => {
                   <p className="text-[11px] opacity-70 italic">Focus: Ordering food</p>
                 </div>
               </div>
-              <Button className="w-full bg-white text-primary hover:bg-white/90 font-bold" onClick={() => router.push('/dashboard/practice')}>
+              <Button className="w-full bg-white text-primary hover:bg-white/90 font-bold" onClick={() => router.push('/dashboard/speaking')}>
                 Start Practice
               </Button>
             </div>

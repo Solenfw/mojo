@@ -51,7 +51,7 @@ export const ProfileView = () => {
     );
   }
 
-  const jlpt = (level: string | null) => (level ? `JLPT ${level}` : 'Not set');
+  const jlpt = (level: string | null) => (level === 'beginner' ? 'Complete Beginner' : level ? `JLPT ${level}` : 'Not set');
   const memberSince = new Date(profile.memberSince).toLocaleDateString(undefined, {
     year: 'numeric', month: 'long', day: 'numeric'
   });
