@@ -2482,10 +2482,12 @@
           "targetLevel": {
             "type": "string",
             "enum": [
-              "N1",
-              "N2",
+              "beginner",
+              "N5",
+              "N4",
               "N3",
-              "N4"
+              "N2",
+              "N1"
             ],
             "title": "Targetlevel"
           },
@@ -2527,10 +2529,12 @@
           "targetLevel": {
             "type": "string",
             "enum": [
-              "N1",
-              "N2",
+              "beginner",
+              "N5",
+              "N4",
               "N3",
-              "N4"
+              "N2",
+              "N1"
             ],
             "title": "Targetlevel"
           },
