@@ -7,13 +7,14 @@ from pathlib import Path
 from typing import Literal
 
 from pydantic import Field
-from pydantic_settings import BaseSettings, SettingsConfigDict, SettingsConfigDict
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
-ENV_PATH = Path.home() / ".config" / "mojo" / "secrets" / ".env"
+ENV_PATH = Path.home() / ".config" / "secrets" / "mojo" / ".env"
 
 
 class Settings(BaseSettings):
-    model_config = SettingsConfigDict(env_file=ENV_PATH, env_file_encoding="utf-8")
+    # extra="ignore": the secrets file also holds POSTGRES_* values meant for docker compose
+    model_config = SettingsConfigDict(env_file=ENV_PATH, env_file_encoding="utf-8", extra="ignore")
     secret_key: str = Field(min_length=32)  # signs access tokens; generate with `openssl rand -hex 32`
     algorithm: str = "HS256"
     database_url: str
